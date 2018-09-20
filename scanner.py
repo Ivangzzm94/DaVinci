@@ -1,5 +1,7 @@
 import ply.lex as lex
 
+#prueba de push
+
 # List of tokens
 tokens = ['ID', 'CTE_INT', 'CTE_FLOAT', 'CTE_STRING', 'BLOCK', 'EXPRESSION',
 		 'VARS', 'STATUTE', 'COLOR_CTE', 'TYPE', 'EXP', 'TERM', 'VAR_CTE'
