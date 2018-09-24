@@ -48,7 +48,7 @@ tokens = tokens+list(reserved.values())
 t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_TIMES = r'\*'
-t_DEVIDE = r'/'
+t_DIVIDE = r'/'
 t_ASSIGN = r'\='
 t_EQUAL = r'\=='
 t_NOTEQUAL = r'\!='

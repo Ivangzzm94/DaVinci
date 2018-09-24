@@ -104,6 +104,44 @@ def p_var_cte(p):
 				| cte_float
 				| call'''
 
+def p_condition(p): 
+	'''condition : IF LPAREN EXPRESSION RPAREN BLOCK condition1 SEMICOLON'''
+
+def p_condition1(p):
+	'''condition1 : ELSE BLOCK
+	| empty'''
+
+def p_expression(p): 
+	'''expression : EXP expression1 ID'''
+
+def p_expression1(p): 
+	'''expression1 : expression2 EXP'''
+
+def p_expression2(p): 
+	'''expression2 : LESSER | GREATER | EQUAL | NOTEQUAL'''
+
+def p_exp(p): 
+	'''exp : PLUS | MINOR | factor'''
+
+def p_factor(p): 
+	'''factor : LPAREN EXPRESSION RPAREN
+	| var_cte
+	| factor1 var_cte'''
+
+def p_factor1(p): 
+	'''factor1 : MINUS | PLUS'''
+
+def p_term(p):
+	'''term : DIVIDE | TIMES | factor'''
+
+def p_call(p):
+	'''call : ID LPAREN call1 RPAREN SEMICOLON'''
+
+def p_call1(p):		
+	'''call : ID COMMA call1
+	| exp
+	| st_cte'''
+
 
 
 def p_empty(p):
