@@ -61,32 +61,32 @@ def p_color(p):
 	'''color: COLOR LPAREN color_cte RPAREN SEMICOLON'''
 
 def p_circle(p):
-	'''circle: CIRCLE LPAREN cte_int RPAREN SEMICOLON'''
+	'''circle: CIRCLE LPAREN exp RPAREN SEMICOLON'''
 
 def p_square(p):
-	'''square: SQUARE LPAREN cte_int RPAREN SEMICOLON'''
+	'''square: SQUARE LPAREN exp RPAREN SEMICOLON'''
 
 def p_triangle(p):
-	'''triangle: TRIANGLE LPAREN cte_int COMMA cte_int RPAREN SEMICOLON'''
+	'''triangle: TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
 
 def p_rectangle(p):
-	'''rectangle: RECTANGLE LPAREN cte_int COMMA cte_int RPAREN SEMICOLON'''
+	'''rectangle: RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
 
 def p_poligon(p):
-	'''poligon: POLIGON LPAREN cte_int COMMA cte_int RPAREN SEMICOLON'''
+	'''poligon: POLIGON LPAREN exp COMMA exp RPAREN SEMICOLON'''
 
 def p_rotate(p):
-	'''rotate : ROTATE LPAREN cte_int RPAREN SEMICOLON
+	'''rotate : ROTATE LPAREN exp RPAREN SEMICOLON
 	| ROTATE LPAREN cte_string RPAREN SEMICOLON'''
 
 def p_pensize(p):
-	'''pensize: PENSIZE LPAREN cte_int RPAREN SEMICOLON'''
+	'''pensize: PENSIZE LPAREN exp RPAREN SEMICOLON'''
 
 def p_penforward(p):
-	'''penforwars: PENFORWARD LPAREN cte_int RPAREN SEMICOLON'''
+	'''penforwars: PENFORWARD LPAREN exp RPAREN SEMICOLON'''
 
 def p_penback(p):
-	'''penback: PENBACK LPAREN cte_int RPAREN SEMICOLON'''
+	'''penback: PENBACK LPAREN exp RPAREN SEMICOLON'''
 
 def p_type(p):
 	'''type: INT
