@@ -49,7 +49,8 @@ def p_statute(p):
 	 | rotate'''
 
 def p_assignment(p):
-	'''assignment : ID EQUAL expression SEMICOLON'''
+	'''assignment : ID EQUAL expression SEMICOLON
+	 |ID LBRACKET exp RBRACKET EQUAL expression SEMICOLON'''
 
 def p_color_cte(p):
 	'''color_cte: RED
@@ -101,10 +102,15 @@ def p_cte_bool(p):
 				| FALSE'''
 
 def p_var_cte(p):
-	'''var_cte : ID
+	'''var_cte : ID var_cte1
 				| cte_int
 				| cte_float
 				| call'''
+
+def p_var_cte1(p):
+	'''var_cte1 : LBRACKET exp RBRACKET
+				 |LPAREN exp RPAREN
+				 |empty'''
 
 def p_condition(p): 
 	'''condition : IF LPAREN EXPRESSION RPAREN BLOCK condition1 SEMICOLON'''
@@ -114,10 +120,10 @@ def p_condition1(p):
 	| empty'''
 
 def p_expression(p): 
-	'''expression : EXP expression1 ID'''
+	'''expression : exp expression1 ID'''
 
 def p_expression1(p): 
-	'''expression1 : expression2 EXP'''
+	'''expression1 : expression2 '''
 
 def p_expression2(p): 
 	'''expression2 : LESSER | GREATER | EQUAL | NOTEQUAL'''
@@ -144,7 +150,8 @@ def p_call1(p):
 	| exp
 	| st_cte'''
 
-
+def p_return(p):
+	'''return : exp SEMICOLON'''
 
 def p_empty(p):
 	'''empty :'''
