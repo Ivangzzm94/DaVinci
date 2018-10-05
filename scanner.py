@@ -4,8 +4,11 @@ import ply.lex as lex
 
 # List of tokens
 tokens = ['ID', 'CTE_INT', 'CTE_FLOAT', 'CTE_STRING', 'BLOCK', 'EXPRESSION',
-		 'VARS', 'STATUTE', 'COLOR_CTE', 'TYPE', 'EXP', 'TERM', 'VAR_CTE'
-		 'FACTOR', 'ST_CTE', 'CALL', 'ASSIGNMENT', 'CONDITION']
+		 'VARS', 'STATUTE', 'COLOR_CTE', 'TYPE', 'EXP', 'TERM', 'VAR_CTE',
+		 'FACTOR', 'ST_CTE', 'CALL', 'ASSIGNMENT', 'CONDITION', 'OR', 'NOTEQUAL',
+         'PLUS', 'MINUS', 'TIMES', 'ASSIGN', 'GREATER', 'LESSER', 'GREATEROREQUAL',
+         'AND', 'NOT', 'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
+         'COMMA', 'SEMICOLON', 'DIVIDE', 'LESSEROREQUAL']
 
 # Dictionary of reserved words
 reserved = {
@@ -102,7 +105,7 @@ def t_error(t):
 lexer = lex.lex()
 
 
-f = open(filename,"test1.txt")
+f = open("test1.txt")
 # Give the lexer some input
 lexer.input(f.read())
 # Tokenize
