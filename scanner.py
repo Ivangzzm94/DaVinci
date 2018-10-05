@@ -8,7 +8,7 @@ tokens = ['ID', 'CTE_INT', 'CTE_FLOAT', 'CTE_STRING', 'BLOCK', 'EXPRESSION',
 		 'FACTOR', 'ST_CTE', 'CALL', 'ASSIGNMENT', 'CONDITION', 'OR', 'NOTEQUAL',
          'PLUS', 'MINUS', 'TIMES', 'ASSIGN', 'GREATER', 'LESSER', 'GREATEROREQUAL',
          'AND', 'NOT', 'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
-         'COMMA', 'SEMICOLON', 'DIVIDE', 'LESSEROREQUAL']
+         'COMMA', 'SEMICOLON', 'DIVIDE', 'LESSEROREQUAL', 'CTE_BOOL']
 
 # Dictionary of reserved words
 reserved = {
@@ -42,7 +42,9 @@ reserved = {
     'pink': 'PINK',
     'purple': 'PURPLE',
     'program': 'PROGRAM',
-    'DaVinci': 'DAVINCI'
+    'DaVinci': 'DAVINCI',
+    'void': 'VOID',
+    'rotate': 'ROTATE'
     }
 
 tokens = tokens+list(reserved.values())
@@ -88,6 +90,11 @@ def t_CTE_INT(t):
     t.value = int(t.value)
     return t
 
+def t_CTE_BOOL(t):
+    r'(true, false)'
+    t.value = bool(t.value)
+    return t
+
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value,'ID')    # Check for reserved words
@@ -111,10 +118,10 @@ lexer = lex.lex()
 f = open("test1.txt")
 # Give the lexer some input
 lexer.input(f.read())
-# Tokenize
+# Tokenize##
 while True:
     tok = lexer.token()
     if not tok:
         break      # No more input
-    print(tok)
+    #print(tok)
 print("\n")

@@ -5,14 +5,13 @@ from scanner import tokens
 #branch develop
 
 def p_program(p):
-	'''program : PROGRAM ID SEMICOLON program1 DaVinci block'''
-	p[0] = "DaVinci Compilado"
+	'''program : PROGRAM ID SEMICOLON program1 DAVINCI block'''
 
 def p_program1(p):
 	'''program1 : funcs
 	| vars
-	| func vars
-	| vars func '''
+	| funcs vars
+	| vars funcs '''
 
 def p_block(p):
 	'''block : LBRACE b1 RBRACE'''
@@ -27,7 +26,7 @@ def p_b2(p):
 	| empty''' 
 
 def p_vars(p):
-	'''vars : var vars2 '''
+	'''vars : VAR vars2 '''
 
 def p_vars2(p):
 	'''vars2 : type ID vars3 SEMICOLON vars2
@@ -56,8 +55,10 @@ def p_statute(p):
 	 | penforward
 	 | penback
 	 | rotate
-	 | while
-	 | return'''
+	 | WHILE
+	 | return
+	 | penon
+	 | penoff'''
 
 def p_assignment(p):
 	'''assignment : ID EQUAL expression SEMICOLON
@@ -71,19 +72,23 @@ def p_color_cte(p):
 		| PINK
 		| PURPLE'''
 
+def p_st_cte(p):
+	'''st_cte : STRING SEMICOLON
+		| CTE_BOOL SEMICOLON'''
+
 def p_funcs(p):
-	'''funcs : type id LPAREN type id funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
-	| VOID id LPAREN type id funcs1 RPAREN LBRACE funcs2 RBRACE funcs3 '''
+	'''funcs : type ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
+	| VOID ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3 '''
 
 def p_funcs1(p):
-	'''funcs1 : COMMA type id funcs1
+	'''funcs1 : COMMA type ID funcs1
 	| empty'''
 
 def p_funcs2(p):
-	'''funcs2 : VARS
-	| VARS STATEMENT
-	| STATEMENT VARS
-	| STATEMENT
+	'''funcs2 : vars
+	| vars statute
+	| statute vars
+	| statute
 	| empty '''	
 
 def p_funcs3(p):
@@ -110,16 +115,22 @@ def p_poligon(p):
 
 def p_rotate(p):
 	'''rotate : ROTATE LPAREN exp RPAREN SEMICOLON
-	| ROTATE LPAREN cte_string RPAREN SEMICOLON'''
+	| ROTATE LPAREN CTE_STRING RPAREN SEMICOLON'''
 
 def p_pensize(p):
 	'''pensize : PENSIZE LPAREN exp RPAREN SEMICOLON'''
 
 def p_penforward(p):
-	'''penforwars : PENFORWARD LPAREN exp RPAREN SEMICOLON'''
+	'''penforward : PENFORWARD LPAREN exp RPAREN SEMICOLON'''
 
 def p_penback(p):
 	'''penback : PENBACK LPAREN exp RPAREN SEMICOLON'''
+
+def p_penon(p):
+	'''penon : PENON LPAREN RPAREN SEMICOLON'''
+
+def p_penoff(p):
+	'''penoff : PENOFF LPAREN RPAREN SEMICOLON'''
 
 def p_type(p):
 	'''type : INT
@@ -133,8 +144,8 @@ def p_cte_bool(p):
 
 def p_var_cte(p):
 	'''var_cte : ID var_cte1
-				| cte_int
-				| cte_float
+				| CTE_INT
+				| CTE_FLOAT
 				| call'''
 
 def p_var_cte1(p):
@@ -162,9 +173,12 @@ def p_expression2(p):
 	| NOTEQUAL'''
 
 def p_exp(p): 
-	'''exp : PLUS 
-	| MINOR 
-	| factor'''
+	'''exp : term exp1'''
+
+def p_exp1(p): 
+	'''exp1 : MINUS term exp1
+	| PLUS term exp1
+	| empty'''
 
 def p_factor(p): 
 	'''factor : LPAREN EXPRESSION RPAREN
@@ -184,15 +198,18 @@ def p_call(p):
 	'''call : ID LPAREN call1 RPAREN SEMICOLON'''
 
 def p_call1(p):		
-	'''call : ID COMMA call1
+	'''call1 : ID COMMA call1
 	| exp
-	| st_cte'''
+	| ST_CTE'''
 
 def p_return(p):
 	'''return : exp SEMICOLON'''
 
 def p_empty(p):
 	'''empty :'''
+
+def p_error(p):
+    print("Unexpected {} at line {}".format(p.value, p.lexer.lineno))
 
 parser_DaVinci = yacc.yacc()
 
@@ -201,7 +218,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         file = sys.argv[1]
         try:
-            f = open(file, 'test1.txt')
+            f = open('test1.txt')
             data = f.read()
             f.close()
             if parser_DaVinci.parse(data) == "COMPILED":

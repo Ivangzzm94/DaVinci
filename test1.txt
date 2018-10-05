@@ -1,24 +1,25 @@
 program test1;
+var int variableEntera = 3;
 DaVinci
 {
 	penSize(3);
 	color(red);
 	penForward(5); 
-triangle(2,5);
+	triangle(2,5);
 	penOff();
 	rotate(180);
 	penForward(10);
 	color(blue);
 	penOn();
 	penSize(4);
-square(3); 
-	penOff()
+	square(3); 
+	penOff();
 	penBack(5); 
 	
-	PenOn()
+	PenOn();
 	PenForward(2);
 	rotate(20);
 	PenForward(2);
 	rotate(30);
 	PenBack(5+2);
-}
+};
