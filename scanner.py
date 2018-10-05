@@ -33,13 +33,16 @@ reserved = {
     'penBack': 'PENBACK',
     'penOn': 'PENON',
     'penOff': 'PENOFF',
+    'penSize': 'PENSIZE',
     'equal': 'EQUAL',
     'red': 'RED',
     'blue': 'BLUE',
     'yellow': 'YELLOW',
     'green': 'GREEN',
     'pink': 'PINK',
-    'purple': 'PURPLE'
+    'purple': 'PURPLE',
+    'program': 'PROGRAM',
+    'DaVinci': 'DAVINCI'
     }
 
 tokens = tokens+list(reserved.values())

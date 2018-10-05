@@ -4,9 +4,15 @@ from scanner import tokens
 
 #branch develop
 
-def p_davinci(p):
-	'''davinci : DAVINCI BLOCK'''
+def p_program(p):
+	'''program : PROGRAM id SEMICOLON program1 DaVinci block'''
 	p[0] = "DaVinci Compilado"
+
+def p_program1(p):
+	'''program1: funcs
+	| vars
+	| func vars
+	| vars func '''
 
 def p_block(p):
 	'''block : LBRACE b1 RBRACE'''
