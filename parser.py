@@ -1,6 +1,6 @@
 import sys
 import ply.yacc as yacc
-from scanner.py import tokens
+from scanner import tokens
 
 #branch develop
 
