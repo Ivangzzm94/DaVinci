@@ -46,7 +46,9 @@ def p_statute(p):
 	 | pensize
 	 | penforward
 	 | penback
-	 | rotate'''
+	 | rotate
+	 | while
+	 | retrun'''
 
 def p_assignment(p):
 	'''assignment : ID EQUAL expression SEMICOLON
