@@ -1,0 +1,272 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    AND
+    ASSIGN
+    ASSIGNMENT
+    CALL
+    COLOR_CTE
+    CONDITION
+    CTE_FLOAT
+    CTE_INT
+    CTE_STRING
+    DAVINCI
+    EXP
+    FACTOR
+    GREATEROREQUAL
+    LESSEROREQUAL
+    NOT
+    OR
+    PENOFF
+    PENON
+    SIZE
+    STATUTE
+    ST_CTE
+    TERM
+    TYPE
+    VAR
+    VAR_CTE
+    WHILE
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> PROGRAM ID SEMICOLON program1 DaVinci block
+Rule 2     program1 -> funcs
+Rule 3     program1 -> vars
+Rule 4     program1 -> func vars
+Rule 5     program1 -> vars func
+Rule 6     block -> LBRACE b1 RBRACE
+Rule 7     b1 -> vars b2
+Rule 8     b1 -> b2
+Rule 9     b2 -> statute
+Rule 10    b2 -> statute b2
+Rule 11    b2 -> empty
+Rule 12    vars -> var vars2
+Rule 13    vars2 -> type ID vars3 SEMICOLON vars2
+Rule 14    vars2 -> type ID vars3 SEMICOLON
+Rule 15    vars3 -> COMMA ID vars3
+Rule 16    vars3 -> list vars3
+Rule 17    vars3 -> list COMMA ID vars3
+Rule 18    vars3 -> empty
+Rule 19    list -> LBRACKET exp RBRACKET
+Rule 20    statute -> assignment
+Rule 21    statute -> call
+Rule 22    statute -> condition
+Rule 23    statute -> triangle
+Rule 24    statute -> rectangle
+Rule 25    statute -> square
+Rule 26    statute -> circle
+Rule 27    statute -> poligon
+Rule 28    statute -> color
+Rule 29    statute -> pensize
+Rule 30    statute -> penforward
+Rule 31    statute -> penback
+Rule 32    statute -> rotate
+Rule 33    statute -> while
+Rule 34    statute -> return
+Rule 35    assignment -> ID EQUAL expression SEMICOLON
+Rule 36    assignment -> ID LBRACKET exp RBRACKET EQUAL expression SEMICOLON
+Rule 37    color_cte -> RED
+Rule 38    color_cte -> BLUE
+Rule 39    color_cte -> YELLOW
+Rule 40    color_cte -> GREEN
+Rule 41    color_cte -> PINK
+Rule 42    color_cte -> PURPLE
+Rule 43    funcs -> type id LPAREN type id funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
+Rule 44    funcs -> VOID id LPAREN type id funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
+Rule 45    funcs1 -> COMMA type id funcs1
+Rule 46    funcs1 -> empty
+Rule 47    funcs2 -> VARS
+Rule 48    funcs2 -> VARS STATEMENT
+Rule 49    funcs2 -> STATEMENT VARS
+Rule 50    funcs2 -> STATEMENT
+Rule 51    funcs2 -> empty
+Rule 52    funcs3 -> funcs
+Rule 53    funcs3 -> empty
+Rule 54    color -> COLOR LPAREN color_cte RPAREN SEMICOLON
+Rule 55    circle -> CIRCLE LPAREN exp RPAREN SEMICOLON
+Rule 56    square -> SQUARE LPAREN exp RPAREN SEMICOLON
+Rule 57    triangle -> TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
+Rule 58    rectangle -> RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
+Rule 59    poligon -> POLIGON LPAREN exp COMMA exp RPAREN SEMICOLON
+Rule 60    rotate -> ROTATE LPAREN exp RPAREN SEMICOLON
+Rule 61    rotate -> ROTATE LPAREN cte_string RPAREN SEMICOLON
+Rule 62    pensize -> PENSIZE LPAREN exp RPAREN SEMICOLON
+Rule 63    penforwars -> PENFORWARD LPAREN exp RPAREN SEMICOLON
+Rule 64    penback -> PENBACK LPAREN exp RPAREN SEMICOLON
+Rule 65    type -> INT
+Rule 66    type -> FLOAT
+Rule 67    type -> BOOL
+Rule 68    type -> STRING
+Rule 69    cte_bool -> TRUE
+Rule 70    cte_bool -> FALSE
+Rule 71    var_cte -> ID var_cte1
+Rule 72    var_cte -> cte_int
+Rule 73    var_cte -> cte_float
+Rule 74    var_cte -> call
+Rule 75    var_cte1 -> LBRACKET exp RBRACKET
+Rule 76    var_cte1 -> LPAREN exp RPAREN
+Rule 77    var_cte1 -> empty
+Rule 78    condition -> IF LPAREN EXPRESSION RPAREN BLOCK condition1 SEMICOLON
+Rule 79    condition1 -> ELSE BLOCK
+Rule 80    condition1 -> empty
+Rule 81    expression -> exp expression1 ID
+Rule 82    expression1 -> expression2
+Rule 83    expression2 -> LESSER
+Rule 84    expression2 -> GREATER
+Rule 85    expression2 -> EQUAL
+Rule 86    expression2 -> NOTEQUAL
+Rule 87    exp -> PLUS
+Rule 88    exp -> MINOR
+Rule 89    exp -> factor
+Rule 90    factor -> LPAREN EXPRESSION RPAREN
+Rule 91    factor -> var_cte
+Rule 92    factor -> factor1 var_cte
+Rule 93    factor1 -> MINUS
+Rule 94    factor1 -> PLUS
+Rule 95    term -> DIVIDE
+Rule 96    term -> TIMES
+Rule 97    term -> factor
+Rule 98    call -> ID LPAREN call1 RPAREN SEMICOLON
+Rule 99    call -> ID COMMA call1
+Rule 100   call -> exp
+Rule 101   call -> st_cte
+Rule 102   return -> exp SEMICOLON
+Rule 103   empty -> <empty>
+
+Terminals, with rules where they appear
+
+AND                  : 
+ASSIGN               : 
+ASSIGNMENT           : 
+BLOCK                : 78 79
+BLUE                 : 38
+BOOL                 : 67
+CALL                 : 
+CIRCLE               : 55
+COLOR                : 54
+COLOR_CTE            : 
+COMMA                : 15 17 45 57 58 59 99
+CONDITION            : 
+CTE_FLOAT            : 
+CTE_INT              : 
+CTE_STRING           : 
+DAVINCI              : 
+DIVIDE               : 95
+ELSE                 : 79
+EQUAL                : 35 36 85
+EXP                  : 
+EXPRESSION           : 78 90
+FACTOR               : 
+FALSE                : 70
+FLOAT                : 66
+GREATER              : 84
+GREATEROREQUAL       : 
+GREEN                : 40
+ID                   : 1 13 14 15 17 35 36 71 81 98 99
+IF                   : 78
+INT                  : 65
+LBRACE               : 6 43 44
+LBRACKET             : 19 36 75
+LESSER               : 83
+LESSEROREQUAL        : 
+LPAREN               : 43 44 54 55 56 57 58 59 60 61 62 63 64 76 78 90 98
+MINUS                : 93
+NOT                  : 
+NOTEQUAL             : 86
+OR                   : 
+PENBACK              : 64
+PENFORWARD           : 63
+PENOFF               : 
+PENON                : 
+PENSIZE              : 62
+PINK                 : 41
+PLUS                 : 87 94
+POLIGON              : 59
+PROGRAM              : 1
+PURPLE               : 42
+RBRACE               : 6 43 44
+RBRACKET             : 19 36 75
+RECTANGLE            : 58
+RED                  : 37
+RPAREN               : 43 44 54 55 56 57 58 59 60 61 62 63 64 76 78 90 98
+SEMICOLON            : 1 13 14 35 36 54 55 56 57 58 59 60 61 62 63 64 78 98 102
+SIZE                 : 
+SQUARE               : 56
+STATUTE              : 
+STRING               : 68
+ST_CTE               : 
+TERM                 : 
+TIMES                : 96
+TRIANGLE             : 57
+TRUE                 : 69
+TYPE                 : 
+VAR                  : 
+VARS                 : 47 48 49
+VAR_CTE              : 
+WHILE                : 
+YELLOW               : 39
+error                : 
+
+Nonterminals, with rules where they appear
+
+DaVinci              : 1
+MINOR                : 88
+ROTATE               : 60 61
+STATEMENT            : 48 49 50
+VOID                 : 44
+assignment           : 20
+b1                   : 6
+b2                   : 7 8 10
+block                : 1
+call                 : 21 74
+call1                : 98 99
+circle               : 26
+color                : 28
+color_cte            : 54
+condition            : 22
+condition1           : 78
+cte_bool             : 
+cte_float            : 73
+cte_int              : 72
+cte_string           : 61
+empty                : 11 18 46 51 53 77 80
+exp                  : 19 36 55 56 57 57 58 58 59 59 60 62 63 64 75 76 81 100 102
+expression           : 35 36
+expression1          : 81
+expression2          : 82
+factor               : 89 97
+factor1              : 92
+func                 : 4 5
+funcs                : 2 52
+funcs1               : 43 44 45
+funcs2               : 43 44
+funcs3               : 43 44
+id                   : 43 43 44 44 45
+list                 : 16 17
+penback              : 31
+penforward           : 30
+penforwars           : 
+pensize              : 29
+poligon              : 27
+program              : 0
+program1             : 1
+rectangle            : 24
+return               : 34
+rotate               : 32
+square               : 25
+st_cte               : 101
+statute              : 9 10
+term                 : 
+triangle             : 23
+type                 : 13 14 43 43 44 45
+var                  : 12
+var_cte              : 91 92
+var_cte1             : 71
+vars                 : 3 4 5 7
+vars2                : 12 13
+vars3                : 13 14 15 16 17
+while                : 33
+
