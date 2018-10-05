@@ -2,10 +2,6 @@ import sys
 import ply.yacc as yacc
 from scanner.py import tokens
 
-#For adding me to github
-#Hello
-#dell
-
 def p_davinci(p):
 	'''davinci : DAVINCI BLOCK'''
 	p[0] = "DaVinci Compilado"
@@ -31,7 +27,12 @@ def p_vars2(p):
 
 def p_vars3(p):
 	'''vars3 : COMMA ID vars3 
+	| list vars3
+	| list COMMA ID vars3 
 	| empty'''
+
+def p_list(p):
+	'''list: LBRACKET exp RBRACKET'''
 
 def p_statute(p):
 	'''statute: assignment
@@ -61,6 +62,25 @@ def p_color_cte(p):
 		| GREEN
 		| PINK
 		| PURPLE'''
+
+def p_funcs(p):
+	'''funcs: type id LPAREN type id funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
+	| VOID id LPAREN type id funcs1 RPAREN LBRACE funcs2 RBRACE funcs3 '''
+
+def p_funcs1(p):
+	'''funcs1: COMMA type id funcs1
+	| empty'''
+
+def p_funcs2(p):
+	'''funcs2: VARS
+	| VARS STATEMENT
+	| STATEMENT VARS
+	| STATEMENT
+	| empty '''	
+
+def p_funcs3(p):
+	'''funcs3: funcs
+	| empty'''	
 
 def p_color(p):
 	'''color: COLOR LPAREN color_cte RPAREN SEMICOLON'''

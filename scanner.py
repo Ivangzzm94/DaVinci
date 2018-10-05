@@ -102,8 +102,7 @@ def t_error(t):
 lexer = lex.lex()
 
 
-'''
-f = open(filename,"r")
+f = open(filename,"test1.txt")
 # Give the lexer some input
 lexer.input(f.read())
 # Tokenize
@@ -113,5 +112,3 @@ while True:
         break      # No more input
     print(tok)
 print("\n")
-return tokens
-'''
