@@ -179,3 +179,20 @@ def p_return(p):
 
 def p_empty(p):
 	'''empty :'''
+
+parser_DaVinci = yacc.yacc()
+
+if __name__ == '__main__':
+
+    if len(sys.argv) > 1:
+        file = sys.argv[1]
+        try:
+            f = open(file, 'test1.txt')
+            data = f.read()
+            f.close()
+            if parser_DaVinci.parse(data) == "COMPILED":
+                print("Valid input")
+        except EOFError:
+            print(EOFError)
+    else:
+        print("No file to test found")
