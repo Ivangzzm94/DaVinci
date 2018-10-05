@@ -5,11 +5,11 @@ from scanner import tokens
 #branch develop
 
 def p_program(p):
-	'''program : PROGRAM id SEMICOLON program1 DaVinci block'''
+	'''program : PROGRAM ID SEMICOLON program1 DaVinci block'''
 	p[0] = "DaVinci Compilado"
 
 def p_program1(p):
-	'''program1: funcs
+	'''program1 : funcs
 	| vars
 	| func vars
 	| vars func '''
@@ -40,10 +40,10 @@ def p_vars3(p):
 	| empty'''
 
 def p_list(p):
-	'''list: LBRACKET exp RBRACKET'''
+	'''list : LBRACKET exp RBRACKET'''
 
 def p_statute(p):
-	'''statute: assignment
+	'''statute : assignment
 	 | call
 	 | condition
 	 | triangle
@@ -61,10 +61,10 @@ def p_statute(p):
 
 def p_assignment(p):
 	'''assignment : ID EQUAL expression SEMICOLON
-	 |ID LBRACKET exp RBRACKET EQUAL expression SEMICOLON'''
+	 | ID LBRACKET exp RBRACKET EQUAL expression SEMICOLON'''
 
 def p_color_cte(p):
-	'''color_cte: RED
+	'''color_cte : RED
 		| BLUE
 		| YELLOW
 		| GREEN
@@ -72,57 +72,57 @@ def p_color_cte(p):
 		| PURPLE'''
 
 def p_funcs(p):
-	'''funcs: type id LPAREN type id funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
+	'''funcs : type id LPAREN type id funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
 	| VOID id LPAREN type id funcs1 RPAREN LBRACE funcs2 RBRACE funcs3 '''
 
 def p_funcs1(p):
-	'''funcs1: COMMA type id funcs1
+	'''funcs1 : COMMA type id funcs1
 	| empty'''
 
 def p_funcs2(p):
-	'''funcs2: VARS
+	'''funcs2 : VARS
 	| VARS STATEMENT
 	| STATEMENT VARS
 	| STATEMENT
 	| empty '''	
 
 def p_funcs3(p):
-	'''funcs3: funcs
+	'''funcs3 : funcs
 	| empty'''	
 
 def p_color(p):
-	'''color: COLOR LPAREN color_cte RPAREN SEMICOLON'''
+	'''color : COLOR LPAREN color_cte RPAREN SEMICOLON'''
 
 def p_circle(p):
-	'''circle: CIRCLE LPAREN exp RPAREN SEMICOLON'''
+	'''circle : CIRCLE LPAREN exp RPAREN SEMICOLON'''
 
 def p_square(p):
-	'''square: SQUARE LPAREN exp RPAREN SEMICOLON'''
+	'''square : SQUARE LPAREN exp RPAREN SEMICOLON'''
 
 def p_triangle(p):
-	'''triangle: TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
+	'''triangle : TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
 
 def p_rectangle(p):
-	'''rectangle: RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
+	'''rectangle : RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
 
 def p_poligon(p):
-	'''poligon: POLIGON LPAREN exp COMMA exp RPAREN SEMICOLON'''
+	'''poligon : POLIGON LPAREN exp COMMA exp RPAREN SEMICOLON'''
 
 def p_rotate(p):
 	'''rotate : ROTATE LPAREN exp RPAREN SEMICOLON
 	| ROTATE LPAREN cte_string RPAREN SEMICOLON'''
 
 def p_pensize(p):
-	'''pensize: PENSIZE LPAREN exp RPAREN SEMICOLON'''
+	'''pensize : PENSIZE LPAREN exp RPAREN SEMICOLON'''
 
 def p_penforward(p):
-	'''penforwars: PENFORWARD LPAREN exp RPAREN SEMICOLON'''
+	'''penforwars : PENFORWARD LPAREN exp RPAREN SEMICOLON'''
 
 def p_penback(p):
-	'''penback: PENBACK LPAREN exp RPAREN SEMICOLON'''
+	'''penback : PENBACK LPAREN exp RPAREN SEMICOLON'''
 
 def p_type(p):
-	'''type: INT
+	'''type : INT
 		| FLOAT
 		| BOOL
 		| STRING'''
@@ -139,8 +139,8 @@ def p_var_cte(p):
 
 def p_var_cte1(p):
 	'''var_cte1 : LBRACKET exp RBRACKET
-				 |LPAREN exp RPAREN
-				 |empty'''
+				 | LPAREN exp RPAREN
+				 | empty'''
 
 def p_condition(p): 
 	'''condition : IF LPAREN EXPRESSION RPAREN BLOCK condition1 SEMICOLON'''
@@ -156,10 +156,15 @@ def p_expression1(p):
 	'''expression1 : expression2 '''
 
 def p_expression2(p): 
-	'''expression2 : LESSER | GREATER | EQUAL | NOTEQUAL'''
+	'''expression2 : LESSER 
+	| GREATER 
+	| EQUAL 
+	| NOTEQUAL'''
 
 def p_exp(p): 
-	'''exp : PLUS | MINOR | factor'''
+	'''exp : PLUS 
+	| MINOR 
+	| factor'''
 
 def p_factor(p): 
 	'''factor : LPAREN EXPRESSION RPAREN
@@ -167,10 +172,13 @@ def p_factor(p):
 	| factor1 var_cte'''
 
 def p_factor1(p): 
-	'''factor1 : MINUS | PLUS'''
+	'''factor1 : MINUS 
+	| PLUS'''
 
 def p_term(p):
-	'''term : DIVIDE | TIMES | factor'''
+	'''term : DIVIDE 
+	| TIMES 
+	| factor'''
 
 def p_call(p):
 	'''call : ID LPAREN call1 RPAREN SEMICOLON'''
