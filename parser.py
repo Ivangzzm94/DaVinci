@@ -6,6 +6,7 @@ from scanner import tokens
 
 def p_program(p):
 	'''program : PROGRAM ID SEMICOLON program1 DAVINCI block'''
+	print('COMPILED!\n')
 
 def p_program1(p):
 	'''program1 : funcs
@@ -30,19 +31,20 @@ def p_vars(p):
 	'''vars : VAR vars2'''
 
 def p_vars2(p):
-	'''vars2 : type ID vars3 SEMICOLON vars2
-	| type ID vars3 SEMICOLON
-	| type assignment
-	| type assignment vars2'''
+	'''vars2 : type vars3 SEMICOLON vars2
+	| type vars3 SEMICOLON'''
 
 def p_vars3(p):
-	'''vars3 : COMMA ID vars3 
-	| list vars3
-	| list COMMA ID vars3 
+	'''vars3 : ID ASSIGN expression vars4
+	| ID list vars4
+	| ID vars4'''
+
+def p_vars4(p):
+	'''vars4 : COMMA vars3
 	| empty'''
 
 def p_list(p):
-	'''list : LBRACKET exp RBRACKET'''
+	'''list : LBRACKET expression RBRACKET'''
 
 def p_statute(p):
 	'''statute : assignment
@@ -76,8 +78,8 @@ def p_color_cte(p):
 		| PURPLE'''
 
 def p_st_cte(p):
-	'''st_cte : STRING SEMICOLON
-		| CTE_BOOL SEMICOLON'''
+	'''st_cte : STRING
+		| cte_bool'''
 
 def p_funcs(p):
 	'''funcs : type ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
@@ -165,25 +167,23 @@ def p_condition1(p):
 	| empty'''
 
 def p_expression(p): 
-	'''expression : exp expression1 ID'''
+	'''expression : exp expression1'''
 
 def p_expression1(p): 
-	'''expression1 : expression2 '''
-
-def p_expression2(p): 
-	'''expression2 : LESSER 
-	| GREATER 
-	| EQUAL 
-	| NOTEQUAL
-	| GREATEROREQUAL
-    | LESSEROREQUAL'''
+	'''expression1 : LESSER exp
+	| GREATER exp
+	| EQUAL exp
+	| NOTEQUAL exp
+	| GREATEROREQUAL exp
+    | LESSEROREQUAL exp
+    | empty'''
 
 def p_exp(p): 
 	'''exp : term exp1'''
 
 def p_exp1(p): 
-	'''exp1 : MINUS term exp1
-	| PLUS term exp1
+	'''exp1 : MINUS exp
+	| PLUS exp
 	| empty'''
 
 def p_factor(p): 
@@ -193,12 +193,16 @@ def p_factor(p):
 
 def p_factor1(p): 
 	'''factor1 : MINUS 
-	| PLUS'''
+	| PLUS
+	| empty'''
 
 def p_term(p):
-	'''term : DIVIDE 
-	| TIMES 
-	| factor'''
+	'''term : factor term1'''
+
+def p_term1(p):
+	'''term1 : DIVIDE term
+		| TIMES term
+		| empty'''
 
 def p_call(p):
 	'''call : ID LPAREN call1 RPAREN SEMICOLON'''
@@ -206,7 +210,7 @@ def p_call(p):
 def p_call1(p):		
 	'''call1 : ID COMMA call1
 	| exp
-	| ST_CTE'''
+	| st_cte'''
 
 def p_return(p):
 	'''return : RETURN var_cte SEMICOLON
@@ -214,6 +218,7 @@ def p_return(p):
 
 def p_empty(p):
 	'''empty :'''
+	pass
 
 def p_error(p):
     print("Unexpected {} at line {}".format(p.value, p.lexer.lineno))
@@ -225,7 +230,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         file = sys.argv[1]
         try:
-            f = open('test1.txt')
+            f = open('test2.txt')
             data = f.read()
             f.close()
             if parser_DaVinci.parse(data) == "COMPILED":

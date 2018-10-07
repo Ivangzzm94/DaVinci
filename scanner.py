@@ -3,12 +3,11 @@ import ply.lex as lex
 #prueba de push
 
 # List of tokens
-tokens = ['ID', 'CTE_INT', 'CTE_FLOAT', 'CTE_STRING', 'BLOCK', 'EXPRESSION',
-		 'VAR', 'STATUTE', 'COLOR_CTE', 'TYPE', 'EXP', 'TERM', 'VAR_CTE',
-		 'FACTOR', 'ST_CTE', 'CALL', 'CONDITION', 'OR', 'NOTEQUAL',
-         'PLUS', 'MINUS', 'TIMES', 'ASSIGN', 'GREATER', 'LESSER', 'GREATEROREQUAL',
-         'AND', 'NOT', 'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
-         'COMMA', 'SEMICOLON', 'DIVIDE', 'LESSEROREQUAL', 'CTE_BOOL']
+tokens = ['ID',     'CTE_INT',      'CTE_FLOAT',    'CTE_STRING',       'EXPRESSION',   'TIMES',
+         'ST_CTE',  'OR',           'NOTEQUAL',     'PLUS',             'MINUS',  
+         'ASSIGN',  'GREATER',      'LESSER',       'GREATEROREQUAL',   'AND',          'NOT', 
+         'LPAREN',  'RPAREN',       'LBRACE',       'RBRACE',           'LBRACKET',     'RBRACKET',
+         'COMMA',   'SEMICOLON',    'DIVIDE',       'LESSEROREQUAL',    'CTE_BOOL',     'TERM']
 
 # Dictionary of reserved words
 reserved = {
@@ -58,7 +57,7 @@ t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_TIMES = r'\*'
 t_DIVIDE = r'/'
-t_ASSIGN = r'\='
+t_ASSIGN = r'='
 t_EQUAL = r'\=='
 t_NOTEQUAL = r'\!='
 t_GREATER = r'\>'
@@ -74,8 +73,8 @@ t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_LBRACKET = r'\['
 t_RBRACKET = r'\]'
-t_COMMA = r'\,'
-t_SEMICOLON = r'\;'
+t_COMMA = r','
+t_SEMICOLON = r';'
 t_CTE_STRING = r'\".*\"'
 
 # ID token definition
@@ -115,10 +114,10 @@ def t_error(t):
 lexer = lex.lex()
 
 
-f = open("test1.txt")
+f = open("test2.txt")
 # Give the lexer some input
 lexer.input(f.read())
-# Tokenize##
+# Tokenize ##
 while True:
     tok = lexer.token()
     if not tok:

@@ -1,0 +1,5 @@
+program a; 
+var Int entero = 4, lista[entero];
+DaVinci { 
+	entero = entero + 1;
+}

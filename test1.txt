@@ -1,7 +1,6 @@
 program test1;
-
-var Int variableEntera = 3
-	Float flotante = 3.4 / 2.1
+var Int variableEntera = 3;
+	Float flotante = 3.4 / 2.1;
 DaVinci
 {
 	penSize(3);
