@@ -23,16 +23,15 @@ def p_b1(p):
 	| b2''' 
 
 def p_b2(p):
-	'''b2 : statute
-	| statute b2
+	'''b2 : b2 statute
 	| empty''' 
 
 def p_vars(p):
 	'''vars : VAR vars2'''
 
 def p_vars2(p):
-	'''vars2 : type vars3 SEMICOLON vars2
-	| type vars3 SEMICOLON'''
+	'''vars2 : vars2 type vars3 SEMICOLON 
+	| empty'''
 
 def p_vars3(p):
 	'''vars3 : ID ASSIGN expression vars4
@@ -60,10 +59,13 @@ def p_statute(p):
 	 | penforward
 	 | penback
 	 | rotate
-	 | WHILE
+	 | while
 	 | return
 	 | penon
 	 | penoff'''
+
+def p_while(p):
+	'''while : WHILE LPAREN expression RPAREN LBRACE b2 RBRACE'''
 
 def p_assignment(p):
 	'''assignment : ID ASSIGN expression SEMICOLON
@@ -79,14 +81,14 @@ def p_color_cte(p):
 
 def p_st_cte(p):
 	'''st_cte : STRING
-		| cte_bool'''
+		| CTE_BOOL'''
 
 def p_funcs(p):
 	'''funcs : type ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
 	| VOID ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3 '''
 
 def p_funcs1(p):
-	'''funcs1 : COMMA type ID funcs1
+	'''funcs1 : funcs1 COMMA type ID 
 	| empty'''
 
 def p_funcs2(p):
@@ -139,31 +141,27 @@ def p_penoff(p):
 
 def p_type(p):
 	'''type : INT
-		| FLOAT
-		| STRING
-		| BOOL'''
+			| FLOAT
+			| STRING
+			| BOOL'''
+
+def p_var_cte(p):
+	'''var_cte : ID
+				| CTE_INT
+				| CTE_FLOAT
+				| cte_bool
+				| ID list
+				| call'''
 
 def p_cte_bool(p):
 	'''cte_bool : TRUE
-				| FALSE'''
-
-def p_var_cte(p):
-	'''var_cte : ID var_cte1
-				| CTE_INT
-				| CTE_FLOAT
-				| CTE_BOOL
-				| call'''
-
-def p_var_cte1(p):
-	'''var_cte1 : LBRACKET exp RBRACKET
-				 | LPAREN exp RPAREN
-				 | empty'''
+	| FALSE'''
 
 def p_condition(p): 
-	'''condition : IF LPAREN EXPRESSION RPAREN block condition1 SEMICOLON'''
+	'''condition : IF LPAREN expression RPAREN b2 condition1 SEMICOLON'''
 
 def p_condition1(p):
-	'''condition1 : ELSE block
+	'''condition1 : ELSE b2
 	| empty'''
 
 def p_expression(p): 
@@ -187,7 +185,7 @@ def p_exp1(p):
 	| empty'''
 
 def p_factor(p): 
-	'''factor : LPAREN EXPRESSION RPAREN
+	'''factor : LPAREN expression RPAREN
 	| var_cte
 	| factor1 var_cte'''
 

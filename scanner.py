@@ -80,18 +80,14 @@ t_CTE_STRING = r'\".*\"'
 # ID token definition
 
 def t_CTE_FLOAT(t):
-    r'-?\d+\.\d+'
+    r'[0-9]*\.[0-9]+|[0-9]+'
     t.value = float(t.value)
     return t
 
-def t_CTE_INT(t):
-    r'-?\d+'
-    t.value = int(t.value)
-    return t
 
-def t_CTE_BOOL(t):
-    r'(true, false)'
-    t.value = bool(t.value)
+def t_CTE_INT(t):
+    r'[0-9]+'
+    t.value = int(t.value)
     return t
 
 def t_ID(t):
