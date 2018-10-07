@@ -11,7 +11,8 @@ def p_program1(p):
 	'''program1 : funcs
 	| vars
 	| funcs vars
-	| vars funcs '''
+	| vars funcs
+	| empty'''
 
 def p_block(p):
 	'''block : LBRACE b1 RBRACE'''
@@ -26,11 +27,13 @@ def p_b2(p):
 	| empty''' 
 
 def p_vars(p):
-	'''vars : VAR vars2 '''
+	'''vars : VAR vars2'''
 
 def p_vars2(p):
 	'''vars2 : type ID vars3 SEMICOLON vars2
-	| type ID vars3 SEMICOLON'''
+	| type ID vars3 SEMICOLON
+	| type assignment
+	| type assignment vars2'''
 
 def p_vars3(p):
 	'''vars3 : COMMA ID vars3 
@@ -61,8 +64,8 @@ def p_statute(p):
 	 | penoff'''
 
 def p_assignment(p):
-	'''assignment : ID EQUAL expression SEMICOLON
-	 | ID LBRACKET exp RBRACKET EQUAL expression SEMICOLON'''
+	'''assignment : ID ASSIGN expression SEMICOLON
+	 | ID LBRACKET exp RBRACKET ASSIGN expression SEMICOLON'''
 
 def p_color_cte(p):
 	'''color_cte : RED
@@ -135,8 +138,8 @@ def p_penoff(p):
 def p_type(p):
 	'''type : INT
 		| FLOAT
-		| BOOL
-		| STRING'''
+		| STRING
+		| BOOL'''
 
 def p_cte_bool(p):
 	'''cte_bool : TRUE
@@ -146,6 +149,7 @@ def p_var_cte(p):
 	'''var_cte : ID var_cte1
 				| CTE_INT
 				| CTE_FLOAT
+				| CTE_BOOL
 				| call'''
 
 def p_var_cte1(p):
@@ -154,10 +158,10 @@ def p_var_cte1(p):
 				 | empty'''
 
 def p_condition(p): 
-	'''condition : IF LPAREN EXPRESSION RPAREN BLOCK condition1 SEMICOLON'''
+	'''condition : IF LPAREN EXPRESSION RPAREN block condition1 SEMICOLON'''
 
 def p_condition1(p):
-	'''condition1 : ELSE BLOCK
+	'''condition1 : ELSE block
 	| empty'''
 
 def p_expression(p): 
@@ -170,7 +174,9 @@ def p_expression2(p):
 	'''expression2 : LESSER 
 	| GREATER 
 	| EQUAL 
-	| NOTEQUAL'''
+	| NOTEQUAL
+	| GREATEROREQUAL
+    | LESSEROREQUAL'''
 
 def p_exp(p): 
 	'''exp : term exp1'''
@@ -203,7 +209,8 @@ def p_call1(p):
 	| ST_CTE'''
 
 def p_return(p):
-	'''return : exp SEMICOLON'''
+	'''return : RETURN var_cte SEMICOLON
+			| RETURN st_cte SEMICOLON'''
 
 def p_empty(p):
 	'''empty :'''

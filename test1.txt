@@ -1,5 +1,7 @@
 program test1;
-var int variableEntera = 3;
+
+var Int variableEntera = 3
+	Float flotante = 3.4 / 2.1
 DaVinci
 {
 	penSize(3);
@@ -8,7 +10,7 @@ DaVinci
 	triangle(2,5);
 	penOff();
 	rotate(180);
-	penForward(10);
+	penForward(10*2);
 	color(blue);
 	penOn();
 	penSize(4);
@@ -16,10 +18,10 @@ DaVinci
 	penOff();
 	penBack(5); 
 	
-	PenOn();
-	PenForward(2);
+	penOn();
+	penForward(2+5);
 	rotate(20);
-	PenForward(2);
+	penForward(2);
 	rotate(30);
-	PenBack(5+2);
-};
+	penBack(5+2);
+}

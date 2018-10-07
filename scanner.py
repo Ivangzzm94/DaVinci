@@ -4,8 +4,8 @@ import ply.lex as lex
 
 # List of tokens
 tokens = ['ID', 'CTE_INT', 'CTE_FLOAT', 'CTE_STRING', 'BLOCK', 'EXPRESSION',
-		 'VARS', 'STATUTE', 'COLOR_CTE', 'TYPE', 'EXP', 'TERM', 'VAR_CTE',
-		 'FACTOR', 'ST_CTE', 'CALL', 'ASSIGNMENT', 'CONDITION', 'OR', 'NOTEQUAL',
+		 'VAR', 'STATUTE', 'COLOR_CTE', 'TYPE', 'EXP', 'TERM', 'VAR_CTE',
+		 'FACTOR', 'ST_CTE', 'CALL', 'CONDITION', 'OR', 'NOTEQUAL',
          'PLUS', 'MINUS', 'TIMES', 'ASSIGN', 'GREATER', 'LESSER', 'GREATEROREQUAL',
          'AND', 'NOT', 'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACKET', 'RBRACKET',
          'COMMA', 'SEMICOLON', 'DIVIDE', 'LESSEROREQUAL', 'CTE_BOOL']
@@ -44,7 +44,8 @@ reserved = {
     'program': 'PROGRAM',
     'DaVinci': 'DAVINCI',
     'void': 'VOID',
-    'rotate': 'ROTATE'
+    'rotate': 'ROTATE',
+    'return': 'RETURN'
     }
 
 tokens = tokens+list(reserved.values())
@@ -76,7 +77,6 @@ t_RBRACKET = r'\]'
 t_COMMA = r'\,'
 t_SEMICOLON = r'\;'
 t_CTE_STRING = r'\".*\"'
-#t_STRING = r'\".*\" | \'.*\''
 
 # ID token definition
 
@@ -123,5 +123,5 @@ while True:
     tok = lexer.token()
     if not tok:
         break      # No more input
-    #print(tok)
+    print(tok)
 print("\n")
