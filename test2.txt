@@ -1,5 +1,20 @@
 program a; 
-var Bool booleano = true;
-DaVinci { 
-	entero = entero + 1;
+var Int entero = 9, otroEntero = 3;
+	Float flotante = 3.25;
+	Bool booleano = true;
+
+func Int multiplicaPorDos (Int x) {
+	x = x * 2;
+}
+
+DaVinci {
+	penOn();
+	entero = 123;
+	if (true) {
+		otroEntero = 23;
+	} else {
+		entero = 444;
+		rotate(123);
+		color(red);
+	}
 }

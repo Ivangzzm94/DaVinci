@@ -44,7 +44,8 @@ reserved = {
     'DaVinci': 'DAVINCI',
     'void': 'VOID',
     'rotate': 'ROTATE',
-    'return': 'RETURN'
+    'return': 'RETURN',
+    'func': 'FUNC'
     }
 
 tokens = tokens+list(reserved.values())
@@ -80,10 +81,9 @@ t_CTE_STRING = r'\".*\"'
 # ID token definition
 
 def t_CTE_FLOAT(t):
-    r'[0-9]*\.[0-9]+|[0-9]+'
+    r'[0-9]*\.[0-9]+'
     t.value = float(t.value)
     return t
-
 
 def t_CTE_INT(t):
     r'[0-9]+'
@@ -118,5 +118,5 @@ while True:
     tok = lexer.token()
     if not tok:
         break      # No more input
-    print(tok)
+    #print(tok)
 print("\n")
