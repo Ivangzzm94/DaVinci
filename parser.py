@@ -9,11 +9,12 @@ def p_program(p):
 	print('COMPILED!\n')
 
 def p_program1(p):
-	'''program1 : funcs
-	| vars
-	| funcs vars
-	| vars funcs
+	'''program1 :program1 funcs
+	| program1 vars globalVar
 	| empty'''
+
+def p_globalVars(p):
+	'''globalVar: empty'''
 
 def p_block(p):
 	'''block : LBRACE b1 RBRACE'''
@@ -28,6 +29,7 @@ def p_b2(p):
 
 def p_vars(p):
 	'''vars : VAR vars2'''
+
 
 def p_vars2(p):
 	'''vars2 : vars2 type vars3 SEMICOLON 
@@ -81,21 +83,19 @@ def p_color_cte(p):
 
 def p_st_cte(p):
 	'''st_cte : STRING
-		| CTE_BOOL'''
+		| cte_bool'''
 
 def p_funcs(p):
-	'''funcs : type ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
-	| VOID ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3 '''
+	'''funcs : FUNC type ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
+	| FUNC VOID ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3 '''
 
 def p_funcs1(p):
 	'''funcs1 : funcs1 COMMA type ID 
 	| empty'''
 
 def p_funcs2(p):
-	'''funcs2 : vars
-	| vars statute
-	| statute vars
-	| statute
+	'''funcs2 : funcs2 vars
+	| funcs2 statute
 	| empty '''	
 
 def p_funcs3(p):
@@ -158,10 +158,10 @@ def p_cte_bool(p):
 	| FALSE'''
 
 def p_condition(p): 
-	'''condition : IF LPAREN expression RPAREN b2 condition1 SEMICOLON'''
+	'''condition : IF LPAREN expression RPAREN LBRACE b2 RBRACE condition1'''
 
 def p_condition1(p):
-	'''condition1 : ELSE b2
+	'''condition1 : ELSE LBRACE b2 RBRACE
 	| empty'''
 
 def p_expression(p): 
