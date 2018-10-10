@@ -1,27 +1,26 @@
-Programa Prueba
+program test1;
+var Int variableEntera = 3;
+	Float flotante = 3.4 / 2.1;
 DaVinci
 {
 	penSize(3);
 	color(red);
-	penForward(5); //el pincel se mueve hacia arriba 5 unidades.
-triangle(2,5); //dibuja un triángulo de base 2 y altura 5 color rojo en la parte superior
-con grosor de 3
+	penForward(5); 
+	triangle(2,5);
 	penOff();
-	rotate(180); // el pincel ahora apunta hacia abajo de la pantalla.
-	penForward(10); //el pincel se mueve hacia abajo 10 unidades.
+	rotate(180);
+	penForward(10*2);
 	color(blue);
 	penOn();
 	penSize(4);
-square(3); //dibuja un cuadrado de 3 unidades por lado en la parte inferior color azul
-con grosor de 1
-	penOff()
-	penBack(5); // el pincel regresa a la posición central.
+	square(3); 
+	penOff();
+	penBack(5); 
 	
-	//Free Drawing
-	PenOn()
-	PenForward(2);
+	penOn();
+	penForward(2+5);
 	rotate(20);
-	PenForward(2);
+	penForward(2);
 	rotate(30);
-	PenBack(5+2);
+	penBack(5+2);
 }

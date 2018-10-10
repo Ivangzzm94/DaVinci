@@ -3,9 +3,11 @@ import ply.lex as lex
 #prueba de push
 
 # List of tokens
-tokens = ['ID', 'CTE_INT', 'CTE_FLOAT', 'CTE_STRING', 'BLOCK', 'EXPRESSION',
-		 'VARS', 'STATUTE', 'COLOR_CTE', 'TYPE', 'EXP', 'TERM', 'VAR_CTE'
-		 'FACTOR', 'ST_CTE', 'CALL', 'ASSIGNMENT', 'CONDITION']
+tokens = ['ID',     'CTE_INT',      'CTE_FLOAT',    'CTE_STRING',       'EXPRESSION',   'TIMES',
+         'ST_CTE',  'OR',           'NOTEQUAL',     'PLUS',             'MINUS',  
+         'ASSIGN',  'GREATER',      'LESSER',       'GREATEROREQUAL',   'AND',          'NOT', 
+         'LPAREN',  'RPAREN',       'LBRACE',       'RBRACE',           'LBRACKET',     'RBRACKET',
+         'COMMA',   'SEMICOLON',    'DIVIDE',       'LESSEROREQUAL',    'CTE_BOOL',     'TERM']
 
 # Dictionary of reserved words
 reserved = {
@@ -30,13 +32,20 @@ reserved = {
     'penBack': 'PENBACK',
     'penOn': 'PENON',
     'penOff': 'PENOFF',
+    'penSize': 'PENSIZE',
     'equal': 'EQUAL',
     'red': 'RED',
     'blue': 'BLUE',
     'yellow': 'YELLOW',
     'green': 'GREEN',
     'pink': 'PINK',
-    'purple': 'PURPLE'
+    'purple': 'PURPLE',
+    'program': 'PROGRAM',
+    'DaVinci': 'DAVINCI',
+    'void': 'VOID',
+    'rotate': 'ROTATE',
+    'return': 'RETURN',
+    'func': 'FUNC'
     }
 
 tokens = tokens+list(reserved.values())
@@ -49,7 +58,7 @@ t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_TIMES = r'\*'
 t_DIVIDE = r'/'
-t_ASSIGN = r'\='
+t_ASSIGN = r'='
 t_EQUAL = r'\=='
 t_NOTEQUAL = r'\!='
 t_GREATER = r'\>'
@@ -65,20 +74,19 @@ t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_LBRACKET = r'\['
 t_RBRACKET = r'\]'
-t_COMMA = r'\,'
-t_SEMICOLON = r'\;'
+t_COMMA = r','
+t_SEMICOLON = r';'
 t_CTE_STRING = r'\".*\"'
-#t_STRING = r'\".*\" | \'.*\''
 
 # ID token definition
 
 def t_CTE_FLOAT(t):
-    r'-?\d+\.\d+'
+    r'[0-9]*\.[0-9]+'
     t.value = float(t.value)
     return t
 
 def t_CTE_INT(t):
-    r'-?\d+'
+    r'[0-9]+'
     t.value = int(t.value)
     return t
 
@@ -102,13 +110,13 @@ def t_error(t):
 lexer = lex.lex()
 
 
-f = open(filename,"test1.txt")
+f = open("test2.txt")
 # Give the lexer some input
 lexer.input(f.read())
-# Tokenize
+# Tokenize ##
 while True:
     tok = lexer.token()
     if not tok:
         break      # No more input
-    print(tok)
+    #print(tok)
 print("\n")
