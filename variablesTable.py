@@ -2,7 +2,7 @@ from DaVinci.variables import Variables
 from DaVinci.errors import ErrorHandler
 from DaVinci.functions import Functions
 
-class VariablesTable
+class VariablesTable:
 
 	def __init__(self):
 		self._global = {}
