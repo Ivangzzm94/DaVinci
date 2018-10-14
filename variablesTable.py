@@ -1,6 +1,6 @@
-from DaVinci.variables import Variables
-from DaVinci.errors import ErrorHandler
-from DaVinci.functions import Functions
+from variables import Variable
+from errors import ErrorHandler
+from functions import Function
 
 class VariablesTable:
 

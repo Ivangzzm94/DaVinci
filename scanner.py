@@ -7,7 +7,8 @@ tokens = ['ID',     'CTE_INT',      'CTE_FLOAT',    'CTE_STRING',       'EXPRESS
          'ST_CTE',  'OR',           'NOTEQUAL',     'PLUS',             'MINUS',  
          'ASSIGN',  'GREATER',      'LESSER',       'GREATEROREQUAL',   'AND',          'NOT', 
          'LPAREN',  'RPAREN',       'LBRACE',       'RBRACE',           'LBRACKET',     'RBRACKET',
-         'COMMA',   'SEMICOLON',    'DIVIDE',       'LESSEROREQUAL',    'CTE_BOOL',     'TERM']
+         'COMMA',   'SEMICOLON',    'DIVIDE',       'LESSEROREQUAL',    'CTE_BOOL',     'TERM',
+         'LIST']
 
 # Dictionary of reserved words
 reserved = {
@@ -76,6 +77,7 @@ t_LBRACKET = r'\['
 t_RBRACKET = r'\]'
 t_COMMA = r','
 t_SEMICOLON = r';'
+t_LIST = r'\[[0-9]*\]'
 t_CTE_STRING = r'\".*\"'
 
 # ID token definition

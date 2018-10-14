@@ -1,8 +1,18 @@
 import sys
 import ply.yacc as yacc
 from scanner import tokens
+from variablesTable import VariablesTable
+from functions import Function
+from variables import Variable
 
 #we are on develop branch
+
+varTable = VariablesTable()
+
+funcParam = []  # Array to save function parameters
+varList = []  # Array to save the ID of variables in the same line
+functionBuilder = Builder(Function)
+varBuilder = Builder(Variable)
 
 def p_program(p):
 	'''program : PROGRAM ID SEMICOLON program1 DAVINCI block'''
@@ -10,11 +20,19 @@ def p_program(p):
 
 def p_program1(p):
 	'''program1 :program1 funcs
-	| program1 vars globalVar
+	| program1 vars global_vars
 	| empty'''
 
-def p_globalVars(p):
-	'''globalVar: empty'''
+def p_global_vars(p):
+	'''global_vars : '''
+	try:
+		global varList
+		for var in varList:
+			varTable.add_global_variable(var)
+
+		varList.clear()
+	except ErrorHandler as e:
+		e.print(p.lineno(1))
 
 def p_block(p):
 	'''block : LBRACE b1 RBRACE'''
@@ -30,22 +48,32 @@ def p_b2(p):
 def p_vars(p):
 	'''vars : VAR vars2'''
 
-
 def p_vars2(p):
-	'''vars2 : vars2 type vars3 SEMICOLON 
+	'''vars2 : vars2 type save_type vars3 SEMICOLON 
 	| empty'''
 
 def p_vars3(p):
 	'''vars3 : ID ASSIGN expression vars4
 	| ID list vars4
 	| ID vars4'''
+	varBuilder.put('id_var', p[1])
+	varList.append(var_builder.build())
+	varBuilder.clear()
 
 def p_vars4(p):
-	'''vars4 : COMMA vars3
+	'''vars4 : vars4 COMMA ID
 	| empty'''
+	if len(p) > 2:
+		varBuilder.put('id_var', p[3])
+		varList.append(varBuilder.build())
+
+def saveType(p):
+	'''save_type: '''
+	varBuilder.put('var_type', p[-1])
 
 def p_list(p):
-	'''list : LBRACKET expression RBRACKET'''
+	'''list : LIST'''
+	p[0] = p[1]
 
 def p_statute(p):
 	'''statute : assignment

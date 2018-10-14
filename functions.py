@@ -1,6 +1,6 @@
-from DaVinci.variables import Variables
+from variables import Variable
 
-class Functions:
+class Function:
 
     def __init__(self, function_id = None, function_type = None, parametters = None):
         self.function_id = function_id
