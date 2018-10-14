@@ -4,6 +4,7 @@ from scanner import tokens
 from variablesTable import VariablesTable
 from functions import Function
 from variables import Variable
+from builder import Builder
 
 #we are on develop branch
 

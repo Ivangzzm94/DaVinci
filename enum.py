@@ -30,7 +30,7 @@ class Function(IntEnum):
 	PENON = 11
 	PENOFF = 12
 
-class Type(IntEnum)
+class Type(IntEnum):
 	INT = 1
 	FLOAT = 2
 	STRING = 3
