@@ -8,7 +8,7 @@ class ErrorHandler(SyntaxError):
     def print(self, lineno):
         print('{} at line {}: {}'.format(self.error, lineno, self.message), file=sys.stderr)
 
-        @staticmethod
+    @staticmethod
     def redefined_function(message):
         e = ErrorHandler(message)
         e.error = 'Redefined function'

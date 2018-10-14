@@ -1,4 +1,4 @@
-class Variables:
+class Variable:
 
 	def __init__(self, var_id, var_type):
 		self.var_id = var_id
