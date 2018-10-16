@@ -5,6 +5,8 @@ from variablesTable import VariablesTable
 from functions import Function
 from variables import Variable
 from builder import Builder
+from semanticCube import SemanticCube
+from errors import ErrorHandler
 
 #we are on develop branch
 
@@ -20,7 +22,7 @@ def p_program(p):
 	print('COMPILED!\n')
 
 def p_program1(p):
-	'''program1 :program1 funcs
+	'''program1 : program1 funcs
 	| program1 vars global_vars
 	| empty'''
 
@@ -29,7 +31,7 @@ def p_global_vars(p):
 	try:
 		global varList
 		for var in varList:
-			varTable.add_global_variable(var)
+			varTable.add_global(var)
 
 		varList.clear()
 	except ErrorHandler as e:
@@ -57,19 +59,19 @@ def p_vars3(p):
 	'''vars3 : ID ASSIGN expression vars4
 	| ID list vars4
 	| ID vars4'''
-	varBuilder.put('id_var', p[1])
-	varList.append(var_builder.build())
+	varBuilder.put('var_id', p[1])
+	varList.append(varBuilder.build())
 	varBuilder.clear()
 
 def p_vars4(p):
 	'''vars4 : vars4 COMMA ID
 	| empty'''
 	if len(p) > 2:
-		varBuilder.put('id_var', p[3])
+		varBuilder.put('var_id', p[3])
 		varList.append(varBuilder.build())
 
-def saveType(p):
-	'''save_type: '''
+def p_save_type(p):
+	'''save_type : '''
 	varBuilder.put('var_type', p[-1])
 
 def p_list(p):

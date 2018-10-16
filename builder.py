@@ -18,7 +18,7 @@ class Builder:
 
     def put(self, name, value):
         if name not in self._required:
-            raise AttributeError("Wrong values for the function")  # Change raise Error
+            raise AttributeError("Error de parametros")
         self._attrs[name] = value
         # print("ATTRS",self._attrs)
         return self

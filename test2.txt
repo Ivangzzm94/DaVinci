@@ -1,5 +1,5 @@
 program a; 
-var Int entero = 9, otroEntero = 3;
+var Int entero;
 	Float flotante = 3.25;
 	Bool booleano = true;
 
@@ -11,7 +11,7 @@ DaVinci {
 	penOn();
 	entero = 123;
 	if (true) {
-		otroEntero = 23;
+		entero = 23;
 	} else {
 		entero = 444;
 		rotate(123);
