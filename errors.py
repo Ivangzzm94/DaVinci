@@ -31,3 +31,9 @@ class ErrorHandler(SyntaxError):
         e = ErrorHandler(message)
         e.error = 'Undefined function'
         return e
+
+    @staticmethod
+    def type_error(message):
+        e = ErrorHandler(message)
+        e.error = "Type Error"
+        return e
