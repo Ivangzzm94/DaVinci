@@ -1,13 +1,13 @@
 program a; 
-var Int entero;
-	Float flotante = 3.25;
-	Bool booleano = true;
+var Int miguel;
+	Bool boolalv = true;
 
 func Int multiplicaPorDos (Int x) {
 	x = x * 2;
 }
 
 DaVinci {
+	var Int c = 34;
 	penOn();
 	entero = 123;
 	if (true) {

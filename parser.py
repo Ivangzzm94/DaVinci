@@ -32,7 +32,7 @@ def p_global_vars(p):
 		global varList
 		for var in varList:
 			varTable.add_global(var)
-
+			print("global var")
 		varList.clear()
 	except ErrorHandler as e:
 		e.print(p.lineno(1))
@@ -41,8 +41,19 @@ def p_block(p):
 	'''block : LBRACE b1 RBRACE'''
 
 def p_b1(p):
-	'''b1 : vars b2 
+	'''b1 : vars local_vars b2 
 	| b2''' 
+
+def p_local_vars(p):
+	'''local_vars : '''
+	try:
+		global varList
+		for var in varList:
+			varTable.add_local(var)
+			print("local var")
+		varList.clear()
+	except ErrorHandler as e:
+		e.print(p.lineno(1))
 
 def p_b2(p):
 	'''b2 : b2 statute
@@ -224,6 +235,11 @@ def p_factor1(p):
 	'''factor1 : MINUS 
 	| PLUS
 	| empty'''
+	if not p[-1] is None:
+        if p[-1] is "-":
+            chubby.add_operator(Operators.MINUS)
+        else:
+            chubby.add_operator(Operators.PLUS)
 
 def p_term(p):
 	'''term : factor term1'''
@@ -232,6 +248,11 @@ def p_term1(p):
 	'''term1 : DIVIDE term
 		| TIMES term
 		| empty'''
+	if not p[1] is None:
+        if p[1] is "/":
+            chubby.add_operator(Operators.DIVIDE)
+        else:
+            chubby.add_operator(Operators.TIMES)
 
 def p_call(p):
 	'''call : ID LPAREN call1 RPAREN SEMICOLON'''

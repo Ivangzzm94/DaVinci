@@ -6,7 +6,7 @@ class Variable:
 
 # For test proposes only
 def parse(self) :
-    print({
+    return({
         "var_id": self.var_id,
         "var_type": self.var_type,
         "address": self.address
