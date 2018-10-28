@@ -7,6 +7,12 @@ from variables import Variable
 from builder import Builder
 from semanticCube import SemanticCube
 from errors import ErrorHandler
+import turtle
+
+#Inicializacion de variables para manejar la tortuga
+wn = turtle.Screen()
+tur = turtle.Turtle()
+tur.shape("turtle")
 
 #we are on develop branch
 
@@ -16,6 +22,12 @@ funcParam = []  # Array to save function parameters
 varList = []  # Array to save the ID of variables in the same line
 functionBuilder = Builder(Function)
 varBuilder = Builder(Variable)
+
+pilaO = []
+POper = []
+PTypes = []
+
+
 
 def p_program(p):
 	'''program : PROGRAM ID SEMICOLON program1 DAVINCI block'''
@@ -112,8 +124,17 @@ def p_while(p):
 	'''while : WHILE LPAREN expression RPAREN LBRACE b2 RBRACE'''
 
 def p_assignment(p):
-	'''assignment : ID ASSIGN expression SEMICOLON
-	 | ID LBRACKET exp RBRACKET ASSIGN expression SEMICOLON'''
+	'''assignment : ID cte_id ASSIGN expression SEMICOLON
+	 | ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON'''
+
+def p_cte_id():
+	'''cte_id : '''
+	try:
+        var = VariablesTable.find_variable(p[-1])
+        quads.add_operand(var)
+    except ErrorHandler as e:
+        e.print(p.lineno(-1))
+        raise e
 
 def p_color_cte(p):
 	'''color_cte : RED
@@ -210,49 +231,134 @@ def p_expression(p):
 	'''expression : exp expression1'''
 
 def p_expression1(p): 
-	'''expression1 : LESSER exp
-	| GREATER exp
-	| EQUAL exp
-	| NOTEQUAL exp
-	| GREATEROREQUAL exp
-    | LESSEROREQUAL exp
+	'''expression1 : LESSER relop exp top_relop
+	| GREATER relop exp top_relop
+	| EQUAL relop exp top_relop
+	| NOTEQUAL relop exp top_relop
+	| GREATEROREQUAL relop exp top_relop
+    | LESSEROREQUAL relop exp top_relop
     | empty'''
 
+def p_relop(p): 
+	'''relop :'''
+	op = p[-1]
+	if op == '<'
+		POper.append('<')
+	if op == '>'
+		POper.append('>')
+	if op == '<='
+		POper.append('<=')
+	if op == '=='
+		POper.append('==')
+	if op == '>='
+		POper.append('>=')
+	if op == '!='
+		POper.append('!=')
+
+def p_top_exp(p):
+	'''top_exp :'''
+	operator = POper.pop()
+	if operator == '<' || operator == '>' || operator == '>=' || operator == '<=' || operator == '==' || operator == '!=' 
+		r_operand = pilaO.pop()
+		r_type = PTypes.pop()
+		l_operand = pilaO.pop()
+		l_type = PTypes.pop()
+		result_type = SemanticCube.getType(l_type, r_type, operator)
+		if result_type != "Error"
+			#calcular resultado
+			result = nextCasillaEnMemoria
+			Quads.init(operator, l_operand, r_operand, result)
+		else 
+			ErrorHandler.print(p.lineno(-1))
+        	raise ErrorHandler
+
 def p_exp(p): 
-	'''exp : term exp1'''
+	'''exp : term top_exp exp1'''
 
 def p_exp1(p): 
-	'''exp1 : MINUS exp
-	| PLUS exp
+	'''exp1 : MINUS push_sign exp
+	| PLUS push_sign exp
 	| empty'''
+
+def p_top_exp(p):
+	'''top_exp :'''
+	operator = POper.pop()
+	if operator == '+' || operator == '-' 
+		r_operand = pilaO.pop()
+		r_type = PTypes.pop()
+		l_operand = pilaO.pop()
+		l_type = PTypes.pop()
+		result_type = SemanticCube.getType(l_type, r_type, operator)
+		if result_type != "Error"
+			#calcular resultado
+			result = nextCasillaEnMemoria
+			Quads.init(operator, l_operand, r_operand, result)
+		else 
+			ErrorHandler.print(p.lineno(-1))
+        	raise ErrorHandler
+	
+
+def p_push_sign(p):
+	'''push_sign :'''
+	if not p[1] is None:
+		sign = p[1]
+        if sign is "/":
+            POper.append(Operators.DIVIDE)
+        if sign is "*":
+            POper.append(Operators.TIMES)
+        if sign is "+":
+            POper.append(Operators.PLUS)
+        if sign is "-":
+            POper.append(Operators.MINUS)
+
+def p_top_factor(p):
+	'''top_factor :'''
+	operator = POper.pop()
+	if operator == Operators.TIMES || operator == Operators.DIVIDE 
+		r_operand = pilaO.pop()
+		r_type = PTypes.pop()
+		l_operand = pilaO.pop()
+		l_type = PTypes.pop()
+		result_type = SemanticCube.getType(l_type, r_type, operator)
+		if result_type != "Error"
+			#calcular resultado
+			result = nextCasillaEnMemoria
+			Quads.init(operator, l_operand, r_operand, result)
+		else 
+			ErrorHandler.print(p.lineno(-1))
+        	raise ErrorHandler
 
 def p_factor(p): 
-	'''factor : LPAREN expression RPAREN
+	'''factor : LPAREN false_bottom expression RPAREN
 	| var_cte
-	| factor1 var_cte'''
+	| ID push_id'''
 
-def p_factor1(p): 
-	'''factor1 : MINUS 
-	| PLUS
-	| empty'''
-	if not p[-1] is None:
-        if p[-1] is "-":
-            chubby.add_operator(Operators.MINUS)
-        else:
-            chubby.add_operator(Operators.PLUS)
+def p_false_bottom(p): 
+	'''false_bottom :'''
+	if p[-1] is ")"
+		POper.append(Operators.LPAREN)
+	else if p[-1] is ")"
+		POper.pop(Operators.RPAREN)
+
+def p_push_id(p):
+	'''push_id : '''
+	try:
+        var = VariablesTable.find_variable(p[-1])
+        pilaO.append(var)
+        PTypes.append(var.var_type)
+    except ErrorHandler as error:
+        error.print(p.lineno(-1))
+        raise error
+
 
 def p_term(p):
 	'''term : factor term1'''
 
 def p_term1(p):
-	'''term1 : DIVIDE term
-		| TIMES term
+	'''term1 : DIVIDE push_sign term
+		| TIMES push_sign term
 		| empty'''
-	if not p[1] is None:
-        if p[1] is "/":
-            chubby.add_operator(Operators.DIVIDE)
-        else:
-            chubby.add_operator(Operators.TIMES)
+	
 
 def p_call(p):
 	'''call : ID LPAREN call1 RPAREN SEMICOLON'''
