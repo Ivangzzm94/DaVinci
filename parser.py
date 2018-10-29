@@ -127,14 +127,14 @@ def p_assignment(p):
 	'''assignment : ID cte_id ASSIGN expression SEMICOLON
 	 | ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON'''
 
-def p_cte_id():
+def p_cte_id(p):
 	'''cte_id : '''
-	try:
-        var = VariablesTable.find_variable(p[-1])
-        quads.add_operand(var)
-    except ErrorHandler as e:
-        e.print(p.lineno(-1))
-        raise e
+try:
+	var = VariablesTable.find_variable(p[-1])
+	quads.add_operand(var)
+except ErrorHandler as e:
+    e.print(p.lineno(-1))
+    raise e
 
 def p_color_cte(p):
 	'''color_cte : RED
@@ -242,35 +242,35 @@ def p_expression1(p):
 def p_relop(p): 
 	'''relop :'''
 	op = p[-1]
-	if op == '<'
+	if op == '<':
 		POper.append('<')
-	if op == '>'
+	if op == '>':
 		POper.append('>')
-	if op == '<='
+	if op == '<=':
 		POper.append('<=')
-	if op == '=='
+	if op == '==':
 		POper.append('==')
-	if op == '>='
+	if op == '>=':
 		POper.append('>=')
-	if op == '!='
+	if op == '!=':
 		POper.append('!=')
 
 def p_top_exp(p):
 	'''top_exp :'''
 	operator = POper.pop()
-	if operator == '<' || operator == '>' || operator == '>=' || operator == '<=' || operator == '==' || operator == '!=' 
+	if operator == '<' or operator == '>' or operator == '>=' or operator == '<=' or operator == '==' or operator == '!=':
 		r_operand = pilaO.pop()
 		r_type = PTypes.pop()
 		l_operand = pilaO.pop()
 		l_type = PTypes.pop()
 		result_type = SemanticCube.getType(l_type, r_type, operator)
-		if result_type != "Error"
+		if result_type != "Error":
 			#calcular resultado
 			result = nextCasillaEnMemoria
 			Quads.init(operator, l_operand, r_operand, result)
-		else 
+		else:
 			ErrorHandler.print(p.lineno(-1))
-        	raise ErrorHandler
+        	#raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR***********
 
 def p_exp(p): 
 	'''exp : term top_exp exp1'''
@@ -283,50 +283,50 @@ def p_exp1(p):
 def p_top_exp(p):
 	'''top_exp :'''
 	operator = POper.pop()
-	if operator == '+' || operator == '-' 
+	if operator == '+' or operator == '-':
 		r_operand = pilaO.pop()
 		r_type = PTypes.pop()
 		l_operand = pilaO.pop()
 		l_type = PTypes.pop()
 		result_type = SemanticCube.getType(l_type, r_type, operator)
-		if result_type != "Error"
+		if result_type != "Error":
 			#calcular resultado
 			result = nextCasillaEnMemoria
 			Quads.init(operator, l_operand, r_operand, result)
-		else 
+		else:
 			ErrorHandler.print(p.lineno(-1))
-        	raise ErrorHandler
+        	#raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR***********
 	
 
 def p_push_sign(p):
 	'''push_sign :'''
 	if not p[1] is None:
 		sign = p[1]
-        if sign is "/":
-            POper.append(Operators.DIVIDE)
-        if sign is "*":
-            POper.append(Operators.TIMES)
-        if sign is "+":
+	if sign is "/":
+    		POper.append(Operators.DIVIDE)
+	if sign is "*":
+        	POper.append(Operators.TIMES)
+	if sign is "+":
             POper.append(Operators.PLUS)
-        if sign is "-":
+	if sign is "-":
             POper.append(Operators.MINUS)
 
 def p_top_factor(p):
 	'''top_factor :'''
 	operator = POper.pop()
-	if operator == Operators.TIMES || operator == Operators.DIVIDE 
+	if operator == Operators.TIMES or operator == Operators.DIVIDE: 
 		r_operand = pilaO.pop()
 		r_type = PTypes.pop()
 		l_operand = pilaO.pop()
 		l_type = PTypes.pop()
 		result_type = SemanticCube.getType(l_type, r_type, operator)
-		if result_type != "Error"
+		if result_type != "Error":
 			#calcular resultado
 			result = nextCasillaEnMemoria
 			Quads.init(operator, l_operand, r_operand, result)
-		else 
+		else:
 			ErrorHandler.print(p.lineno(-1))
-        	raise ErrorHandler
+        	#raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR***********
 
 def p_factor(p): 
 	'''factor : LPAREN false_bottom expression RPAREN
@@ -335,20 +335,20 @@ def p_factor(p):
 
 def p_false_bottom(p): 
 	'''false_bottom :'''
-	if p[-1] is ")"
+	if p[-1] is ")":
 		POper.append(Operators.LPAREN)
-	else if p[-1] is ")"
-		POper.pop(Operators.RPAREN)
+	elif p[-1] is ")":
+			POper.pop(Operators.RPAREN)
 
 def p_push_id(p):
 	'''push_id : '''
 	try:
-        var = VariablesTable.find_variable(p[-1])
-        pilaO.append(var)
-        PTypes.append(var.var_type)
-    except ErrorHandler as error:
-        error.print(p.lineno(-1))
-        raise error
+		var = VariablesTable.find_variable(p[-1])
+		pilaO.append(var)
+		PTypes.append(var.var_type)
+	except ErrorHandler as error:
+		error.print(p.lineno(-1))
+		raise error
 
 
 def p_term(p):
