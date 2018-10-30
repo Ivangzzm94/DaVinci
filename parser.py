@@ -7,6 +7,7 @@ from variables import Variable
 from builder import Builder
 from semanticCube import SemanticCube
 from errors import ErrorHandler
+from quads import Quad, Quads
 import turtle
 
 #Inicializacion de variables para manejar la tortuga
@@ -129,12 +130,12 @@ def p_assignment(p):
 
 def p_cte_id(p):
 	'''cte_id : '''
-try:
-	var = VariablesTable.find_variable(p[-1])
-	quads.add_operand(var)
-except ErrorHandler as e:
-    e.print(p.lineno(-1))
-    raise e
+# try:
+# 	var = VariablesTable.find_variable(p[-1])
+# 	quads.add_operand(var)
+# except ErrorHandler as e:
+#     e.print(p.lineno(-1))
+#     raise e
 
 def p_color_cte(p):
 	'''color_cte : RED
@@ -255,8 +256,8 @@ def p_relop(p):
 	if op == '!=':
 		POper.append('!=')
 
-def p_top_exp(p):
-	'''top_exp :'''
+def p_top_relop(p):
+	'''top_relop :'''
 	operator = POper.pop()
 	if operator == '<' or operator == '>' or operator == '>=' or operator == '<=' or operator == '==' or operator == '!=':
 		r_operand = pilaO.pop()
