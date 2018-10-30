@@ -10,8 +10,8 @@ from errors import ErrorHandler
 from quads import Quad, Quads
 import turtle
 
-#Inicializacion de variables para manejar la tortuga
-wn = turtle.Screen()
+#Inicializacion de variables para manejar el pincel
+window = turtle.Screen()
 tur = turtle.Turtle()
 tur.shape("turtle")
 
@@ -28,7 +28,10 @@ pilaO = []
 POper = []
 PTypes = []
 
+# Declaracion de direcciones para globales y temporales
 
+nextAvailable = {'globalInt':1000,'globalFloat':5000,'globalBool':10000,
+		   		'tempInt':15000,'tempFloat':20000,'tempBool':25000 }
 
 def p_program(p):
 	'''program : PROGRAM ID SEMICOLON program1 DAVINCI block'''
@@ -268,10 +271,15 @@ def p_top_relop(p):
 		if result_type != "Error":
 			#calcular resultado
 			result = nextCasillaEnMemoria
-			Quads.init(operator, l_operand, r_operand, result)
+			q = Quad.init(operator, l_operand, r_operand, result)
+			Quads.add_Quad(q)
+			pilaO.append(result)
+			PTypes.append(result_type)
 		else:
 			ErrorHandler.print(p.lineno(-1))
         	#raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR***********
+    else 
+    	POper.append(operator)
 
 def p_exp(p): 
 	'''exp : term top_exp exp1'''
@@ -293,10 +301,15 @@ def p_top_exp(p):
 		if result_type != "Error":
 			#calcular resultado
 			result = nextCasillaEnMemoria
-			Quads.init(operator, l_operand, r_operand, result)
+			q = Quad.init(operator, l_operand, r_operand, result)
+			Quads.add_Quad(q)
+			pilaO.append(result)
+			PTypes.append(result_type)
 		else:
 			ErrorHandler.print(p.lineno(-1))
         	#raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR***********
+    else 
+    	POper.append(operator)
 	
 
 def p_push_sign(p):
@@ -324,42 +337,49 @@ def p_top_factor(p):
 		if result_type != "Error":
 			#calcular resultado
 			result = nextCasillaEnMemoria
-			Quads.init(operator, l_operand, r_operand, result)
+			q = Quad.init(operator, l_operand, r_operand, result)
+			Quads.add_Quad(q)
+			pilaO.append(result)
+			PTypes.append(result_type)
 		else:
 			ErrorHandler.print(p.lineno(-1))
-        	#raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR***********
+        	#raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR
+    else 
+    	POper.append(operator)
 
 def p_factor(p): 
-	'''factor : LPAREN false_bottom expression RPAREN
+	'''factor : LPAREN false_bottom expression RPAREN end_par
 	| var_cte
 	| ID push_id'''
 
 def p_false_bottom(p): 
 	'''false_bottom :'''
-	if p[-1] is ")":
+	if p[-1] is "(":
 		POper.append(Operators.LPAREN)
-	elif p[-1] is ")":
-			POper.pop(Operators.RPAREN)
+
+def p_end_par(p): 
+	'''end_par :'''
+	if p[-1] is ")":
+		POper.pop()
 
 def p_push_id(p):
 	'''push_id : '''
 	try:
 		var = VariablesTable.find_variable(p[-1])
-		pilaO.append(var)
+		pilaO.append(var.var_id)
 		PTypes.append(var.var_type)
 	except ErrorHandler as error:
-		error.print(p.lineno(-1))
+		error.type_error()
 		raise error
 
 
 def p_term(p):
-	'''term : factor term1'''
+	'''term : factor top_factor term1'''
 
 def p_term1(p):
 	'''term1 : DIVIDE push_sign term
 		| TIMES push_sign term
 		| empty'''
-	
 
 def p_call(p):
 	'''call : ID LPAREN call1 RPAREN SEMICOLON'''
