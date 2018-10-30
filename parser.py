@@ -27,6 +27,7 @@ varBuilder = Builder(Variable)
 pilaO = []
 POper = []
 PTypes = []
+PJumps = []
 
 # Declaracion de direcciones para globales y temporales
 
@@ -125,7 +126,18 @@ def p_statute(p):
 	 | penoff'''
 
 def p_while(p):
-	'''while : WHILE LPAREN expression RPAREN LBRACE b2 RBRACE'''
+	'''while : WHILE while_return LPAREN type_check expression RPAREN LBRACE b2 RBRACE end_while'''
+
+def while_return(p):
+	'''while_return :'''
+	PJumps.push(Quads.index)
+
+def end_while(p):
+	'''end_while :'''
+	end = PJumps.pop()
+	ret = Pjumps.pop()
+	Quad.init(Goto, None, None, ret)
+	#FILL(end, Quads.index) #***********************FALTA DECLARAR **************************
 
 def p_assignment(p):
 	'''assignment : ID cte_id ASSIGN expression SEMICOLON
@@ -225,11 +237,32 @@ def p_cte_bool(p):
 	| FALSE'''
 
 def p_condition(p): 
-	'''condition : IF LPAREN expression RPAREN LBRACE b2 RBRACE condition1'''
+	'''condition : IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if'''
 
 def p_condition1(p):
-	'''condition1 : ELSE LBRACE b2 RBRACE
+	'''condition1 : gotoElse ELSE LBRACE b2 RBRACE
 	| empty'''
+
+def type_check(p):
+	'''type_check :'''
+	exp_type = PTypes.pop()
+	if exp_type != bool:
+		ErrorHandler.type_error()
+	else:
+		result = pilaO.pop()
+		Quad.init(GoToF, None, None , result)
+		PJumps.push(Quads.index - 1)
+
+def gotoElse(p):
+	Quad.init(GoTo, None, None, None)
+	false = PJumps.pop()
+	PJumps.push(Quads.index - 1)
+	#FILL(false, Quads.index) #***********************FALTA DECLARAR **************************
+
+def end_if(p):
+	'''end_if :'''
+	end = PJumps.pop()
+	#FILL(end, Quads.index) #***********************FALTA DECLARAR **************************
 
 def p_expression(p): 
 	'''expression : exp expression1'''
