@@ -1,4 +1,4 @@
-from enum import IntEnum
+from enum import Enum, IntEnum
 
 class Operatation(IntEnum):
 	PLUS = 1
@@ -32,7 +32,7 @@ class Function(IntEnum):
 	PENON = 60
 	PENOFF = 61
 
-class Type(IntEnum):
+class Type(Enum):
 	INT = 20
 	FLOAT = 21
 	STRING = 22
