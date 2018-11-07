@@ -15,8 +15,8 @@ class Operatation(IntEnum):
 	AND = 12
 	OR = 13
 	NOT = 14
-	LPAREN = 15
-	RPAREN = 16
+	# LPAREN = 15    ????
+	# RPAREN = 16
 
 class Function(IntEnum):
 	COLOR = 50
