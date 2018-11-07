@@ -128,11 +128,11 @@ def p_statute(p):
 def p_while(p):
 	'''while : WHILE while_return LPAREN type_check expression RPAREN LBRACE b2 RBRACE end_while'''
 
-def while_return(p):
+def p_while_return(p):
 	'''while_return :'''
 	PJumps.push(Quads.index)
 
-def end_while(p):
+def p_end_while(p):
 	'''end_while :'''
 	end = PJumps.pop()
 	ret = Pjumps.pop()
@@ -243,7 +243,7 @@ def p_condition1(p):
 	'''condition1 : gotoElse ELSE LBRACE b2 RBRACE
 	| empty'''
 
-def type_check(p):
+def p_type_check(p):
 	'''type_check :'''
 	exp_type = PTypes.pop()
 	if exp_type != bool:
@@ -253,13 +253,14 @@ def type_check(p):
 		Quad.init(GoToF, None, None , result)
 		PJumps.push(Quads.index - 1)
 
-def gotoElse(p):
+def p_gotoElse(p):
+	'''gotoElse :'''
 	Quad.init(GoTo, None, None, None)
 	false = PJumps.pop()
 	PJumps.push(Quads.index - 1)
 	#FILL(false, Quads.index) #***********************FALTA DECLARAR **************************
 
-def end_if(p):
+def p_end_if(p):
 	'''end_if :'''
 	end = PJumps.pop()
 	#FILL(end, Quads.index) #***********************FALTA DECLARAR **************************
@@ -311,8 +312,8 @@ def p_top_relop(p):
 		else:
 			ErrorHandler.print(p.lineno(-1))
         	#raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR***********
-    else 
-    	POper.append(operator)
+	else:
+		POper.append(operator)
 
 def p_exp(p): 
 	'''exp : term top_exp exp1'''
@@ -341,8 +342,8 @@ def p_top_exp(p):
 		else:
 			ErrorHandler.print(p.lineno(-1))
         	#raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR***********
-    else 
-    	POper.append(operator)
+	else:
+		POper.append(operator)
 	
 
 def p_push_sign(p):
@@ -377,8 +378,8 @@ def p_top_factor(p):
 		else:
 			ErrorHandler.print(p.lineno(-1))
         	#raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR
-    else 
-    	POper.append(operator)
+	else: 
+		POper.append(operator)
 
 def p_factor(p): 
 	'''factor : LPAREN false_bottom expression RPAREN end_par
