@@ -1,4 +1,6 @@
+from turtle import *
 from stack import Stack
+from quads import Quads
 
 # Crear memoria de ejecución
 execMemory = Stack()
@@ -108,6 +110,48 @@ def NOT(op1):
 	aux = not op1
 	Memory[f(cuad[instruction_pointer].result)] = aux
 
+def GOTO():
+	instruction_pointer = cuad[instruction_pointer].result
+
+def GOTOF():
+	instruction_pointer = cuad[instruction_pointer].result
+
+def COLOR(color):
+	turtle.pencolor(color)
+
+def CIRCLE(raidus):
+	turtle.circle(radius, None, None)
+
+def SQUARE():
+
+
+def TRIANGLE():
+
+
+def RECTANGLE():
+
+
+def POLIGON():
+
+
+def ROTATE(degree):
+	turtle.tilt(degree)
+
+def PENSIZE(size):
+	turtle.dot(size)
+
+def PENFORWARD(distance):
+	turte.forward(distance)
+
+def PENBACK(distance):
+	turtle.backward(distance)
+
+def PENON():
+	turtle.pendown()
+
+def PENOFF():
+	turtle.penup()
+
 
 # Switch
 def opCode(arg):
@@ -139,7 +183,7 @@ def opCode(arg):
 	25: PENFORWARD,
 	26: PENBACK,
 	27: PENON,
-	28: PENOF
+	28: PENOFF
 	}
 
 # for testing
