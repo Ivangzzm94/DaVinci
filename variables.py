@@ -2,10 +2,11 @@ from quads import Type
 from errors import ErrorHandler
 
 class Variable:
-	def __init__(self, var_id, var_type):
+	def __init__(self, var_id, var_type, dirV):
 		self.var_id = var_id
 		self.var_type = var_type
 		self.address = None
+		self.dirV = None
 
 class Memory:
 	def __init__(self):
