@@ -4,6 +4,7 @@ from quads import Quads
 
 # Crear memoria de ejecución
 execMemory = Stack()
+instruction_pointer = 0
 
 # Subir a memoria lista de cúadruplos, direccion de funciones y tablas de constantes
 
@@ -123,7 +124,15 @@ def CIRCLE(raidus):
 	turtle.circle(radius, None, None)
 
 def SQUARE():
-
+	turtle.pendown()
+	turtle.forward(100)
+	turtle.tilt(90)
+	turtle.forward(100)
+	turtle.tilt(90)
+	turtle.forward(100)
+	turtle.tilt(90)
+	turtle.forward(100)
+	turtle.tilt(90)
 
 def TRIANGLE():
 
