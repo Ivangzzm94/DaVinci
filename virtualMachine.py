@@ -142,9 +142,9 @@ def opCode(arg):
 	28: PENOF
 	}
 
-# For test proposes
+# for testing
 # Get the function from switcher dictionary
-    func = switcher.get(arg, lambda: "Invalid operation")
+    func = switch.get(arg, lambda: "Invalid operation")
 
 # Execute the function
     print func()
