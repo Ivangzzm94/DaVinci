@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c0cbacf4-569e-4ed0-b6a9-1621ce170ec9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/quads.py" beforeDir="false" afterPath="$PROJECT_DIR$/quads.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/semanticCube.py" beforeDir="false" afterPath="$PROJECT_DIR$/semanticCube.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/variables.py" beforeDir="false" afterPath="$PROJECT_DIR$/variables.py" afterDir="false" />
-    </list>
+    <list default="true" id="c0cbacf4-569e-4ed0-b6a9-1621ce170ec9" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,8 +47,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1710">
-              <caret line="515" column="39" selection-start-line="515" selection-start-column="39" selection-end-line="515" selection-end-column="39" />
+            <state relative-caret-position="2197">
+              <caret line="408" lean-forward="true" selection-start-line="408" selection-end-line="408" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
                 <marker date="1541720610945" expanded="true" signature="9390:9395" ph="..." />
@@ -217,6 +212,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="777" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24959612" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -273,8 +269,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1710">
-          <caret line="515" column="39" selection-start-line="515" selection-start-column="39" selection-end-line="515" selection-end-column="39" />
+        <state relative-caret-position="2197">
+          <caret line="408" lean-forward="true" selection-start-line="408" selection-end-line="408" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <marker date="1541720610945" expanded="true" signature="9390:9395" ph="..." />
