@@ -1,20 +1,4 @@
 program a; 
-var Int miguel;
-	Bool boolalv = true;
+var Int miguel = 1;
 
-func Int multiplicaPorDos (Int x) {
-	x = x * 2;
-}
-
-DaVinci {
-	var Int c = 34;
-	penOn();
-	entero = 123;
-	if (true) {
-		entero = 23;
-	} else {
-		entero = 444;
-		rotate(123);
-		color(red);
-	}
-}
+DaVinci {}

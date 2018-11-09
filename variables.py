@@ -2,17 +2,18 @@ from quads import Type
 from errors import ErrorHandler
 
 class Variable:
-	def __init__(self, var_id, var_type, dirV, cont):
+
+	def __init__(self, var_id, var_type, dir_virt, cont):
 		self.var_id = var_id
 		self.var_type = var_type
-		self.dirV = dirV
+		self.dir_virt = dir_virt
 		self.context = cont
 
-	def setContext(c):
+	def setContext(self, c):
 		self.context = c
 	
-	def setDirV(dv):
-		self.dirV = dv
+	def setDirV(self, dv):
+		self.dir_virt = dv
 
 class Memory:
 	def __init__(self):
@@ -41,5 +42,6 @@ def parse(self) :
     return({
         "var_id": self.var_id,
         "var_type": self.var_type,
-        "address": self.address
+        "address": self.address,
+        "dir_virt": self.dir_virt
     })

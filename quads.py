@@ -25,7 +25,7 @@ class Operations(IntEnum):
     GOSUB = 19
 
 
-class Function(IntEnum):
+class Functions(IntEnum):
     COLOR = 50
     CIRCLE = 51
     SQUARE = 52
