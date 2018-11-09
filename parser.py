@@ -48,7 +48,8 @@ nextAvailable = {
 
 def p_program(p):
     '''program : PROGRAM ID SEMICOLON program1 DAVINCI block'''
-    #quadStack.print_Quads()
+    print('COMPILED!\n')
+    quadStack.print_Quads()
 
 
 def p_program1(p):
@@ -520,7 +521,7 @@ def p_check_name(p):
     '''check_name : '''
     try:
         f = VariablesTable.find_function(p[-1])
-        quadStack.add_quad(Operations.ERA, '', '', '')
+        quadStack.add_quad(Operations.ERA, f, '', '')
     except ErrorHandler as error:
         error.print(p.lineno(0))
 
