@@ -49,6 +49,7 @@ nextAvailable = {
 def p_program(p):
     '''program : PROGRAM ID SEMICOLON program1 DAVINCI block'''
     print('COMPILED!\n')
+    quadStack.print_Quads()
 
 
 def p_program1(p):
