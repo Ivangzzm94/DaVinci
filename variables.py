@@ -2,11 +2,17 @@ from quads import Type
 from errors import ErrorHandler
 
 class Variable:
-	def __init__(self, var_id, var_type, dirV):
+	def __init__(self, var_id, var_type, dirV, cont):
 		self.var_id = var_id
 		self.var_type = var_type
-		self.address = None
-		self.dirV = None
+		self.dirV = dirV
+		self.context = cont
+
+	def setContext(c):
+		self.context = c
+	
+	def setDirV(dv):
+		self.dirV = dv
 
 class Memory:
 	def __init__(self):
@@ -27,7 +33,7 @@ class Memory:
 		if type not in self.address:
 			raise ErrorHandler.type_error("Type not defined");
 		else:
-			self.address[kind] = self.address[kind] + 1
+			self.address[type] = self.address[type] + 1
 
 
 # For test proposes
