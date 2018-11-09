@@ -4,118 +4,120 @@ from quads import Quads
 
 # Crear memoria de ejecución
 execMemory = Stack()
+
+# apuntador al cuádruplo en ejecición
 instruction_pointer = 0
 
 # Subir a memoria lista de cúadruplos, direccion de funciones y tablas de constantes
 
 # Operaciones del switch
 def PLUS(op1, op2):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = cuad[instruction_pointer].left_operand
+	op2_dir = Quads[instruction_pointer].left_operand
 	op2 = Memory[rigth_operand_dir - Base(type)]
 	aux = op1 + op2
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def MINUS(op1, op2):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = cuad[instruction_pointer].left_operand
+	op2_dir = Quads[instruction_pointer].left_operand
 	op2 = Memory[rigth_operand_dir - Base(type)]
 	aux = op1 - op2
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def TIMES(op1, op2):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = cuad[instruction_pointer].left_operand
+	op2_dir = Quads[instruction_pointer].left_operand
 	op2 = Memory[rigth_operand_dir - Base(type)]
 	aux = op1 * op2
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def DIVIDE(op1, op2):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = cuad[instruction_pointer].left_operand
+	op2_dir = Quads[instruction_pointer].left_operand
 	op2 = Memory[rigth_operand_dir - Base(type)]
 	aux = op1 / op2
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def EQUAL(op1, op2):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = cuad[instruction_pointer].left_operand
+	op2_dir = Quads[instruction_pointer].left_operand
 	op2 = Memory[rigth_operand_dir - Base(type)]
 	aux = op1 = op2
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def NOTEQUAL(op1, op2):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = cuad[instruction_pointer].left_operand
+	op2_dir = Quads[instruction_pointer].left_operand
 	op2 = Memory[rigth_operand_dir - Base(type)]
 	aux = op1 != op2
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def GREATER(op1, op2):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = cuad[instruction_pointer].left_operand
+	op2_dir = Quads[instruction_pointer].left_operand
 	op2 = Memory[rigth_operand_dir - Base(type)]
 	aux = op1 > op2
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def LESSER(op1, op2):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = cuad[instruction_pointer].left_operand
+	op2_dir = Quads[instruction_pointer].left_operand
 	op2 = Memory[rigth_operand_dir - Base(type)]
 	aux = op1 < op2
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def GREATEROREQUAL(op1, op2):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = cuad[instruction_pointer].left_operand
+	op2_dir = Quads[instruction_pointer].left_operand
 	op2 = Memory[rigth_operand_dir - Base(type)]
 	aux = op1 >= op2
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def LESSEROREQUAL(op1, op2):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = cuad[instruction_pointer].left_operand
+	op2_dir = Quads[instruction_pointer].left_operand
 	op2 = Memory[rigth_operand_dir - Base(type)]
 	aux = op1 <= op2
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def AND(op1, op2):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = cuad[instruction_pointer].left_operand
+	op2_dir = Quads[instruction_pointer].left_operand
 	op2 = Memory[rigth_operand_dir - Base(type)]
 	aux = op1 and op2
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def OR(op1, op2):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = cuad[instruction_pointer].left_operand
+	op2_dir = Quads[instruction_pointer].left_operand
 	op2 = Memory[rigth_operand_dir - Base(type)]
 	aux = op1 or op2
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def NOT(op1):
-	op1_dir = cuad[instruction_pointer].rigth_operand
+	op1_dir = Quads[instruction_pointer].rigth_operand
 	op1 = Memory[left_operand_dir - Base(type)]
 	aux = not op1
-	Memory[f(cuad[instruction_pointer].result)] = aux
+	Memory[f(Quads[instruction_pointer].result)] = aux
 
 def GOTO():
-	instruction_pointer = cuad[instruction_pointer].result
+	instruction_pointer = Quads[instruction_pointer].result
 
 def GOTOF():
-	instruction_pointer = cuad[instruction_pointer].result
+	instruction_pointer = Quads[instruction_pointer].result
 
 def COLOR(color):
 	turtle.pencolor(color)
@@ -125,22 +127,43 @@ def CIRCLE(raidus):
 
 def SQUARE():
 	turtle.pendown()
-	turtle.forward(100)
-	turtle.tilt(90)
-	turtle.forward(100)
-	turtle.tilt(90)
-	turtle.forward(100)
-	turtle.tilt(90)
-	turtle.forward(100)
-	turtle.tilt(90)
+	for i in range(4)
+		turtle.forward(80)
+		turtle.left(90)
+	
 
 def TRIANGLE():
-
+	turtle.pendown()
+	for i in range(52):
+		turtle.forward(100)
+		turtle.left(175)
+		turtle.forward(100)
+		turtle.left(90)
+		turtle.forward(10)
+		turtle.left(90)
+		turtle.right(2)
 
 def RECTANGLE():
+	turtle.pendown()
+	turtle.forward(80)
+	turtle.left(90)
+	turtle.forward(40)
+	turtle.left(90)
+	turtle.forward(80)
+	turtle.left(90)
+	turtle.forward(40)
 
-
-def POLIGON():
+def POLIGON(sides):
+	if sides == 5:
+		x
+	elif sides == 6:
+		x
+	elif sides == 7:
+		x
+	elif sides == 8:
+		x
+	else:
+		print("Poligon size from 5 to 8")
 
 
 def ROTATE(degree):

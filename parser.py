@@ -512,13 +512,13 @@ def p_call(p):
     '''call : ID check_name LPAREN create_era call1 RPAREN SEMICOLON gosub'''
 
 def p_check_name(p):
-    '''check_name : '''
+    '''check_name :'''
     VariablesTable.find_function(p[-1])
 
 def p_create_era(p):
         '''create_era : '''
 
-def p_check_name(p):
+def p_gosub(p):
     '''gosub : '''
 
 def p_call1(p):
