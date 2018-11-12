@@ -23,7 +23,9 @@ class Operations(IntEnum):
     GOTOV = 17
     ERA = 18
     GOSUB = 19
-
+    ENDPROC = 20
+    PARAM = 21
+    VER = 22
 
 class Functions(IntEnum):
     COLOR = 50
@@ -39,13 +41,11 @@ class Functions(IntEnum):
     PENON = 60
     PENOFF = 61
 
-
 class Type(Enum):
     INT = 90
     FLOAT = 91
     STRING = 92
     BOOL = 93
-
 
 class Quad:
     def __init__(self, operator, left_operand=None, right_operand=None, result=None):
@@ -53,7 +53,6 @@ class Quad:
         self.left_operand = left_operand
         self.right_operand = right_operand
         self.result = result
-
 
 class Quads:
 

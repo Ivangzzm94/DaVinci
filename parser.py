@@ -57,13 +57,11 @@ def p_program1(p):
 	| program1 vars global_vars
 	| empty'''
 
-
 def p_global_vars(p):
     '''global_vars : '''
     try:
         global varList
         for var in varList:
-            var.setContext('global')
             t = var.var_type
             print(var)
             var.setDirV(nextAvailable['global'][t])
@@ -89,7 +87,6 @@ def p_local_vars(p):
     try:
         global varList
         for var in varList:
-            var.setContext('local')
             t = var.var_type
             var.setDirV(nextAvailable['local'][t])
             nextAvailable['local'][t] += 1
@@ -119,8 +116,7 @@ def p_vars3(p):
 	| ID list vars4
 	| ID vars4'''
     varBuilder.put('var_id', p[1])
-    varBuilder.put('dir_virt', None)
-    varBuilder.put('cont', None)
+    varBuilder.put('dir_virt', -1)
     varList.append(varBuilder.build())
     varBuilder.clear()
 
@@ -129,15 +125,14 @@ def p_vars4(p):
 	| empty'''
     if len(p) > 2:
         varBuilder.put('var_id', p[3])
-        varBuilder.put('dir_virt', None)
-        varBuilder.put('cont', None)
+        varBuilder.put('dir_virt', -1)
         varList.append(varBuilder.build())
 
 
 def p_save_type(p):
     '''save_type : '''
-    varBuilder.put('var_type', p[-1])
-
+    #varBuilder.put('var_type', p[-1])
+    print(p[-1])
 
 def p_list(p):
     '''list : LIST'''

@@ -4,14 +4,10 @@ from errors import ErrorHandler
 
 class Variable:
 
-	def __init__(self, var_id, var_type, dir_virt, cont):
+	def __init__(self, var_id, var_type, dir_virt):
 		self.var_id = var_id
 		self.var_type = var_type
 		self.dir_virt = dir_virt
-		self.context = cont
-
-	def setContext(self, c):
-		self.context = c
 	
 	def setDirV(self, dv):
 		self.dir_virt = dv

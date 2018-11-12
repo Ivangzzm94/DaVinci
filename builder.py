@@ -16,7 +16,7 @@ class Builder:
                 raise AttributeError("No Value {} in {}".format(key, self._target))
 
     def put(self, name, value):
-        if name not in self._required:
+        if name not in self._params:
             raise AttributeError("Error de parametros")
         self._attrs[name] = value
         # print("ATTRS",self._attrs)
