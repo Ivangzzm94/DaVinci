@@ -14,6 +14,7 @@ class VariablesTable:
 			raise ErrorHandler.redefined_variable(instance.var_id)
 		else:
 			self._global[instance.var_id] = instance
+			print(instance)
 
 	def add_local(self, instance):
 		if instance.var_id in self._local:

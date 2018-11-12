@@ -1,4 +1,4 @@
 program a; 
-var Int miguel = 1;
-
+var Int miguel;
+var Int miguel;
 DaVinci {}

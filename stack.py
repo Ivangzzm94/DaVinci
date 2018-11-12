@@ -11,8 +11,9 @@ class Stack:
      def pop(self):
          return self.items.pop()
 
-     def peek(self):
-         return self.items[len(self.items)-1]
+     def top(self):
+         if len(self.items) > 0:
+            return self.items[len(self.items)-1]
 
      def size(self):
          return len(self.items)

@@ -4,13 +4,13 @@ from errors import ErrorHandler
 
 class Variable:
 
-	def __init__(self, var_id, var_type, dir_virt):
-		self.var_id = var_id
-		self.var_type = var_type
-		self.dir_virt = dir_virt
-	
-	def setDirV(self, dv):
-		self.dir_virt = dv
+    def __init__(self, var_id, var_type, dir_virt = None):
+        self.var_id = var_id
+        self.var_type = var_type
+        self.dir_virt = dir_virt
+
+    def __repr__(self):
+        return str(self.var_id) + ', ' + str(self.var_type) + ', ' + str(self.dir_virt)
 
 class Memory:
     def __init__(self):

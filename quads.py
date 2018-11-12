@@ -2,7 +2,6 @@ from typing import List, Any
 
 from enum import Enum, IntEnum
 
-
 class Operations(IntEnum):
     PLUS = 1
     MINUS = 2
@@ -41,7 +40,7 @@ class Functions(IntEnum):
     PENON = 60
     PENOFF = 61
 
-class Type(Enum):
+class Type(IntEnum):
     INT = 90
     FLOAT = 91
     STRING = 92
@@ -53,6 +52,9 @@ class Quad:
         self.left_operand = left_operand
         self.right_operand = right_operand
         self.result = result
+
+    def __repr__(self):
+        return str(self.operator) + ', ' + str(self.left_operand) + ', ' + str(self.right_operand) + ', ' + str(self.result)
 
 class Quads:
 

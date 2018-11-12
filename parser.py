@@ -7,7 +7,8 @@ from variables import Variable
 from builder import Builder
 from semanticCube import SemanticCube
 from errors import ErrorHandler
-from quads import Quad, Quads, Functions, Operations
+from quads import *
+from stack import *
 
 varTable = VariablesTable()
 
@@ -16,17 +17,18 @@ varList = []  # Array to save the ID of variables in the same line
 functionBuilder = Builder(Function)
 varBuilder = Builder(Variable)
 
-quadStack = Quads()
-pilaOperandos = []
-pilaOperadores = []
-pTypes = []
-pJumps = []
+quadList = Quads()
+pilaOperandos = Stack()
+pilaOperadores = Stack()
+pTypes = Stack()
+pJumps = Stack()
+
+vartype = None
 
 # Declaracion de direcciones para globales y temporales
-
 nextAvailable = {
     'global': {
-        'Int': 1000,
+        'Int': 0000,
         'Float': 5000,
         'Bool': 10000,
         'String': 15000
@@ -42,15 +44,22 @@ nextAvailable = {
         'Float': 45000,
         'Bool': 50000,
         'String': 55000
+    },
+    'const': {
+        'Int': 200000,
+        'Float': 210000,
+        'Bool': 220000,
+        'String': 230000
     }
 }
 
-
 def p_program(p):
-    '''program : PROGRAM ID SEMICOLON program1 DAVINCI block'''
-    print('COMPILED!\n')
-    quadStack.print_Quads()
+    '''program : PROGRAM ID SEMICOLON gotomain program1 DAVINCI block'''
 
+def p_gotomain(p):
+    '''gotomain : empty'''
+    q = Quad(Operations.GOTO, None, None, None)
+    quadList.add_quad(q)
 
 def p_program1(p):
     '''program1 : program1 funcs
@@ -60,18 +69,15 @@ def p_program1(p):
 def p_global_vars(p):
     '''global_vars : '''
     try:
-        global varList
         for var in varList:
             t = var.var_type
-            print(var)
-            var.setDirV(nextAvailable['global'][t])
+            var.dir_virt = nextAvailable['global'][t]
             nextAvailable['global'][t] += 1
             varTable.add_global(var)
             print("global var")
         varList.clear()
     except ErrorHandler as e:
         e.print(p.lineno(1))
-
 
 def p_block(p):
     '''block : LBRACE b1 RBRACE'''
@@ -88,7 +94,7 @@ def p_local_vars(p):
         global varList
         for var in varList:
             t = var.var_type
-            var.setDirV(nextAvailable['local'][t])
+            var.dir_virt = nextAvailable['local'][t]
             nextAvailable['local'][t] += 1
             varTable.add_local(var)
             print("local var")
@@ -104,40 +110,32 @@ def p_b2(p):
 
 def p_vars(p):
     '''vars : VAR vars2'''
-
+    print('vars')
 
 def p_vars2(p):
-    '''vars2 : vars2 type save_type vars3 SEMICOLON
+    '''vars2 : type vars3 SEMICOLON vars2
 	| empty'''
-
+    print('vars2', 'varBuilder cleaning')
+    varBuilder.clear()
 
 def p_vars3(p):
     '''vars3 : ID ASSIGN expression vars4
 	| ID list vars4
 	| ID vars4'''
-    varBuilder.put('var_id', p[1])
-    varBuilder.put('dir_virt', -1)
-    varList.append(varBuilder.build())
-    varBuilder.clear()
+    v = Variable(p[1], p[-1])
+    varList.append(v)
 
 def p_vars4(p):
-    '''vars4 : vars4 COMMA ID
+    '''vars4 : COMMA vars3
 	| empty'''
-    if len(p) > 2:
-        varBuilder.put('var_id', p[3])
-        varBuilder.put('dir_virt', -1)
-        varList.append(varBuilder.build())
-
+    print('vars4')
 
 def p_save_type(p):
     '''save_type : '''
-    #varBuilder.put('var_type', p[-1])
-    print(p[-1])
 
 def p_list(p):
     '''list : LIST'''
     p[0] = p[1]
-
 
 def p_statute(p):
     '''statute : assignment
@@ -165,7 +163,7 @@ def p_while(p):
 
 def p_while_return(p):
     '''while_return :'''
-    pJumps.push(quadStack.index)
+    pJumps.push(quadList.index)
 
 
 def p_end_while(p):
@@ -173,7 +171,7 @@ def p_end_while(p):
     end = pJumps.pop()
     ret = pJumps.pop()
     Quad.init(Operations.GOTO, None, None, ret)
-    quadStack.fill(quadStack.index, end)
+    quadList.fill(quadList.index, end)
 
 
 def p_assignment(p):
@@ -239,59 +237,59 @@ def p_funcs3(p):
 
 def p_color(p):
     '''color : COLOR LPAREN color_cte RPAREN SEMICOLON'''
-    quadStack.add_quad(Functions.COLOR, p[3], '', '')
+    quadList.add_quad(Functions.COLOR, p[3], '', '')
 
 def p_circle(p):
     '''circle : CIRCLE LPAREN exp RPAREN SEMICOLON'''
-    quadStack.add_quad(Functions.CIRCLE, p[3], '', '')
+    quadList.add_quad(Functions.CIRCLE, p[3], '', '')
 
 def p_square(p):
     '''square : SQUARE LPAREN exp RPAREN SEMICOLON'''
-    quadStack.add_quad(Functions.SQUARE, p[3], '', '')
+    quadList.add_quad(Functions.SQUARE, p[3], '', '')
 
 def p_triangle(p):
     '''triangle : TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
-    quadStack.add_quad(Functions.TRIANGLE, p[3], p[5], '')
+    quadList.add_quad(Functions.TRIANGLE, p[3], p[5], '')
 
 def p_rectangle(p):
     '''rectangle : RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
-    quadStack.add_quad(Functions.RECTANGLE, p[3], p[5], '')
+    quadList.add_quad(Functions.RECTANGLE, p[3], p[5], '')
 
 def p_poligon(p):
     '''poligon : POLIGON LPAREN exp COMMA exp RPAREN SEMICOLON'''
-    quadStack.add_quad(Functions.TRIANGLE, p[3], p[5], '')
+    quadList.add_quad(Functions.TRIANGLE, p[3], p[5], '')
 
 def p_rotate(p):
     '''rotate : ROTATE LPAREN exp RPAREN SEMICOLON
 	| ROTATE LPAREN CTE_STRING RPAREN SEMICOLON'''
-    quadStack.add_quad(Functions.ROTATE, p[3], '', '')
+    quadList.add_quad(Functions.ROTATE, p[3], '', '')
 
 def p_pensize(p):
     '''pensize : PENSIZE LPAREN exp RPAREN SEMICOLON'''
-    quadStack.add_quad(Functions.PENSIZE, p[3], '', '')
+    quadList.add_quad(Functions.PENSIZE, p[3], '', '')
 
 def p_penforward(p):
     '''penforward : PENFORWARD LPAREN exp RPAREN SEMICOLON'''
-    quadStack.add_quad(Functions.PENFORWARD, p[3], '', '')
+    quadList.add_quad(Functions.PENFORWARD, p[3], '', '')
 
 def p_penback(p):
     '''penback : PENBACK LPAREN exp RPAREN SEMICOLON'''
-    quadStack.add_quad(Functions.PENBACK, p[3], '', '')
+    quadList.add_quad(Functions.PENBACK, p[3], '', '')
 
 def p_penon(p):
     '''penon : PENON LPAREN RPAREN SEMICOLON'''
-    quadStack.add_quad(Functions.PENON, '', '', '')
+    quadList.add_quad(Functions.PENON, '', '', '')
 
 def p_penoff(p):
     '''penoff : PENOFF LPAREN RPAREN SEMICOLON'''
-    quadStack.add_quad(Functions.PENOFF, '', '', '')
+    quadList.add_quad(Functions.PENOFF, '', '', '')
 
 def p_type(p):
     '''type : INT
 			| FLOAT
 			| STRING
 			| BOOL'''
-
+    p[0] = p[1]
 
 def p_var_cte(p):
     '''var_cte : ID
@@ -324,23 +322,23 @@ def p_type_check(p):
     else:
         result = pilaOperandos.pop()
         q = Quad.init(Operations.GOTOF, None, None, result)
-        quadStack.add_quad(q)
-        pJumps.push(quadStack.index)
+        quadList.add_quad(q)
+        pJumps.push(quadList.index)
 
 
 def p_gotoElse(p):
     '''gotoElse :'''
     q = Quad.init(Operations.GOTO, None, None, None)
-    quadStack.add_quad(q)
+    quadList.add_quad(q)
     false = pJumps.pop()
-    pJumps.push(quadStack.index)
-    quadStack.fill(quadStack.index, false)
+    pJumps.push(quadList.index)
+    quadList.fill(quadList.index, false)
 
 
 def p_end_if(p):
     '''end_if :'''
     end = pJumps.pop()
-    quadStack.fill(quadStack.index, end)
+    quadList.fill(quadList.index, end)
 
 
 def p_expression(p):
@@ -361,18 +359,17 @@ def p_relop(p):
     '''relop :'''
     op = p[-1]
     if op == '<':
-        pilaOperadores.append(Operations.LESSER)
+        pilaOperadores.push(Operations.LESSER)
     if op == '>':
-        pilaOperadores.append(Operations.GREATER)
+        pilaOperadores.push(Operations.GREATER)
     if op == '<=':
-        pilaOperadores.append(Operations.LESSEROREQUAL)
+        pilaOperadores.push(Operations.LESSEROREQUAL)
     if op == '==':
-        pilaOperadores.append(Operations.EQUAL)
+        pilaOperadores.push(Operations.EQUAL)
     if op == '>=':
-        pilaOperadores.append(Operations.GREATEROREQUAL)
+        pilaOperadores.push(Operations.GREATEROREQUAL)
     if op == '!=':
-        pilaOperadores.append(Operations.NOTEQUAL)
-
+        pilaOperadores.push(Operations.NOTEQUAL)
 
 def p_top_relop(p):
     '''top_relop :'''
@@ -387,14 +384,14 @@ def p_top_relop(p):
             # calcular resultado
             result = nextAvailable["globalBool"]
             q = Quad.init(operator, l_operand, r_operand, result)
-            quadStack.add_quad(q)
-            pilaOperandos.append(result)
+            quadList.add_quad(q)
+            pilaOperandos.push(result)
             pTypes.append(result_type)
         else:
             ErrorHandler.print(p.lineno(-1))
     # raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR***********
     else:
-        pilaOperadores.append(operator)
+        pilaOperadores.push(operator)
 
 
 def p_exp(p):
@@ -408,27 +405,26 @@ def p_exp1(p):
 
 
 def p_top_exp(p):
-    '''top_exp :'''
-    if bool(pilaOperadores):
-        operator = pilaOperadores.pop()
-        if operator == Operations.PLUS or operator == Operations.MINUS:
-            r_operand = pilaOperandos.pop()
-            r_type = pTypes.pop()
-            l_operand = pilaOperandos.pop()
-            l_type = pTypes.pop()
-            result_type = SemanticCube.getType(l_type, r_type, operator)
-            if result_type != "Error":
-                result = nextAvailable['temp'][result_type]
-                nextAvailable['temp'][result_type] += 1
-                q = Quad.init(operator, l_operand, r_operand, result)
-                quadStack.add_quad(q)
-                pilaOperandos.append(result)
-                pTypes.append(result_type)
-            else:
-                ErrorHandler.print(p.lineno(-1))
-        # raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR***********
+    '''top_exp : '''
+    operator = pilaOperadores.top()
+    if operator == Operations.PLUS or operator == Operations.MINUS:
+        r_operand = pilaOperandos.pop()
+        r_type = pTypes.pop()
+        l_operand = pilaOperandos.pop()
+        l_type = pTypes.pop()
+        result_type = SemanticCube.getType(l_type, r_type, operator)
+        if result_type != "Error":
+            result = nextAvailable['temp'][result_type]
+            nextAvailable['temp'][result_type] += 1
+            q = Quad.init(operator, l_operand, r_operand, result)
+            quadList.add_quad(q)
+            pilaOperandos.push(result)
+            pTypes.append(result_type)
         else:
-            pilaOperadores.append(operator)
+            ErrorHandler.print(p.lineno(-1))
+    # raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR***********
+    else:
+        pilaOperadores.push(operator)
 
 
 def p_push_sign(p):
@@ -436,38 +432,37 @@ def p_push_sign(p):
     if not p[1] is None:
         sign = p[1]
     if sign is "/":
-        pilaOperadores.append(Operations.DIVIDE)
+        pilaOperadores.push(Operations.DIVIDE)
     if sign is "*":
-        pilaOperadores.append(Operations.TIMES)
+        pilaOperadores.push(Operations.TIMES)
     if sign is "+":
-        pilaOperadores.append(Operations.PLUS)
+        pilaOperadores.push(Operations.PLUS)
     if sign is "-":
-        pilaOperadores.append(Operations.MINUS)
+        pilaOperadores.push(Operations.MINUS)
 
 
 def p_top_factor(p):
     '''top_factor :'''
-    if bool(pilaOperadores):
-        operator = pilaOperadores.pop()
-        if operator == Operations.TIMES or operator == Operations.DIVIDE:
-            r_operand = pilaOperandos.pop()
-            r_type = pTypes.pop()
-            l_operand = pilaOperandos.pop()
-            l_type = pTypes.pop()
-            result_type = SemanticCube.getType(l_type, r_type, operator)
-            if result_type != "Error":
-                # calcular resultado
-                result = nextAvailable['temp'][result_type]
-                nextAvailable['temp'][result_type] += 1
-                q = Quad.init(operator, l_operand, r_operand, result)
-                quadStack.add_quad(q)
-                pilaOperandos.append(result)
-                pTypes.append(result_type)
-            else:
-                ErrorHandler.print(p.lineno(-1))
-        # raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR
+    operator = pilaOperadores.top()
+    if operator == Operations.TIMES or operator == Operations.DIVIDE:
+        r_operand = pilaOperandos.pop()
+        r_type = pTypes.pop()
+        l_operand = pilaOperandos.pop()
+        l_type = pTypes.pop()
+        result_type = SemanticCube.getType(l_type, r_type, operator)
+        if result_type != "Error":
+            # calcular resultado
+            result = nextAvailable['temp'][result_type]
+            nextAvailable['temp'][result_type] += 1
+            q = Quad.init(operator, l_operand, r_operand, result)
+            quadList.add_quad(q)
+            pilaOperandos.push(result)
+            pTypes.append(result_type)
         else:
-            pilaOperadores.append(operator)
+            ErrorHandler.print(p.lineno(-1))
+    # raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR
+    else:
+        pilaOperadores.push(operator)
 
 
 def p_factor(p):
@@ -479,7 +474,7 @@ def p_factor(p):
 def p_false_bottom(p):
     '''false_bottom :'''
     if p[-1] is "(":
-        pilaOperadores.append(Operations.LPAREN)
+        pilaOperadores.push(Operations.LPAREN)
 
 
 def p_end_par(p):
@@ -492,7 +487,7 @@ def p_push_id(p):
     '''push_id : '''
     try:
         var = VariablesTable.find_variable(p[-1])
-        pilaOperandos.append(var.var_id)
+        pilaOperandos.push(var.var_id)
         pTypes.append(var.var_type)
     except ErrorHandler as error:
         error.type_error()
@@ -516,7 +511,7 @@ def p_check_name(p):
     '''check_name : '''
     try:
         f = VariablesTable.find_function(p[-1])
-        quadStack.add_quad(Operations.ERA, f, '', '')
+        quadList.add_quad(Operations.ERA, f, '', '')
     except ErrorHandler as error:
         error.print(p.lineno(0))
 
