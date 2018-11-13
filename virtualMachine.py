@@ -5,10 +5,19 @@ from quads import Quads
 # Crear memoria de ejecución
 execMemory = Stack()
 
-# apuntador al cuádruplo en ejecición
+# Apuntador al cuádruplo en ejecición
 instruction_pointer = 0
 
-# Subir a memoria lista de cúadruplos, direccion de funciones y tablas de constantes
+# Subir a memoria lista de cúadruplos, direccion de funciones y tablas de constantes ????
+
+# Correr máquina virtual (LEER LA LISTA DE CUADRUPLOS)
+while instruction_pointer <= Quads.index:
+	ReadQuad(Quads.array[instruction_pointer].operator, 
+		Quads.array[instruction_pointer].left_operand , 
+		Quads.array[instruction_pointer].right_operand, 
+		Quads.array[instruction_pointer].result)
+	instruction_pointer += 1
+
 
 # Operaciones del switch
 def PLUS(op1, op2):
@@ -113,11 +122,20 @@ def NOT(op1):
 	aux = not op1
 	Memory[f(Quads[instruction_pointer].result)] = aux
 
-def GOTO():
-	instruction_pointer = Quads[instruction_pointer].result
+def GOTO(go):
+	instruction_pointer = go
 
-def GOTOF():
-	instruction_pointer = Quads[instruction_pointer].result
+def GOTOF(go):
+	instruction_pointer = go
+
+def GOTOV(go):
+	instruction_pointer = go
+
+def ERA():
+	turtle.pendown()
+
+def GOSUB(fun):
+	turtle.pendown()
 
 def COLOR(color):
 	turtle.pencolor(color)
@@ -127,10 +145,9 @@ def CIRCLE(raidus):
 
 def SQUARE():
 	turtle.pendown()
-	for i in range(4)
+	for i in range(4):
 		turtle.forward(80)
 		turtle.left(90)
-	
 
 def TRIANGLE():
 	turtle.pendown()
@@ -154,14 +171,39 @@ def RECTANGLE():
 	turtle.forward(40)
 
 def POLIGON(sides):
+	turtle.pendown()
 	if sides == 5:
-		x
+		turtle.forward(80)
+		turtle.left(90)
+		turtle.forward(40)
+		turtle.left(90)
+		turtle.forward(80)
+		turtle.left(90)
+		turtle.forward(40)
 	elif sides == 6:
-		x
+		turtle.forward(80)
+		turtle.left(90)
+		turtle.forward(40)
+		turtle.left(90)
+		turtle.forward(80)
+		turtle.left(90)
+		turtle.forward(40)
 	elif sides == 7:
-		x
+		turtle.forward(80)
+		turtle.left(90)
+		turtle.forward(40)
+		turtle.left(90)
+		turtle.forward(80)
+		turtle.left(90)
+		turtle.forward(40)
 	elif sides == 8:
-		x
+		turtle.forward(80)
+		turtle.left(90)
+		turtle.forward(40)
+		turtle.left(90)
+		turtle.forward(80)
+		turtle.left(90)
+		turtle.forward(40)
 	else:
 		print("Poligon size from 5 to 8")
 
@@ -184,43 +226,74 @@ def PENON():
 def PENOFF():
 	turtle.penup()
 
-
-# Switch
-def opCode(arg):
-	switch = {
-	1: PLUS,
-	2: MINUS,
-	3: TIMES,
-	4: DIVIDE,
-	5: ASSIGN,
-	6: EQUAL,
-	7: NOTEQUAL,
-	8: GREATER,
-	9: LESSER,
-	10: GREATEROREQUAL,
-	11: LESSEROREQUAL,
-	12: AND,
-	13: OR,
-	14: NOT,
-	15: GOTO,
-	16: GOTOF,
-	17: COLOR,
-	18: CIRCLE,
-	19: SQUARE,
-	20: TRIANGLE,
-	21: RECTANGLE,
-	22: POLIGON,
-	23: ROTATE,
-	24: PENSIZE,
-	25: PENFORWARD,
-	26: PENBACK,
-	27: PENON,
-	28: PENOFF
-	}
-
-# for testing
-# Get the function from switcher dictionary
-    func = switch.get(arg, lambda: "Invalid operation")
-
-# Execute the function
-    print func()
+def ReadQuad(operator, op1, op2, r):
+	if operator == 1:
+		PLUS(op1 , op2, r)
+	elif operator == 2:
+		MINUS(op1 , op2, r)
+	elif operator == 3:
+		TIMES(op1 , op2, r)
+	elif operator == 4:
+		DIVIDE(op1 , op2, r)
+	elif operator == 5:
+		ASSIGN(op1 , op2, r)
+	elif operator == 6:
+		EQUAL(op1 , op2, r)
+	elif operator == 7:
+		NOTEQUAL(op1 , op2, r)
+	elif operator == 8:
+		GREATER(op1 , op2, r)
+	elif operator == 9:
+		LESSER(op1 , op2, r)
+	elif operator == 10:
+		GREATEROREQUAL(op1 , op2, r)
+	elif operator == 11:
+		LESSEROREQUAL(op1 , op2, r)
+	elif operator == 12:
+		AND(op1 , op2, r)
+	elif operator == 13:
+		OR(op1 , op2, r)
+	elif operator == 14:
+		NOT(op1 , op2, r)
+	elif operator == 15:
+		GOTO(op1, op2, r)
+	elif operator == 16:
+		GOTOF(op1 , op2, r)
+	elif operator == 17:
+		GOTOV(op1 , op2, r)
+	elif operator == 18:
+		ERA(op1 , op2, r)
+	elif operator == 19:
+		GOSUB(op1 , op2, r)
+	elif operator == 20:
+		ENDPROC(op1 , op2, r)
+	elif operator == 21:
+		PARAM(op1 , op2, r)
+	elif operator == 22:
+		VER(op1 , op2, r)
+	elif operator == 50:
+		COLOR(op1 , op2, r)
+	elif operator == 51:
+		CIRCLE(op1 , op2, r)
+	elif operator == 52:
+		SQUARE(op1, op2, r)
+	elif operator == 53:
+		TRIANGLE(op1, op2, r)
+	elif operator == 54:
+		RECTANGLE(op1, op2, r)
+	elif operator == 55:
+		POLIGON(op1, op2, r)
+	elif operator == 56:
+		ROTATE(op1, op2, r)
+	elif operator == 57:
+		PENSIZE(op1, op2, r)
+	elif operator == 58:
+		PENFORWARD(op1, op2, r)
+	elif operator == 59:
+		PENBACK(op1, op2, r)
+	elif operator == 60:
+		PENON()
+	elif operator == 61:
+		PENOFF()
+	else:
+		print("Unknown operation code")
