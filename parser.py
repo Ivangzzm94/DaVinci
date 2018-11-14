@@ -23,6 +23,7 @@ pilaOperadores = Stack()
 pTypes = Stack()
 pJumps = Stack()
 
+memory = {}
 vartype = None
 
 # Declaracion de direcciones para globales y temporales
@@ -54,27 +55,47 @@ nextAvailable = {
 }
 
 def p_program(p):
-    '''program : PROGRAM ID SEMICOLON gotomain program1 DAVINCI block'''
+    '''program : PROGRAM ID SEMICOLON gotomain program1 DAVINCI fillmain block'''
+    quadList.print_Quads()
+
+def p_fillmain(p):
+    '''fillmain : empty'''
+    quadList.fill(0, quadList.index)
 
 def p_gotomain(p):
     '''gotomain : empty'''
-    q = Quad(Operations.GOTO, None, None, None)
+    q = Quad(Operations.GOTO.value, None, None, None)
     quadList.add_quad(q)
 
 def p_program1(p):
-    '''program1 : program1 funcs
+    '''program1 : program1 funcs save_funcs
 	| program1 vars global_vars
 	| empty'''
 
-def p_global_vars(p):
-    '''global_vars : '''
+def p_save_funcs(p):
+    '''save_funcs : empty'''
     try:
+
         for var in varList:
             t = var.var_type
             var.dir_virt = nextAvailable['global'][t]
             nextAvailable['global'][t] += 1
             varTable.add_global(var)
-            print("global var")
+            memory[var.dir_virt]
+        varList.clear()
+    except ErrorHandler as e:
+        e.print(p.lineno(1))
+
+def p_global_vars(p):
+    '''global_vars : '''
+    try:
+        global memory
+        for var in varList:
+            t = var.var_type
+            var.dir_virt = nextAvailable['global'][t]
+            nextAvailable['global'][t] += 1
+            varTable.add_global(var)
+            memory[var.dir_virt] = var
         varList.clear()
     except ErrorHandler as e:
         e.print(p.lineno(1))
@@ -175,31 +196,12 @@ def p_end_while(p):
 
 
 def p_assignment(p):
-    '''assignment : ID cte_id ASSIGN expression SEMICOLON
+    '''assignment : ID ASSIGN expression SEMICOLON
 	 | ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON'''
 
 
 def p_cte_id(p):
     '''cte_id : '''
-
-    try:
-        var = VariablesTable.find_variable(p[-1])
-
-        pass
-    except Exception as e:
-        raise
-    else:
-        pass
-    finally:
-        pass
-
-
-# try:
-# 	var = VariablesTable.find_variable(p[-1])
-# 	quads.add_operand(var)
-# except ErrorHandler as e:
-#     e.print(p.lineno(-1))
-#     raise e
 
 def p_color_cte(p):
     '''color_cte : RED
@@ -237,15 +239,15 @@ def p_funcs3(p):
 
 def p_color(p):
     '''color : COLOR LPAREN color_cte RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.COLOR, p[3], '', '')
+    quadList.add_quad(Functions.COLOR, p[3], None, None)
 
 def p_circle(p):
     '''circle : CIRCLE LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.CIRCLE, p[3], '', '')
+    quadList.add_quad(Functions.CIRCLE, p[3], None, None)
 
 def p_square(p):
     '''square : SQUARE LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.SQUARE, p[3], '', '')
+    quadList.add_quad(Functions.SQUARE, p[3], None, None)
 
 def p_triangle(p):
     '''triangle : TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
@@ -253,36 +255,36 @@ def p_triangle(p):
 
 def p_rectangle(p):
     '''rectangle : RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.RECTANGLE, p[3], p[5], '')
+    quadList.add_quad(Functions.RECTANGLE, p[3], p[5], None)
 
 def p_poligon(p):
     '''poligon : POLIGON LPAREN exp COMMA exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.TRIANGLE, p[3], p[5], '')
+    quadList.add_quad(Functions.POLIGON, p[3], p[5], None)
 
 def p_rotate(p):
     '''rotate : ROTATE LPAREN exp RPAREN SEMICOLON
 	| ROTATE LPAREN CTE_STRING RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.ROTATE, p[3], '', '')
+    quadList.add_quad(Functions.ROTATE, p[3], None, None)
 
 def p_pensize(p):
     '''pensize : PENSIZE LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.PENSIZE, p[3], '', '')
+    quadList.add_quad(Functions.PENSIZE, p[3], None, None)
 
 def p_penforward(p):
     '''penforward : PENFORWARD LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.PENFORWARD, p[3], '', '')
+    quadList.add_quad(Functions.PENFORWARD, p[3], None, None)
 
 def p_penback(p):
     '''penback : PENBACK LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.PENBACK, p[3], '', '')
+    quadList.add_quad(Functions.PENBACK, p[3], None, None)
 
 def p_penon(p):
     '''penon : PENON LPAREN RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.PENON, '', '', '')
+    quadList.add_quad(Functions.PENON, None, None, None)
 
 def p_penoff(p):
     '''penoff : PENOFF LPAREN RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.PENOFF, '', '', '')
+    quadList.add_quad(Functions.PENOFF, None, None, None)
 
 def p_type(p):
     '''type : INT
@@ -511,7 +513,7 @@ def p_check_name(p):
     '''check_name : '''
     try:
         f = VariablesTable.find_function(p[-1])
-        quadList.add_quad(Operations.ERA, f, '', '')
+        quadList.add_quad(Operations.ERA, f, None, None)
     except ErrorHandler as error:
         error.print(p.lineno(0))
 

@@ -71,7 +71,8 @@ class Quads:
             self.index -= 1
 
     def print_Quads(self):
-            self.print(self.array)
+            for i in range(0, self.index):
+                print(self.array[i])
 
     def fill(self, position, val):
             self.array[position].result = val

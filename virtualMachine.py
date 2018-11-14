@@ -170,42 +170,10 @@ def RECTANGLE():
 	turtle.left(90)
 	turtle.forward(40)
 
-def POLIGON(sides):
-	turtle.pendown()
-	if sides == 5:
-		turtle.forward(80)
-		turtle.left(90)
-		turtle.forward(40)
-		turtle.left(90)
-		turtle.forward(80)
-		turtle.left(90)
-		turtle.forward(40)
-	elif sides == 6:
-		turtle.forward(80)
-		turtle.left(90)
-		turtle.forward(40)
-		turtle.left(90)
-		turtle.forward(80)
-		turtle.left(90)
-		turtle.forward(40)
-	elif sides == 7:
-		turtle.forward(80)
-		turtle.left(90)
-		turtle.forward(40)
-		turtle.left(90)
-		turtle.forward(80)
-		turtle.left(90)
-		turtle.forward(40)
-	elif sides == 8:
-		turtle.forward(80)
-		turtle.left(90)
-		turtle.forward(40)
-		turtle.left(90)
-		turtle.forward(80)
-		turtle.left(90)
-		turtle.forward(40)
-	else:
-		print("Poligon size from 5 to 8")
+def POLIGON(sides, size):
+	for i in range(1,sides):
+		turtle.forward(size)
+		turtle.left(360/sides)
 
 
 def ROTATE(degree):
