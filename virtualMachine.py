@@ -10,9 +10,83 @@ instruction_pointer = 0
 
 # Subir a memoria lista de cúadruplos, direccion de funciones y tablas de constantes ????
 
+
+# IFSOTE
+def ReadQuad(operator, op1, op2, r):
+	if operator == 1:
+		PLUS(op1 , op2, r)
+	elif operator == 2:
+		MINUS(op1 , op2, r)
+	elif operator == 3:
+		TIMES(op1 , op2, r)
+	elif operator == 4:
+		DIVIDE(op1 , op2, r)
+	elif operator == 5:
+		ASSIGN(op1 , op2, r)
+	elif operator == 6:
+		EQUAL(op1 , op2, r)
+	elif operator == 7:
+		NOTEQUAL(op1 , op2, r)
+	elif operator == 8:
+		GREATER(op1 , op2, r)
+	elif operator == 9:
+		LESSER(op1 , op2, r)
+	elif operator == 10:
+		GREATEROREQUAL(op1 , op2, r)
+	elif operator == 11:
+		LESSEROREQUAL(op1 , op2, r)
+	elif operator == 12:
+		AND(op1 , op2, r)
+	elif operator == 13:
+		OR(op1 , op2, r)
+	elif operator == 14:
+		NOT(op1 , op2, r)
+	elif operator == 15:
+		GOTO(op1, op2, r)
+	elif operator == 16:
+		GOTOF(op1 , op2, r)
+	elif operator == 17:
+		GOTOV(op1 , op2, r)
+	elif operator == 18:
+		ERA(op1 , op2, r)
+	elif operator == 19:
+		GOSUB(op1 , op2, r)
+	elif operator == 20:
+		ENDPROC(op1 , op2, r)
+	elif operator == 21:
+		PARAM(op1 , op2, r)
+	elif operator == 22:
+		VER(op1 , op2, r)
+	elif operator == 50:
+		COLOR(op1 , op2, r)
+	elif operator == 51:
+		CIRCLE(op1 , op2, r)
+	elif operator == 52:
+		SQUARE(op1, op2, r)
+	elif operator == 53:
+		TRIANGLE(op1, op2, r)
+	elif operator == 54:
+		RECTANGLE(op1, op2, r)
+	elif operator == 55:
+		POLIGON(op1, op2, r)
+	elif operator == 56:
+		ROTATE(op1, op2, r)
+	elif operator == 57:
+		PENSIZE(op1, op2, r)
+	elif operator == 58:
+		PENFORWARD(op1, op2, r)
+	elif operator == 59:
+		PENBACK(op1, op2, r)
+	elif operator == 60:
+		PENON()
+	elif operator == 61:
+		PENOFF()
+	else:
+		print("Unknown operation code")
+
 # Correr máquina virtual (LEER LA LISTA DE CUADRUPLOS)
 while instruction_pointer <= quadList.index:
-	ReadQuad(quadList[instruction_pointer].operator, 
+	ReadQuad(quadList.array[instruction_pointer].operator, 
 		quadList[instruction_pointer].left_operand , 
 		quadList[instruction_pointer].right_operand, 
 		quadList[instruction_pointer].result)
@@ -200,75 +274,3 @@ def PENON():
 
 def PENOFF():
 	turtle.penup()
-
-def ReadQuad(operator, op1, op2, r):
-	if operator == 1:
-		PLUS(op1 , op2, r)
-	elif operator == 2:
-		MINUS(op1 , op2, r)
-	elif operator == 3:
-		TIMES(op1 , op2, r)
-	elif operator == 4:
-		DIVIDE(op1 , op2, r)
-	elif operator == 5:
-		ASSIGN(op1 , op2, r)
-	elif operator == 6:
-		EQUAL(op1 , op2, r)
-	elif operator == 7:
-		NOTEQUAL(op1 , op2, r)
-	elif operator == 8:
-		GREATER(op1 , op2, r)
-	elif operator == 9:
-		LESSER(op1 , op2, r)
-	elif operator == 10:
-		GREATEROREQUAL(op1 , op2, r)
-	elif operator == 11:
-		LESSEROREQUAL(op1 , op2, r)
-	elif operator == 12:
-		AND(op1 , op2, r)
-	elif operator == 13:
-		OR(op1 , op2, r)
-	elif operator == 14:
-		NOT(op1 , op2, r)
-	elif operator == 15:
-		GOTO(op1, op2, r)
-	elif operator == 16:
-		GOTOF(op1 , op2, r)
-	elif operator == 17:
-		GOTOV(op1 , op2, r)
-	elif operator == 18:
-		ERA(op1 , op2, r)
-	elif operator == 19:
-		GOSUB(op1 , op2, r)
-	elif operator == 20:
-		ENDPROC(op1 , op2, r)
-	elif operator == 21:
-		PARAM(op1 , op2, r)
-	elif operator == 22:
-		VER(op1 , op2, r)
-	elif operator == 50:
-		COLOR(op1 , op2, r)
-	elif operator == 51:
-		CIRCLE(op1 , op2, r)
-	elif operator == 52:
-		SQUARE(op1, op2, r)
-	elif operator == 53:
-		TRIANGLE(op1, op2, r)
-	elif operator == 54:
-		RECTANGLE(op1, op2, r)
-	elif operator == 55:
-		POLIGON(op1, op2, r)
-	elif operator == 56:
-		ROTATE(op1, op2, r)
-	elif operator == 57:
-		PENSIZE(op1, op2, r)
-	elif operator == 58:
-		PENFORWARD(op1, op2, r)
-	elif operator == 59:
-		PENBACK(op1, op2, r)
-	elif operator == 60:
-		PENON()
-	elif operator == 61:
-		PENOFF()
-	else:
-		print("Unknown operation code")

@@ -67,6 +67,11 @@ def p_gotomain(p):
     q = Quad(Operations.GOTO.value, None, None, None)
     quadList.add_quad(q)
 
+    f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
+    f.write(str(quadList.array[0])) #escribir en el archivo el cuádruplo
+    f.close() # Cerrar el archivo de texto
+
+
 def p_program1(p):
     '''program1 : program1 funcs save_funcs
 	| program1 vars global_vars
