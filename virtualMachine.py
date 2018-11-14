@@ -1,6 +1,6 @@
 from turtle import *
 from stack import Stack
-from quads import Quads
+from parser import quadList
 
 # Crear memoria de ejecución
 execMemory = Stack()
@@ -11,116 +11,123 @@ instruction_pointer = 0
 # Subir a memoria lista de cúadruplos, direccion de funciones y tablas de constantes ????
 
 # Correr máquina virtual (LEER LA LISTA DE CUADRUPLOS)
-while instruction_pointer <= Quads.index:
-	ReadQuad(Quads.array[instruction_pointer].operator, 
-		Quads.array[instruction_pointer].left_operand , 
-		Quads.array[instruction_pointer].right_operand, 
-		Quads.array[instruction_pointer].result)
+while instruction_pointer <= quadList.index:
+	ReadQuad(quadList[instruction_pointer].operator, 
+		quadList[instruction_pointer].left_operand , 
+		quadList[instruction_pointer].right_operand, 
+		quadList[instruction_pointer].result)
 	instruction_pointer += 1
-
 
 # Operaciones del switch
 def PLUS(op1, op2):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = Quads[instruction_pointer].left_operand
-	op2 = Memory[rigth_operand_dir - Base(type)]
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
 	aux = op1 + op2
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def MINUS(op1, op2):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = Quads[instruction_pointer].left_operand
-	op2 = Memory[rigth_operand_dir - Base(type)]
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
 	aux = op1 - op2
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def TIMES(op1, op2):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = Quads[instruction_pointer].left_operand
-	op2 = Memory[rigth_operand_dir - Base(type)]
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
 	aux = op1 * op2
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def DIVIDE(op1, op2):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = Quads[instruction_pointer].left_operand
-	op2 = Memory[rigth_operand_dir - Base(type)]
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
 	aux = op1 / op2
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	Memory[f(quadList[instruction_pointer].result)] = aux
+
+def ASSIGN(op1, op2):
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
+	op1 = op2
+	Memory[f(quadList[instruction_pointer].result)] = op1
 
 def EQUAL(op1, op2):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = Quads[instruction_pointer].left_operand
-	op2 = Memory[rigth_operand_dir - Base(type)]
-	aux = op1 = op2
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
+	aux = op1 == op2
+	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def NOTEQUAL(op1, op2):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = Quads[instruction_pointer].left_operand
-	op2 = Memory[rigth_operand_dir - Base(type)]
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
 	aux = op1 != op2
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def GREATER(op1, op2):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = Quads[instruction_pointer].left_operand
-	op2 = Memory[rigth_operand_dir - Base(type)]
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
 	aux = op1 > op2
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def LESSER(op1, op2):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = Quads[instruction_pointer].left_operand
-	op2 = Memory[rigth_operand_dir - Base(type)]
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
 	aux = op1 < op2
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def GREATEROREQUAL(op1, op2):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = Quads[instruction_pointer].left_operand
-	op2 = Memory[rigth_operand_dir - Base(type)]
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
 	aux = op1 >= op2
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def LESSEROREQUAL(op1, op2):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = Quads[instruction_pointer].left_operand
-	op2 = Memory[rigth_operand_dir - Base(type)]
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
 	aux = op1 <= op2
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def AND(op1, op2):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = Quads[instruction_pointer].left_operand
-	op2 = Memory[rigth_operand_dir - Base(type)]
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
 	aux = op1 and op2
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def OR(op1, op2):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
-	op2_dir = Quads[instruction_pointer].left_operand
-	op2 = Memory[rigth_operand_dir - Base(type)]
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
+	op2_dir = quadList[instruction_pointer].right_operand
+	op2 = Memory[op2_dir - Base(type)]
 	aux = op1 or op2
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def NOT(op1):
-	op1_dir = Quads[instruction_pointer].rigth_operand
-	op1 = Memory[left_operand_dir - Base(type)]
+	op1_dir = quadList[instruction_pointer].left_operand
+	op1 = Memory[op1_dir - Base(type)]
 	aux = not op1
-	Memory[f(Quads[instruction_pointer].result)] = aux
+	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def GOTO(go):
 	instruction_pointer = go
