@@ -3,21 +3,21 @@ from errors import ErrorHandler
 
 class Variable:
 
-    def __init__(self, var_id, var_type, dir_virt = None):
+    def __init__(self, var_id, var_type, value):
         self.var_id = var_id
         self.var_type = var_type
-        self.dir_virt = dir_virt
+        self.dir_virt = None
         self.size = 1
-        self.value = [None]
+        self.value = value
 
     def __repr__(self):
-        return str(self.var_id) + ', ' + str(self.var_type) + ', ' + str(self.dir_virt)
+        return str(self.var_id) + ', ' + str(self.var_type) + ', ' + str(self.value) + ', ' + str(self.dir_virt)
 
 class Memory:
     def __init__(self):
         self.memory = {}
 
-    def nextAvailable(self, context_cont, type, size):
+    def nextAvailable(self, context_cont, type, size, value):
         #Cada contexto tiene 10,000 espacios en memoria
         offset = 0 + 10000 * context_cont
 
@@ -31,7 +31,10 @@ class Memory:
                     break
                 nextAvailable += 1                                  #mientras estan ocupadas aumenta una y checa la próxima
             for dir in range(nextAvailable, nextAvailable + size):
-                    self.memoria[dir] = "TAKEN"                     #"toma" la casilla/s para la variable
+                if value != None:
+                    self.memoria[dir] = value                       #asigna el valor o "toma" la casilla/s para la variable
+                else:
+                    self.memoria[dir] = "TAKEN"
             return nextAvailable
 
         elif type == Type.FLOAT.value:

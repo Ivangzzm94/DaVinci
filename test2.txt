@@ -1,5 +1,5 @@
 program a; 
-var Int miguel;
+var Int miguel = 1;
 DaVinci {
     miguel = 0;
 }
