@@ -77,7 +77,7 @@ t_LBRACKET = r'\['
 t_RBRACKET = r'\]'
 t_COMMA = r','
 t_SEMICOLON = r';'
-t_LIST = r'\[[0-9]*\]'
+#t_LIST = r'\[[0-9]*\]'
 t_CTE_STRING = r'\".*\"'
 
 # ID token definition

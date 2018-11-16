@@ -3,15 +3,15 @@ from errors import ErrorHandler
 
 class Variable:
 
-    def __init__(self, var_id, var_type, value):
+    def __init__(self, var_id, var_type, size, value):
         self.var_id = var_id
         self.var_type = var_type
         self.dir_virt = None
-        self.size = 1
+        self.size = size
         self.value = value
 
     def __repr__(self):
-        return str(self.var_id) + ', ' + str(self.size) + ', ' + str(self.var_type) + ', ' + str(self.value) + ', ' + str(self.dir_virt)
+        return str(self.var_id) +  ', ' + str(self.var_type) + ', ' + str(self.size) + ', ' + str(self.value) + ', ' + str(self.dir_virt)
 
 class Memory:
     def __init__(self):
@@ -121,3 +121,7 @@ class Memory:
                 nextConstant += 1
             self.memory[nextConstant] = value
             return nextConstant
+
+    def printVars(self):
+        for var in self.memory.items():
+            print(self.memory[var])

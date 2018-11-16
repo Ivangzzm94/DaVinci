@@ -10,10 +10,11 @@ class VariablesTable:
 		self._functions = {}
 
 	def printVars(self):
-		print("Globales: ")
+		print('VARIABLES:')
+		print("\nGlobales: ")
 		for i in self._global.items():
 			print(i)
-		print("Locales: ")
+		print("\nLocales: ")
 		for i in self._local.items():
 			print(i)
 
