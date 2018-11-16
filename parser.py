@@ -27,7 +27,8 @@ context_cont = 0
 
 def p_program(p):
     '''program : PROGRAM ID SEMICOLON gotomain program1 DAVINCI fillmain block'''
-    quadList.print_Quads()
+    #quadList.print_Quads()
+    varTable.printVars()
 
 def p_fillmain(p):
     '''fillmain : '''
@@ -51,10 +52,8 @@ def p_global_vars(p):
     try:
         global memory
         for var in varList:
-            dv = memory.nextAvailable(context_cont, var.size, var.var_type, var.value)
-            var.dir_virt = dv
+            var.dir_virt = memory.putVarInMemory(context_cont, var.var_type, var.size, var.value)
             varTable.add_global(var)
-            print(var)
         varList.clear()
     except ErrorHandler as e:
         e.print(p.lineno(1))
@@ -62,24 +61,20 @@ def p_global_vars(p):
 def p_block(p):
     '''block : LBRACE b1 RBRACE'''
 
-
 def p_b1(p):
     '''b1 : vars local_vars b2
 	| b2'''
-
 
 def p_local_vars(p):
     '''local_vars : '''
     try:
         global varList
         for var in varList:
-            var.dir_virt = memory.nextAvailable(context_cont, var.size, var.var_type, var.value)
+            var.dir_virt = memory.putVarInMemory(context_cont, var.size, var.var_type, var.value)
             varTable.add_local(var)
-            print(var)
         varList.clear()
     except ErrorHandler as e:
         e.print(p.lineno(1))
-
 
 def p_b2(p):
     '''b2 : b2 statute
@@ -97,15 +92,11 @@ def p_vars3(p):
     '''vars3 : ID ASSIGN expression  vars4
 	| ID list vars4
 	| ID vars4'''
-    print (len(p))
     if len(p) > 4:
         v = Variable(p[1], p[-1], p[3])
     else:
         v = Variable(p[1], p[-1], None)
     varList.append(v)
-
-def p_setvalue(p):
-    '''setvalue : '''
 
 def p_vars4(p):
     '''vars4 : COMMA vars3
@@ -137,15 +128,12 @@ def p_statute(p):
 	 | penon
 	 | penoff'''
 
-
 def p_while(p):
     '''while : WHILE while_return LPAREN type_check expression RPAREN LBRACE b2 RBRACE end_while'''
-
 
 def p_while_return(p):
     '''while_return :'''
     pJumps.push(quadList.index)
-
 
 def p_end_while(p):
     '''end_while :'''
@@ -154,11 +142,9 @@ def p_end_while(p):
     Quad.init(Operations.GOTO, None, None, ret)
     quadList.fill(quadList.index, end)
 
-
 def p_assignment(p):
     '''assignment : ID ASSIGN expression SEMICOLON
 	 | ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON'''
-
 
 def p_cte_id(p):
     '''cte_id : '''
@@ -170,32 +156,37 @@ def p_color_cte(p):
 		| GREEN
 		| PINK
 		| PURPLE'''
+    if p[1] == 'red':
+        p[0] = Color.RED.value
+    if p[1] == 'blue':
+        p[0] = Color.BLUE.value
+    if p[1] == 'yellow':
+        p[0] = Color.YELLOW.value
+    if p[1] == 'pink':
+        p[0] = Color.PINK.value
+    if p[1] == 'purple':
+        p[0] = Color.PURPLE.value
 
 def p_st_cte(p):
     '''st_cte : STRING
 		| cte_bool'''
 
-
 def p_funcs(p):
     '''funcs : FUNC type ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
 	| FUNC VOID ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3 '''
 
-
 def p_funcs1(p):
     '''funcs1 : funcs1 COMMA type ID
 	| empty'''
-
 
 def p_funcs2(p):
     '''funcs2 : funcs2 vars
 	| funcs2 statute
 	| empty '''
 
-
 def p_funcs3(p):
     '''funcs3 : funcs
 	| empty'''
-
 
 def p_color(p):
     '''color : COLOR LPAREN color_cte RPAREN SEMICOLON'''
@@ -251,7 +242,14 @@ def p_type(p):
 			| FLOAT
 			| STRING
 			| BOOL'''
-    p[0] = p[1]
+    if p[1] == 'Int':
+        p[0] = Type.INT.value
+    elif p[1] == 'Float':
+        p[0] = Type.FLOAT.value
+    elif p[1] == 'String':
+        p[0] = Type.STRING.value
+    elif p[1] == 'Bool':
+        p[0] = Type.BOOL.value
 
 def p_var_cte(p):
     '''var_cte : ID getidvalue
@@ -260,23 +258,28 @@ def p_var_cte(p):
 				| cte_bool getvalue_b
 				| ID list getarrayvalue
 				| call getcallvalue'''
+    if len(p) > 3:
+        p[0] = p[3]
+    else:
+        p[0] = p[2]
 
 def p_getidvalue(p):
     '''getidvalue : '''
     id = p[-1]
-    p[-2] = varTable.find_variable(id)
+    p[0] = varTable.find_variable(id)
 
 def p_getvalue_i(p):
     '''getvalue_i : '''
-    p[-2] = memory.nextConstant(Type.INT.value, p[-1])
+    dir = memory.putConsInMemory(Type.INT.value, p[-1])
+    p[0] = dir
 
-def p_getvalue(p):
+def p_getvalue_f(p):
     '''getvalue_f : '''
-    p[-2] = memory.nextConstant(Type.FLOAT.value, p[-1])
+    p[0] = memory.putConsInMemory(Type.FLOAT.value, p[-1])
 
-def p_getvalue(p):
+def p_getvalue_b(p):
     '''getvalue_b : '''
-    p[-2] = memory.nextConstant(Type.BOOL.value, p[-1])
+    p[0] = memory.putConsInMemory(Type.BOOL.value, p[-1])
 
 def p_getarrayvalue(p):
     '''getarrayvalue : '''
@@ -292,15 +295,12 @@ def p_cte_bool(p):
     '''cte_bool : TRUE
 	| FALSE'''
 
-
 def p_condition(p):
     '''condition : IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if'''
-
 
 def p_condition1(p):
     '''condition1 : gotoElse ELSE LBRACE b2 RBRACE
 	| empty'''
-
 
 def p_type_check(p):
     '''type_check :'''
@@ -313,7 +313,6 @@ def p_type_check(p):
         quadList.add_quad(q)
         pJumps.push(quadList.index)
 
-
 def p_gotoElse(p):
     '''gotoElse :'''
     q = Quad.init(Operations.GOTO, None, None, None)
@@ -322,16 +321,14 @@ def p_gotoElse(p):
     pJumps.push(quadList.index)
     quadList.fill(quadList.index, false)
 
-
 def p_end_if(p):
     '''end_if :'''
     end = pJumps.pop()
     quadList.fill(quadList.index, end)
 
-
 def p_expression(p):
     '''expression : exp expression1'''
-
+    p[0] = p[1]
 
 def p_expression1(p):
     '''expression1 : LESSER relop exp top_relop
@@ -341,7 +338,6 @@ def p_expression1(p):
 	| GREATEROREQUAL relop exp top_relop
     | LESSEROREQUAL relop exp top_relop
     | empty'''
-
 
 def p_relop(p):
     '''relop :'''
@@ -368,9 +364,9 @@ def p_top_relop(p):
         l_operand = pilaOperandos.pop()
         l_type = pTypes.pop()
         result_type = SemanticCube.getType(l_type, r_type, operator)
-        if result_type != "Error":
+        if result_type != Type.ERROR.value:
             # calcular resultado
-            result = memory.nextAvailable(-1, Type.BOOL.value, 1, None)
+            result = memory.putVarInMemory(-1, Type.BOOL.value, 1, None)
             q = Quad.init(operator, l_operand, r_operand, result)
             quadList.add_quad(q)
             pilaOperandos.push(result)
@@ -384,13 +380,12 @@ def p_top_relop(p):
 
 def p_exp(p):
     '''exp : term top_exp exp1'''
-
+    p[0] = p[1]
 
 def p_exp1(p):
     '''exp1 : MINUS push_sign exp
 	| PLUS push_sign exp
 	| empty'''
-
 
 def p_top_exp(p):
     '''top_exp : '''
@@ -401,8 +396,8 @@ def p_top_exp(p):
         l_operand = pilaOperandos.pop()
         l_type = pTypes.pop()
         result_type = SemanticCube.getType(l_type, r_type, operator)
-        if result_type != "Error":
-            result = memory.nextAvailable(-1, result_type, 1, None)
+        if result_type != Type.ERROR.value:
+            result = memory.putVarInMemory(-1, result_type, 1, None)
             q = Quad.init(operator, l_operand, r_operand, result)
             quadList.add_quad(q)
             pilaOperandos.push(result)
@@ -412,7 +407,6 @@ def p_top_exp(p):
     # raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR***********
     else:
         pilaOperadores.push(operator)
-
 
 def p_push_sign(p):
     '''push_sign :'''
@@ -427,7 +421,6 @@ def p_push_sign(p):
     if sign is "-":
         pilaOperadores.push(Operations.MINUS.value)
 
-
 def p_top_factor(p):
     '''top_factor :'''
     operator = pilaOperadores.top()
@@ -437,9 +430,9 @@ def p_top_factor(p):
         l_operand = pilaOperandos.pop()
         l_type = pTypes.pop()
         result_type = SemanticCube.getType(l_type, r_type, operator)
-        if result_type != "Error":
+        if result_type != Type.ERROR.value:
             # calcular resultado
-            result = memory.nextAvailable(-1, result_type, 1, None)
+            result = memory.putVarInMemory(-1, result_type, 1, None)
             q = Quad.init(operator, l_operand, r_operand, result)
             quadList.add_quad(q)
             pilaOperandos.push(result)
@@ -450,24 +443,21 @@ def p_top_factor(p):
     else:
         pilaOperadores.push(operator)
 
-
 def p_factor(p):
     '''factor : LPAREN false_bottom expression RPAREN end_par
 	| var_cte
 	| ID push_id'''
-
+    p[0] = p[1]
 
 def p_false_bottom(p):
     '''false_bottom :'''
     if p[-1] is "(":
         pilaOperadores.push(Operations.LPAREN)
 
-
 def p_end_par(p):
     '''end_par :'''
     if p[-1] is ")":
         pilaOperadores.pop()
-
 
 def p_push_id(p):
     '''push_id : '''
@@ -479,16 +469,14 @@ def p_push_id(p):
         error.type_error()
         raise error
 
-
 def p_term(p):
     '''term : factor top_factor term1'''
-
+    p[0] = p[1]
 
 def p_term1(p):
     '''term1 : DIVIDE push_sign term
 		| TIMES push_sign term
 		| empty'''
-
 
 def p_call(p):
     '''call : ID check_name LPAREN create_era call1 RPAREN SEMICOLON gosub'''
@@ -512,20 +500,16 @@ def p_call1(p):
 	| exp
 	| st_cte'''
 
-
 def p_return(p):
     '''return : RETURN var_cte SEMICOLON
 			| RETURN st_cte SEMICOLON'''
-
 
 def p_empty(p):
     '''empty :'''
     pass
 
-
 def p_error(p):
     print("Unexpected {} at line {}".format(p.value, p.lexer.lineno))
-
 
 parser_DaVinci = yacc.yacc()
 

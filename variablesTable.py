@@ -9,12 +9,20 @@ class VariablesTable:
 		self._local = {}
 		self._functions = {}
 
+	def printVars(self):
+		print("Globales: ")
+		for i in self._global.items():
+			print(i)
+		print("Locales: ")
+		for i in self._local.items():
+			print(i)
+
+
 	def add_global(self, instance):
 		if instance.var_id in self._global:
 			raise ErrorHandler.redefined_variable(instance.var_id)
 		else:
 			self._global[instance.var_id] = instance
-			print(instance)
 
 	def add_local(self, instance):
 		if instance.var_id in self._local:

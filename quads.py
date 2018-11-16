@@ -45,6 +45,15 @@ class Type(IntEnum):
     FLOAT = 91
     STRING = 92
     BOOL = 93
+    ERROR = 94
+
+class Color(IntEnum):
+    RED = 100
+    BLUE = 101
+    YELLOW = 102
+    GREEN = 103
+    PINK = 104
+    PURPLE = 105
 
 class Quad:
     def __init__(self, operator, left_operand=None, right_operand=None, result=None):
