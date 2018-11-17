@@ -45,6 +45,15 @@ class Type(IntEnum):
     FLOAT = 91
     STRING = 92
     BOOL = 93
+    ERROR = 94
+
+class Color(IntEnum):
+    RED = 100
+    BLUE = 101
+    YELLOW = 102
+    GREEN = 103
+    PINK = 104
+    PURPLE = 105
 
 class Quad:
     def __init__(self, operator, left_operand=None, right_operand=None, result=None):
@@ -54,7 +63,7 @@ class Quad:
         self.result = result
 
     def __repr__(self):
-        return str(self.operator) + ', ' + str(self.left_operand) + ', ' + str(self.right_operand) + ', ' + str(self.result)
+        return 'Op: ' + str(self.operator) + ', ' + 'Izq: ' + str(self.left_operand) + ', ' + 'Der: ' + str(self.right_operand) + ', ' + 'Res: ' + str(self.result)
 
 class Quads:
 
@@ -71,8 +80,10 @@ class Quads:
             self.index -= 1
 
     def print_Quads(self):
-            for i in range(0, self.index):
-                print(self.array[i])
+        print("Lista de cuadruplos: ")
+        for i in range(0, self.index):
+            print(i, self.array[i])
+        print("\n")
 
     def fill(self, position, val):
             self.array[position].result = val

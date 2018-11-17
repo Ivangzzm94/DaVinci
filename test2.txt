@@ -1,5 +1,3 @@
 program a; 
-var Int miguel;
-DaVinci {
-    miguel = 0;
-}
+var Int entero = 12 + 1;
+DaVinci {}
