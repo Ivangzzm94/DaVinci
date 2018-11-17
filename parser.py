@@ -515,7 +515,7 @@ def p_term1(p):
     '''term1 : DIVIDE push_sign term
 		| TIMES push_sign term
 		| empty'''
-    if len(p) > 2:
+   # if len(p) > 2:
 
 
 

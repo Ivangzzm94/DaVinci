@@ -197,6 +197,7 @@ def NOT(op1):
 	Memory[f(quadList[instruction_pointer].result)] = aux
 
 def GOTO(go):
+	print("SI JALA")
 	instruction_pointer = go
 	wn = turtle.Screen()
 	turtle.pendown()
@@ -286,15 +287,5 @@ with open("quads.txt") as file:
 	text = file.read()
 List = [l for l in [lines.split(", ") for lines in text.split("\n")]]
 
-print(List)
-
-
-# with open("quads.txt") as f:
-# 	for line in f:
-# 		fields = line.split(", ")
-# 		field1 = int(fields[0])
-# 		field2 = (fields[1])
-# 		field3 = (fields[2])
-# 		field4 = int(fields[3])
-# 		#print(field1, field2, field3, field4)
-# 		ReadQuad(field1,field2, field3, field4)
+for i in range(len(List)):
+	ReadQuad(int(List[i][0]), List[i][1], List[i][2], int(List[i][3]))
