@@ -1,5 +1,6 @@
-from turtle import *
+import turtle
 from stack import Stack
+from quads import Quads
 from parser import quadList
 
 # Crear memoria de ejecución
@@ -42,7 +43,7 @@ def ReadQuad(operator, op1, op2, r):
 	elif operator == 14:
 		NOT(op1 , op2, r)
 	elif operator == 15:
-		GOTO(op1, op2, r)
+		GOTO(r)
 	elif operator == 16:
 		GOTOF(op1 , op2, r)
 	elif operator == 17:
@@ -83,14 +84,6 @@ def ReadQuad(operator, op1, op2, r):
 		PENOFF()
 	else:
 		print("Unknown operation code")
-
-# Correr máquina virtual (LEER LA LISTA DE CUADRUPLOS)
-while instruction_pointer <= quadList.index:
-	ReadQuad(quadList.array[instruction_pointer].operator, 
-		quadList[instruction_pointer].left_operand , 
-		quadList[instruction_pointer].right_operand, 
-		quadList[instruction_pointer].result)
-	instruction_pointer += 1
 
 # Operaciones del switch
 def PLUS(op1, op2):
@@ -205,6 +198,16 @@ def NOT(op1):
 
 def GOTO(go):
 	instruction_pointer = go
+	wn = turtle.Screen()
+	turtle.pendown()
+	turtle.forward(80)
+	turtle.left(90)
+	turtle.forward(40)
+	turtle.left(90)
+	turtle.forward(80)
+	turtle.left(90)
+	turtle.forward(40)
+	wn.exitonclick()
 
 def GOTOF(go):
 	instruction_pointer = go
@@ -274,3 +277,24 @@ def PENON():
 
 def PENOFF():
 	turtle.penup()
+
+# Correr máquina virtual      CHECAR COMO SE VA A MOVER LA LECTURA CUANDO HAYA UN GOTO
+# List = open("quads.txt").readlines()
+#List = [line.split(", ") for line in open("quads.txt")]
+
+with open("quads.txt") as file:
+	text = file.read()
+List = [l for l in [lines.split(", ") for lines in text.split("\n")]]
+
+print(List)
+
+
+# with open("quads.txt") as f:
+# 	for line in f:
+# 		fields = line.split(", ")
+# 		field1 = int(fields[0])
+# 		field2 = (fields[1])
+# 		field3 = (fields[2])
+# 		field4 = int(fields[3])
+# 		#print(field1, field2, field3, field4)
+# 		ReadQuad(field1,field2, field3, field4)

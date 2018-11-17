@@ -58,6 +58,10 @@ def p_program(p):
     '''program : PROGRAM ID SEMICOLON gotomain program1 DAVINCI fillmain block'''
     quadList.print_Quads()
 
+    f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
+    f.write(str(quadList.array[0])) #escribir en el archivo el cuádruplo
+    f.close() # Cerrar el archivo de texto
+
 def p_fillmain(p):
     '''fillmain : empty'''
     quadList.fill(0, quadList.index)
@@ -66,11 +70,6 @@ def p_gotomain(p):
     '''gotomain : empty'''
     q = Quad(Operations.GOTO.value, None, None, None)
     quadList.add_quad(q)
-
-    f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
-    f.write(str(quadList.array[0])) #escribir en el archivo el cuádruplo
-    f.close() # Cerrar el archivo de texto
-
 
 def p_program1(p):
     '''program1 : program1 funcs save_funcs
