@@ -7,6 +7,7 @@ from quads import Quads
 execMemory = Stack()
 
 # Apuntador al cuádruplo en ejecición
+global instruction_pointer
 instruction_pointer = 0
 
 # Subir a memoria lista de cúadruplos, direccion de funciones y tablas de constantes ????
@@ -93,6 +94,7 @@ def PLUS(op1, op2):
 	op2 = Memory[op2_dir - Base(type)]
 	aux = op1 + op2
 	Memory[f(quadList[instruction_pointer].result)] = aux
+	instruction_pointer += 1
 
 def MINUS(op1, op2):
 	op1_dir = quadList[instruction_pointer].left_operand
@@ -215,7 +217,6 @@ def COLOR(color):
 	turtle.pencolor(color)
 
 def CIRCLE(radius):
-	print(radius)
 	wn = turtle.Screen()
 	turtle.circle(int(radius), None, None)
 
@@ -277,7 +278,17 @@ List = [l for l in [lines.split(", ") for lines in text.split("\n")]]
 
 wn = turtle.Screen()
 
-for i in range(len(List)):
-	ReadQuad(int(List[i][0]), List[i][1], List[i][2], List[i][3])
+# i = 0
+# while i < len(List):
+# 	print(int(List[i][0]), List[i][1], List[i][2], List[i][3])
+while instruction_pointer < len(List):
+	print(List[instruction_pointer][3])
+	if int(List[instruction_pointer][0]) == 15:
+		instruction_pointer = int(List[instruction_pointer][3])
+	else:
+		ReadQuad(int(List[instruction_pointer][0]), List[instruction_pointer][1], List[instruction_pointer][2], List[instruction_pointer][3])
+		instruction_pointer += 1
+# for i in range(len(List)):
+# 	ReadQuad(int(List[i][0]), List[i][1], List[i][2], List[i][3])
 
 wn.exitonclick()
