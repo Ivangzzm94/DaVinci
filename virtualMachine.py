@@ -270,7 +270,7 @@ def PENOFF():
 	turtle.penup()
 
 
-# Leer lista de cúadruplos y meterlos a la lista "List"
+# Lee lista de cúadruplos y los meto a "List"
 with open("quads.txt") as file:
 	text = file.read()
 
@@ -278,9 +278,6 @@ List = [l for l in [lines.split(", ") for lines in text.split("\n")]]
 
 wn = turtle.Screen()
 
-# i = 0
-# while i < len(List):
-# 	print(int(List[i][0]), List[i][1], List[i][2], List[i][3])
 while instruction_pointer < len(List):
 	print(List[instruction_pointer][3])
 	if int(List[instruction_pointer][0]) == 15:
@@ -288,7 +285,5 @@ while instruction_pointer < len(List):
 	else:
 		ReadQuad(int(List[instruction_pointer][0]), List[instruction_pointer][1], List[instruction_pointer][2], List[instruction_pointer][3])
 		instruction_pointer += 1
-# for i in range(len(List)):
-# 	ReadQuad(int(List[i][0]), List[i][1], List[i][2], List[i][3])
 
 wn.exitonclick()
