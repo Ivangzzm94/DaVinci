@@ -55,6 +55,10 @@ class Color(IntEnum):
     PINK = 104
     PURPLE = 105
 
+class Values(IntEnum):
+    TRUE = 200
+    FALSE = 201
+
 class Quad:
     def __init__(self, operator, left_operand=None, right_operand=None, result=None):
         self.operator = operator
@@ -82,7 +86,7 @@ class Quads:
     def print_Quads(self):
         print("Lista de cuadruplos: ")
         for i in range(0, self.index):
-            print(i, self.array[i])
+            print(i, ':', self.array[i])
         print("\n")
 
     def fill(self, position, val):

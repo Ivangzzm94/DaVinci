@@ -18,7 +18,6 @@ class VariablesTable:
 		for i in self._local.items():
 			print(i)
 
-
 	def add_global(self, instance):
 		if instance.var_id in self._global:
 			raise ErrorHandler.redefined_variable(instance.var_id)

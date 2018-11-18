@@ -11,7 +11,7 @@ class Variable:
         self.value = value
 
     def __repr__(self):
-        return str(self.var_id) +  ', ' + str(self.var_type) + ', ' + str(self.size) + ', ' + str(self.value) + ', ' + str(self.dir_virt)
+        return 'id: ' + str(self.var_id) +  ', ' + 'type: ' + str(self.var_type) + ', ' + 'size: ' + str(self.size) + ', ' + 'value(dir): ' + str(self.value) + ', ' + 'dv: ' + str(self.dir_virt)
 
 class Memory:
     def __init__(self):
