@@ -419,6 +419,7 @@ def p_top_exp(p):
     '''top_exp : '''
     operator = pilaOperadores.top()
     if operator == Operations.PLUS.value or operator == Operations.MINUS.value:
+        operator = pilaOperadores.pop()
         r_operand = pilaOperandos.pop()
         r_type = pTypes.pop()
         l_operand = pilaOperandos.pop()
@@ -454,6 +455,7 @@ def p_top_factor(p):
     '''top_factor :'''
     operator = pilaOperadores.top()
     if operator == Operations.TIMES.value or operator == Operations.DIVIDE.value:
+        operator = pilaOperadores.pop()
         r_operand = pilaOperandos.pop()
         r_type = pTypes.pop()
         l_operand = pilaOperandos.pop()
@@ -468,7 +470,6 @@ def p_top_factor(p):
             pTypes.push(result_type)
         else:
             ErrorHandler.print(p.lineno(-1))
-    # raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR
     else:
         pilaOperadores.push(operator)
     print("top factor")
@@ -516,9 +517,6 @@ def p_term1(p):
     '''term1 : DIVIDE push_sign term
 		| TIMES push_sign term
 		| empty'''
-    if len(p) > 2:
-
-
 
 def p_call(p):
     '''call : ID check_name LPAREN create_era call1 RPAREN SEMICOLON gosub'''
