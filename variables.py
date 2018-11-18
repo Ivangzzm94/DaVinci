@@ -3,15 +3,16 @@ from errors import ErrorHandler
 
 class Variable:
 
-    def __init__(self, var_id, var_type, size, value):
+    def __init__(self, var_id, var_type, size, value, context):
         self.var_id = var_id
         self.var_type = var_type
         self.dir_virt = None
         self.size = size
         self.value = value
+        self.context = context
 
     def __repr__(self):
-        return 'id: ' + str(self.var_id) +  ', ' + 'type: ' + str(self.var_type) + ', ' + 'size: ' + str(self.size) + ', ' + 'value(dir): ' + str(self.value) + ', ' + 'dv: ' + str(self.dir_virt)
+        return 'id: ' + str(self.var_id) +  ', ' + 'type: ' + str(self.var_type) + ', ' + 'size: ' + str(self.size) + ', ' + 'dv: ' + str(self.dir_virt)
 
 class Memory:
     def __init__(self):
@@ -19,7 +20,7 @@ class Memory:
 
     def putVarInMemory(self, context_cont, type, size, value):
         #Cada contexto tiene 10,000 espacios en memoria
-        offset = 0 + 10000 * context_cont
+        offset = 0 + 8000 * context_cont
         if type == Type.INT.value:
             nextAvailable = offset + 0                              #el offset de cada tipo, aqui se llama nextAvailable
 
@@ -76,7 +77,6 @@ class Memory:
 
     def putConsInMemory(self, type, value):
         offset = 500000
-
         if type == Type.INT.value:
             nextConstant = offset + 0                               # el offset de cada tipo, aqui se llama nextConstant
 
@@ -122,6 +122,11 @@ class Memory:
             self.memory[nextConstant] = value
             return nextConstant
 
-    def printVars(self):
-        for var in self.memory.items():
-            print(self.memory[var])
+    def printVars(self, listavar, listafunc):
+        print("Variables en memoria", listavar)
+        print("Variables de parametros")
+        for f in range(0, len(listafunc)):
+            print("FUNCION", listafunc[f].id)
+            print(listafunc[f].parameters)
+        print("\n" + "MEMORIA" + "\n")
+        print(self.memory.items())

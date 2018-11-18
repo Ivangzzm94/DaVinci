@@ -14,6 +14,7 @@ varTable = VariablesTable()
 
 funcParam = []  # Array to save function parameters
 varList = []  # Array to save the ID of variables in the same line
+funcList = []
 
 quadList = Quads()
 pilaOperandos = Stack()
@@ -31,7 +32,7 @@ def p_program(p):
     '''program : PROGRAM ID SEMICOLON gotomain program1 DAVINCI fillmain block'''
     quadList.print_Quads()
     varTable.printVars()
-    #memory.printVars()
+    #memory.printVars(varList, funcList)
 
     f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
     f.write(str(quadList.array[0])) #escribir en el archivo el cuádruplo
@@ -61,7 +62,7 @@ def p_global_vars(p):
         for var in varList:
             var.dir_virt = memory.putVarInMemory(context_cont, var.var_type, var.size, var.value)
             varTable.add_global(var)
-        varList.clear()
+        #varList.clear()
     except ErrorHandler as e:
         e.print(p.lineno(1))
 
@@ -79,7 +80,7 @@ def p_local_vars(p):
         for var in varList:
             var.dir_virt = memory.putVarInMemory(context_cont, var.size, var.var_type, var.value)
             varTable.add_local(var)
-        varList.clear()
+        #varList.clear()
     except ErrorHandler as e:
         e.print(p.lineno(1))
 
@@ -96,25 +97,17 @@ def p_vars2(p):
 	| empty'''
 
 def p_vars3(p):
-    '''vars3 : ID ASSIGN expression saveassign vars4
-	| ID list savelist vars4
+    '''vars3 : ID list savelist vars4
 	| ID saveid vars4'''
-    print("vars3", p[3])
 
 def p_savelist(p):
     '''savelist : '''
-    v = Variable(p[-2], vartype, p[-1], None)
-    varList.append(v)
-
-def p_saveassign(p):
-    '''saveassign : '''
-    v = Variable(p[-3], vartype, 1, p[-1])
-    print(v)
+    v = Variable(p[-2], vartype, p[-1], None, context_cont)
     varList.append(v)
 
 def p_saveid(p):
     '''saveid : '''
-    v = Variable(p[-1], vartype, 1, None)
+    v = Variable(p[-1], vartype, 1, None, context_cont)
     varList.append(v)
 
 def p_vars4(p):
@@ -193,7 +186,6 @@ def p_set_value(p):
             quadList.add_quad(q)
         else:
             ErrorHandler.print(p.lineno(-1))
-    print("set value")
 
 def p_cte_id(p):
     '''cte_id : '''
@@ -221,21 +213,36 @@ def p_st_cte(p):
 		| cte_bool'''
 
 def p_funcs(p):
-    '''funcs : FUNC type ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
-	| FUNC VOID ID LPAREN type ID funcs1 RPAREN LBRACE funcs2 RBRACE funcs3 '''
+    '''funcs : FUNC type ID saveidfunc createcontext LPAREN type save_type ID save_par funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
+	| FUNC VOID ID saveidfunc createcontext LPAREN type save_type ID save_par funcs1 RPAREN LBRACE funcs2 RBRACE funcs3 '''
 
 def p_funcs1(p):
-    '''funcs1 : funcs1 COMMA type ID
+    '''funcs1 : funcs1 COMMA type save_type ID save_par
 	| empty'''
 
 def p_funcs2(p):
-    '''funcs2 : funcs2 vars
+    '''funcs2 : funcs2 vars local_vars
 	| funcs2 statute
 	| empty '''
 
 def p_funcs3(p):
     '''funcs3 : funcs
 	| empty'''
+
+def p_saveidfunc(p):
+    '''saveidfunc : '''
+    pilaOperandos.push(p[-1])
+
+def p_createcontext(p):
+    '''createcontext : '''
+    global context_cont
+    context_cont += 1
+
+def p_save_par(p):
+    '''save_par : '''
+    v = Variable(p[-1], vartype, 1, None, context_cont)
+    v.dir_virt = memory.putVarInMemory(context_cont, v.var_type, v.size, v.value)
+    varTable.add_local(v)
 
 def p_color(p):
     '''color : COLOR LPAREN color_cte RPAREN SEMICOLON'''
@@ -354,7 +361,6 @@ def p_end_if(p):
 def p_expression(p):
     '''expression : exp expression1'''
     p[0] = p[1]
-    print("expression", p[0])
     return p[0]
 
 def p_expression1(p):
@@ -365,19 +371,15 @@ def p_expression1(p):
 	| GREATEROREQUAL relop exp top_relop
     | LESSEROREQUAL relop exp top_relop
     | empty'''
-    print("expression1", p[0])
 
 def p_exp(p):
     '''exp : term top_exp exp1'''
     p[0] = p[1]
-    print("exp", p[0])
-    return p[0]
 
 def p_exp1(p):
     '''exp1 : MINUS push_sign exp
 	| PLUS push_sign exp
 	| empty'''
-    print("exp1", p[0])
 
 def p_top_exp(p):
     '''top_exp : '''
@@ -397,7 +399,6 @@ def p_top_exp(p):
             pTypes.push(result_type)
         else:
             ErrorHandler.print(p.lineno(-1))
-    print("top exp")
 
 def p_term(p):
     '''term : factor top_factor term1'''
@@ -437,7 +438,6 @@ def p_top_factor(p):
             pTypes.push(result_type)
         else:
             ErrorHandler.print(p.lineno(-1))
-    print("top factor", p[-1])
 
 def p_var_cte(p):
     '''var_cte : ID getidvalue
@@ -450,7 +450,6 @@ def p_var_cte(p):
         p[0] = p[3]
     else:
         p[0] = p[2]
-    print("var_cte", p[0])
     return p[0]
 
 def p_getidvalue(p):
@@ -497,7 +496,6 @@ def p_relop(p):
         pilaOperadores.push(Operations.GREATEROREQUAL)
     if op == '!=':
         pilaOperadores.push(Operations.NOTEQUAL)
-    print("relop", p[0])
 
 def p_top_relop(p):
     '''top_relop :'''
@@ -516,7 +514,6 @@ def p_top_relop(p):
             pTypes.push(result_type)
         else:
             ErrorHandler.print(p.lineno(-1))
-    print("top relop", p[0])
 
 def p_push_sign(p):
     '''push_sign :'''
@@ -532,30 +529,26 @@ def p_push_sign(p):
         pilaOperadores.push(Operations.MINUS.value)
     elif sign is "=":
         pilaOperadores.push(Operations.ASSIGN.value)
-    print("push sign", p[-1])
 
 def p_false_bottom(p):
     '''false_bottom :'''
     if p[-1] is "(":
         pilaOperadores.push(Operations.LPAREN)
-    print("false bottom", p[0])
 
 def p_end_par(p):
     '''end_par :'''
     if p[-1] is ")":
         pilaOperadores.pop()
-    print("end par", p[0])
 
 def p_push_id(p):
     '''push_id : '''
     try:
-        var = VariablesTable.find_variable(p[-1])
+        var = varTable.find_variable(p[-1])
         pilaOperandos.push(var.dir_virt)
         pTypes.push(var.var_type)
-    except ErrorHandler as error:
-        error.type_error()
-        raise error
-    print("push id", p[0])
+    except:
+        print("ID no encontrado", p[-1])
+        exit(0)
 
 def p_call(p):
     '''call : ID check_name LPAREN create_era call1 RPAREN SEMICOLON gosub'''
