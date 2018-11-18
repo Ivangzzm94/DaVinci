@@ -239,52 +239,52 @@ def p_funcs3(p):
 
 def p_color(p):
     '''color : COLOR LPAREN color_cte RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.COLOR, p[3], None, None)
+    quadList.add_quad(Quad(Functions.COLOR, p[3], None, None))
 
 def p_circle(p):
     '''circle : CIRCLE LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.CIRCLE, p[3], None, None)
+    quadList.add_quad(Quad(Functions.CIRCLE, p[3], None, None))
 
 def p_square(p):
     '''square : SQUARE LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.SQUARE, p[3], None, None)
+    quadList.add_quad(Quad(Functions.SQUARE, p[3], None, None))
 
 def p_triangle(p):
     '''triangle : TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.TRIANGLE, p[3], p[5], '')
+    quadList.add_quad(Quad(Functions.TRIANGLE, p[3], p[5], None))
 
 def p_rectangle(p):
     '''rectangle : RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.RECTANGLE, p[3], p[5], None)
+    quadList.add_quad(Quad(Functions.RECTANGLE, p[3], p[5], None))
 
 def p_poligon(p):
     '''poligon : POLIGON LPAREN exp COMMA exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.POLIGON, p[3], p[5], None)
+    quadList.add_quad(Quad(Functions.POLIGON, p[3], p[5], None))
 
 def p_rotate(p):
     '''rotate : ROTATE LPAREN exp RPAREN SEMICOLON
 	| ROTATE LPAREN CTE_STRING RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.ROTATE, p[3], None, None)
+    quadList.add_quad(Quad(Functions.ROTATE, p[3], None, None))
 
 def p_pensize(p):
     '''pensize : PENSIZE LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.PENSIZE, p[3], None, None)
+    quadList.add_quad(Quad(Functions.PENSIZE, p[3], None, None))
 
 def p_penforward(p):
     '''penforward : PENFORWARD LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.PENFORWARD, p[3], None, None)
+    quadList.add_quad(Quad(Functions.PENFORWARD, p[3], None, None))
 
 def p_penback(p):
     '''penback : PENBACK LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.PENBACK, p[3], None, None)
+    quadList.add_quad(Quad(Functions.PENBACK, p[3], None, None))
 
 def p_penon(p):
     '''penon : PENON LPAREN RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.PENON, None, None, None)
+    quadList.add_quad(Quad(Functions.PENON, None, None, None))
 
 def p_penoff(p):
     '''penoff : PENOFF LPAREN RPAREN SEMICOLON'''
-    quadList.add_quad(Functions.PENOFF, None, None, None)
+    quadList.add_quad(Quad(Functions.PENOFF, None, None, None))
 
 def p_type(p):
     '''type : INT
