@@ -1,3 +1,6 @@
 program a; 
-var Int entero = 12 + 1;
-DaVinci {}
+var Int a;
+DaVinci {
+    a = a + 1;
+    a = 3 - 4;
+}

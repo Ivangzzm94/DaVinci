@@ -99,6 +99,7 @@ def p_vars3(p):
     '''vars3 : ID ASSIGN expression saveassign vars4
 	| ID list savelist vars4
 	| ID saveid vars4'''
+    print("vars3", p[3])
 
 def p_savelist(p):
     '''savelist : '''
@@ -108,6 +109,7 @@ def p_savelist(p):
 def p_saveassign(p):
     '''saveassign : '''
     v = Variable(p[-3], vartype, 1, p[-1])
+    print(v)
     varList.append(v)
 
 def p_saveid(p):
@@ -162,8 +164,36 @@ def p_end_while(p):
     quadList.fill(quadList.index, end)
 
 def p_assignment(p):
-    '''assignment : ID ASSIGN expression SEMICOLON
+    '''assignment : ID verify_id ASSIGN push_sign expression set_value SEMICOLON
 	 | ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON'''
+
+def p_verify_id(p):
+    '''verify_id : '''
+    id = p[-1]
+    try:
+        var = varTable.find_variable(id)
+        pilaOperandos.push(var.dir_virt)
+        pTypes.push(var.var_type)
+    except ValueError:
+        print ("Variable not found")
+
+def p_set_value(p):
+    '''set_value : '''
+    operator = pilaOperadores.top()
+    if operator == Operations.ASSIGN.value:
+        operator = pilaOperadores.pop()
+        result_operand = pilaOperandos.pop()
+        result_type = pTypes.pop()
+
+        id_operand = pilaOperandos.pop()
+        id_type = pTypes.pop()
+        if result_type == id_type:
+            #result = memory.putVarInMemory(-1, result_type, 1, None)
+            q = Quad(operator, result_operand, None, id_operand)
+            quadList.add_quad(q)
+        else:
+            ErrorHandler.print(p.lineno(-1))
+    print("set value")
 
 def p_cte_id(p):
     '''cte_id : '''
@@ -270,40 +300,6 @@ def p_type(p):
     elif p[1] == 'Bool':
         p[0] = Type.BOOL.value
 
-def p_var_cte(p):
-    '''var_cte : ID getidvalue
-				| CTE_INT getvalue_i
-				| CTE_FLOAT getvalue_f
-				| cte_bool getvalue_b
-				| ID list getarrayvalue
-				| call getcallvalue'''
-    print("var_cte")
-    if len(p) > 3:
-        p[0] = p[3]
-    else:
-        p[0] = p[2]
-
-def p_getidvalue(p):
-    '''getidvalue : '''
-    id = p[-1]
-    var = varTable.find_variable(id)
-    p[0] = var.value
-
-def p_getvalue_i(p):
-    '''getvalue_i : '''
-    p[0] = memory.putConsInMemory(Type.INT.value, p[-1])
-    pTypes.push(Type.INT.value)
-
-def p_getvalue_f(p):
-    '''getvalue_f : '''
-    p[0] = memory.putConsInMemory(Type.FLOAT.value, p[-1])
-    pTypes.push(Type.FLOAT.value)
-
-def p_getvalue_b(p):
-    '''getvalue_b : '''
-    p[0] = memory.putConsInMemory(Type.BOOL.value, p[-1])
-    pTypes.push(Type.BOOL.value)
-
 def p_getarrayvalue(p):
     '''getarrayvalue : '''
     #TODO:
@@ -317,6 +313,12 @@ def p_getcallvalue(p):
 def p_cte_bool(p):
     '''cte_bool : TRUE
 	| FALSE'''
+    if p[1] == 'true':
+        p[0] = Values.TRUE
+        return p[0]
+    elif p[1] == 'false':
+        p[0] = Values.FALSE
+        return p[0]
 
 def p_condition(p):
     '''condition : IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if'''
@@ -352,7 +354,8 @@ def p_end_if(p):
 def p_expression(p):
     '''expression : exp expression1'''
     p[0] = p[1]
-    print("expression")
+    print("expression", p[0])
+    return p[0]
 
 def p_expression1(p):
     '''expression1 : LESSER relop exp top_relop
@@ -362,7 +365,122 @@ def p_expression1(p):
 	| GREATEROREQUAL relop exp top_relop
     | LESSEROREQUAL relop exp top_relop
     | empty'''
-    print("expression1")
+    print("expression1", p[0])
+
+def p_exp(p):
+    '''exp : term top_exp exp1'''
+    p[0] = p[1]
+    print("exp", p[0])
+    return p[0]
+
+def p_exp1(p):
+    '''exp1 : MINUS push_sign exp
+	| PLUS push_sign exp
+	| empty'''
+    print("exp1", p[0])
+
+def p_top_exp(p):
+    '''top_exp : '''
+    operator = pilaOperadores.top()
+    if operator == Operations.PLUS.value or operator == Operations.MINUS.value:
+        operator = pilaOperadores.pop()
+        r_operand = pilaOperandos.pop()
+        r_type = pTypes.pop()
+        l_operand = pilaOperandos.pop()
+        l_type = pTypes.pop()
+        result_type = cube.getType(l_type, r_type, operator)
+        if result_type != Type.ERROR.value:
+            result = memory.putVarInMemory(-1, result_type, 1, None)
+            q = Quad(operator, l_operand, r_operand, result)
+            quadList.add_quad(q)
+            pilaOperandos.push(result)
+            pTypes.push(result_type)
+        else:
+            ErrorHandler.print(p.lineno(-1))
+    print("top exp")
+
+def p_term(p):
+    '''term : factor top_factor term1'''
+    return p[1]
+
+def p_term1(p):
+    '''term1 : DIVIDE push_sign term
+		| TIMES push_sign term
+		| empty'''
+
+def p_factor(p):
+    '''factor : LPAREN false_bottom expression RPAREN end_par
+	| var_cte
+	| ID push_id'''
+    if len(p) > 3:
+        p[0] = p[3]
+    else:
+        p[0] = p[1]
+    return p[0]
+
+def p_top_factor(p):
+    '''top_factor :'''
+    operator = pilaOperadores.top()
+    if operator == Operations.TIMES.value or operator == Operations.DIVIDE.value:
+        operator = pilaOperadores.pop()
+        r_operand = pilaOperandos.pop()
+        r_type = pTypes.pop()
+        l_operand = pilaOperandos.pop()
+        l_type = pTypes.pop()
+        result_type = cube.getType(l_type, r_type, operator)
+        if result_type != Type.ERROR.value:
+            # calcular resultado
+            result = memory.putVarInMemory(-1, result_type, 1, None)
+            q = Quad(operator, l_operand, r_operand, result)
+            quadList.add_quad(q)
+            pilaOperandos.push(result)
+            pTypes.push(result_type)
+        else:
+            ErrorHandler.print(p.lineno(-1))
+    print("top factor", p[-1])
+
+def p_var_cte(p):
+    '''var_cte : ID getidvalue
+				| CTE_INT getvalue_i
+				| CTE_FLOAT getvalue_f
+				| cte_bool getvalue_b
+				| ID list getarrayvalue
+				| call getcallvalue'''
+    if len(p) > 3:
+        p[0] = p[3]
+    else:
+        p[0] = p[2]
+    print("var_cte", p[0])
+    return p[0]
+
+def p_getidvalue(p):
+    '''getidvalue : '''
+    id = p[-1]
+    var = varTable.find_variable(id)
+    pTypes.push(Type.INT.value)
+    pilaOperandos.push(var.dir_virt)
+    return p[0]
+
+def p_getvalue_i(p):
+    '''getvalue_i : '''
+    p[0] = memory.putConsInMemory(Type.INT.value, p[-1])
+    pTypes.push(Type.INT.value)
+    pilaOperandos.push(p[0])
+    return p[0]
+
+def p_getvalue_f(p):
+    '''getvalue_f : '''
+    p[0] = memory.putConsInMemory(Type.FLOAT.value, p[-1])
+    pTypes.push(Type.FLOAT.value)
+    pilaOperandos.push(p[0])
+    return p[0]
+
+def p_getvalue_b(p):
+    '''getvalue_b : '''
+    p[0] = memory.putConsInMemory(Type.BOOL.value, p[-1])
+    pTypes.push(Type.BOOL.value)
+    pilaOperandos.push(p[0])
+    return p[0]
 
 def p_relop(p):
     '''relop :'''
@@ -379,7 +497,7 @@ def p_relop(p):
         pilaOperadores.push(Operations.GREATEROREQUAL)
     if op == '!=':
         pilaOperadores.push(Operations.NOTEQUAL)
-    print("relop")
+    print("relop", p[0])
 
 def p_top_relop(p):
     '''top_relop :'''
@@ -398,42 +516,7 @@ def p_top_relop(p):
             pTypes.push(result_type)
         else:
             ErrorHandler.print(p.lineno(-1))
-    else:
-        pilaOperadores.push(operator)
-    print("top relop")
-
-
-def p_exp(p):
-    '''exp : term top_exp exp1'''
-    p[0] = p[1]
-    print("exp")
-
-def p_exp1(p):
-    '''exp1 : MINUS push_sign exp
-	| PLUS push_sign exp
-	| empty'''
-    print("exp1")
-
-def p_top_exp(p):
-    '''top_exp : '''
-    operator = pilaOperadores.top()
-    if operator == Operations.PLUS.value or operator == Operations.MINUS.value:
-        r_operand = pilaOperandos.pop()
-        r_type = pTypes.pop()
-        l_operand = pilaOperandos.pop()
-        l_type = pTypes.pop()
-        result_type = cube.getType(l_type, r_type, operator)
-        if result_type != Type.ERROR.value:
-            result = memory.putVarInMemory(-1, result_type, 1, None)
-            q = Quad(operator, l_operand, r_operand, result)
-            quadList.add_quad(q)
-            pilaOperandos.push(result)
-            pTypes.push(result_type)
-        else:
-            ErrorHandler.print(p.lineno(-1))
-    else:
-        pilaOperadores.push(operator)
-    print("top exp")
+    print("top relop", p[0])
 
 def p_push_sign(p):
     '''push_sign :'''
@@ -441,83 +524,38 @@ def p_push_sign(p):
         sign = p[-1]
     if sign is "/":
         pilaOperadores.push(Operations.DIVIDE.value)
-    if sign is "*":
+    elif sign is "*":
         pilaOperadores.push(Operations.TIMES.value)
-    if sign is "+":
+    elif sign is "+":
         pilaOperadores.push(Operations.PLUS.value)
-    if sign is "-":
+    elif sign is "-":
         pilaOperadores.push(Operations.MINUS.value)
-    print("top exp")
-
-def p_top_factor(p):
-    '''top_factor :'''
-    operator = pilaOperadores.top()
-    if operator == Operations.TIMES.value or operator == Operations.DIVIDE.value:
-        r_operand = pilaOperandos.pop()
-        r_type = pTypes.pop()
-        l_operand = pilaOperandos.pop()
-        l_type = pTypes.pop()
-        result_type = cube.getType(l_type, r_type, operator)
-        if result_type != Type.ERROR.value:
-            # calcular resultado
-            result = memory.putVarInMemory(-1, result_type, 1, None)
-            q = Quad(operator, l_operand, r_operand, result)
-            quadList.add_quad(q)
-            pilaOperandos.push(result)
-            pTypes.push(result_type)
-        else:
-            ErrorHandler.print(p.lineno(-1))
-    # raise ErrorHandler CHECAR***********CHECAR***********CHECAR***********CHECAR
-    else:
-        pilaOperadores.push(operator)
-    print("top factor")
-
-def p_factor(p):
-    '''factor : LPAREN false_bottom expression RPAREN end_par
-	| var_cte push_cte
-	| ID push_id'''
-    if len(p) > 3:
-        p[0] = p[3]
-    else:
-        p[0] = p[1]
+    elif sign is "=":
+        pilaOperadores.push(Operations.ASSIGN.value)
+    print("push sign", p[-1])
 
 def p_false_bottom(p):
     '''false_bottom :'''
     if p[-1] is "(":
         pilaOperadores.push(Operations.LPAREN)
-    print("false bottom")
+    print("false bottom", p[0])
 
 def p_end_par(p):
     '''end_par :'''
     if p[-1] is ")":
         pilaOperadores.pop()
-    print("end par")
-
-def p_push_cte(p):
-    '''push_cte : '''
-    pilaOperandos.push(p[-1])
+    print("end par", p[0])
 
 def p_push_id(p):
     '''push_id : '''
     try:
         var = VariablesTable.find_variable(p[-1])
-        pilaOperandos.push(var.value)
+        pilaOperandos.push(var.dir_virt)
         pTypes.push(var.var_type)
     except ErrorHandler as error:
         error.type_error()
         raise error
-    print("push id")
-
-def p_term(p):
-    '''term : factor top_factor term1'''
-
-def p_term1(p):
-    '''term1 : DIVIDE push_sign term
-		| TIMES push_sign term
-		| empty'''
-   # if len(p) > 2:
-
-
+    print("push id", p[0])
 
 def p_call(p):
     '''call : ID check_name LPAREN create_era call1 RPAREN SEMICOLON gosub'''
