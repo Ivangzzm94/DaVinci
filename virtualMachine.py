@@ -1,6 +1,7 @@
-from turtle import *
+import turtle
 from stack import Stack
-from parser import quadList
+from quads import Quads
+#from parser import quadList
 
 # Crear memoria de ejecución
 execMemory = Stack()
@@ -42,11 +43,11 @@ def ReadQuad(operator, op1, op2, r):
 	elif operator == 14:
 		NOT(op1 , op2, r)
 	elif operator == 15:
-		GOTO(op1, op2, r)
+		GOTO(r)
 	elif operator == 16:
-		GOTOF(op1 , op2, r)
+		GOTOF(r)
 	elif operator == 17:
-		GOTOV(op1 , op2, r)
+		GOTOV(r)
 	elif operator == 18:
 		ERA(op1 , op2, r)
 	elif operator == 19:
@@ -60,7 +61,7 @@ def ReadQuad(operator, op1, op2, r):
 	elif operator == 50:
 		COLOR(op1 , op2, r)
 	elif operator == 51:
-		CIRCLE(op1 , op2, r)
+		CIRCLE(r)
 	elif operator == 52:
 		SQUARE(op1, op2, r)
 	elif operator == 53:
@@ -68,29 +69,21 @@ def ReadQuad(operator, op1, op2, r):
 	elif operator == 54:
 		RECTANGLE(op1, op2, r)
 	elif operator == 55:
-		POLIGON(op1, op2, r)
+		POLIGON(op1, op2)
 	elif operator == 56:
-		ROTATE(op1, op2, r)
+		ROTATE(r)
 	elif operator == 57:
-		PENSIZE(op1, op2, r)
+		PENSIZE(r)
 	elif operator == 58:
-		PENFORWARD(op1, op2, r)
+		PENFORWARD(r)
 	elif operator == 59:
-		PENBACK(op1, op2, r)
+		PENBACK(r)
 	elif operator == 60:
 		PENON()
 	elif operator == 61:
 		PENOFF()
 	else:
 		print("Unknown operation code")
-
-# Correr máquina virtual (LEER LA LISTA DE CUADRUPLOS)
-while instruction_pointer <= quadList.index:
-	ReadQuad(quadList.array[instruction_pointer].operator, 
-		quadList[instruction_pointer].left_operand , 
-		quadList[instruction_pointer].right_operand, 
-		quadList[instruction_pointer].result)
-	instruction_pointer += 1
 
 # Operaciones del switch
 def PLUS(op1, op2):
@@ -221,17 +214,17 @@ def GOSUB(fun):
 def COLOR(color):
 	turtle.pencolor(color)
 
-def CIRCLE(raidus):
-	turtle.circle(radius, None, None)
+def CIRCLE(radius):
+	print(radius)
+	wn = turtle.Screen()
+	turtle.circle(int(radius), None, None)
 
 def SQUARE():
-	turtle.pendown()
 	for i in range(4):
 		turtle.forward(80)
 		turtle.left(90)
 
 def TRIANGLE():
-	turtle.pendown()
 	for i in range(52):
 		turtle.forward(100)
 		turtle.left(175)
@@ -242,7 +235,6 @@ def TRIANGLE():
 		turtle.right(2)
 
 def RECTANGLE():
-	turtle.pendown()
 	turtle.forward(80)
 	turtle.left(90)
 	turtle.forward(40)
@@ -252,10 +244,11 @@ def RECTANGLE():
 	turtle.forward(40)
 
 def POLIGON(sides, size):
+	wn = turtle.Screen()
 	for i in range(1,sides):
 		turtle.forward(size)
 		turtle.left(360/sides)
-
+	wn.exitonclick()
 
 def ROTATE(degree):
 	turtle.tilt(degree)
@@ -274,3 +267,17 @@ def PENON():
 
 def PENOFF():
 	turtle.penup()
+
+
+# Leer lista de cúadruplos y meterlos a la lista "List"
+with open("quads.txt") as file:
+	text = file.read()
+
+List = [l for l in [lines.split(", ") for lines in text.split("\n")]]
+
+wn = turtle.Screen()
+
+for i in range(len(List)):
+	ReadQuad(int(List[i][0]), List[i][1], List[i][2], List[i][3])
+
+wn.exitonclick()

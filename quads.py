@@ -63,7 +63,7 @@ class Quad:
         self.result = result
 
     def __repr__(self):
-        return 'Op: ' + str(self.operator) + ', ' + 'Izq: ' + str(self.left_operand) + ', ' + 'Der: ' + str(self.right_operand) + ', ' + 'Res: ' + str(self.result)
+        return str(self.operator) + ', ' + str(self.left_operand) + ', ' + str(self.right_operand) + ', ' + str(self.result)
 
 class Quads:
 
