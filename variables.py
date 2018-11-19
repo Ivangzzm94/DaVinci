@@ -25,6 +25,9 @@ class Memory:
         elif dir < 16000:
             return Type.STRING.value
 
+    def getSize(self):
+        return len(self.memory.items())
+
     def getValue(self, dir):
         return self.memory[dir]
 
@@ -188,11 +191,8 @@ class Memory:
             self.memory[nextConstant] = value
             return nextConstant
 
-    def printVars(self, listavar, listafunc):
-        print("Variables en memoria", listavar)
-        print("Variables de parametros")
-        for f in range(0, len(listafunc)):
-            print("FUNCION", listafunc[f].id)
-            print(listafunc[f].parameters)
-        print("\n" + "MEMORIA" + "\n")
-        print(self.memory.items())
+    def printVars(self, id):
+        print(id)
+        print("MEMORIA")
+        for key,val in self.memory.items():
+            print(key, '->', val)

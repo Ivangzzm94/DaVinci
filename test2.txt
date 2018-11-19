@@ -1,10 +1,22 @@
-program a;
-var Int i, n , t;
-    Float f , l, o, a, t;
-func Int myFunc ( Int parametro ) {
-    Int y;
+program helloWorld;
+
+var Int i, ooo;
+
+func void unentero ()
+var Int p;
+{
+    p = 30;
+}
+
+func Float myFunc2()
+var Float flotante, f; Bool booleano;
+{
+    flotante = 3.0;
+    booleano = 3 > 1;
+    return flotante;
 }
 
 DaVinci {
-    i = 0;
+    i = 0 + 4 + 5;
+    print(i);
 }
