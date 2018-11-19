@@ -125,7 +125,6 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def ASSIGN(self, op1, r):
-
         self.memory.setValue(r, self.memory.getValue(op1))
         self.instruction_pointer += 1
 

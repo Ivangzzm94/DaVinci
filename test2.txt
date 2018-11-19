@@ -1,10 +1,10 @@
 program a;
-var Int x;
-
-func Int myfunc (Int a) {
-    var Int o;
+var Int i, n , t;
+    Float f , l, o, a, t;
+func Int myFunc ( Int parametro ) {
+    Int y;
 }
 
 DaVinci {
-    x = 100 + 20;
+    i = 0;
 }

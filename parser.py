@@ -23,18 +23,29 @@ pilaOperadores = Stack()
 pTypes = Stack()
 pJumps = Stack()
 
-memory = Memory()
+funcTable = {}
+variableTable = {}
+
+
 vartype = None
-context_cont = 0
+functype = None
 listsize = 1
 cube = SemanticCube()
+DaVinci = Function('DaVinci', 'void', -1)
+funcTable['DaVinci'] = DaVinci
+currentFunc = funcTable['DaVinci']
+memory = currentFunc.memory
+
 
 
 def p_program(p):
     '''program : PROGRAM ID SEMICOLON gotomain program1 DAVINCI fillmain block'''
     quadList.print_Quads()
     #varTable.printVars()
-    memory.printVars(varList, funcList)
+    #print(funcTable)
+    for func in funcTable:
+        print(funcTable[func].varTable)
+    '''
     f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
     for i in range(len(quadList.array)):
         f.write(str(quadList.array[i])) #escribir en el archivo el cuádruplo
@@ -43,7 +54,7 @@ def p_program(p):
     f.close() # Cerrar el archivo de texto
     vm = VirtualMachine()
     vm.memory = memory
-    vm.run()
+    vm.run()'''
 
 def p_fillmain(p):
     '''fillmain : '''
@@ -65,13 +76,13 @@ def p_save_funcs(p):
 def p_global_vars(p):
     '''global_vars : '''
     try:
-        global memory
         for var in varList:
-            var.dir_virt = memory.putVarInMemory(context_cont, var.var_type, var.size, var.value)
-            varTable.add_global(var)
+            print(var.var_id, var.var_type)
+            if not var.var_id in currentFunc.varTable:
+                dir = funcTable['DaVinci'].declareVariable(var.var_id,var.var_type)
         varList.clear()
     except ErrorHandler as e:
-        e.print(p.lineno(1))
+        e.redefined_variable('Variable duplicada')
         ErrorHandler.exitWhenError()
 
 def p_block(p):
@@ -84,13 +95,12 @@ def p_b1(p):
 def p_local_vars(p):
     '''local_vars : '''
     try:
-        global memory
         for var in varList:
-            var.dir_virt = memory.putVarInMemory(context_cont, var.var_type, var.size, var.value)
-            varTable.add_local(var)
+            if not var.var_id in currentFunc.varTable or not var.var_id in funcTable['DaVinci'].varTable:
+                currentFunc.declareVariable(var.var_id,var.var_type)
         varList.clear()
     except ErrorHandler as e:
-        e.print(p.lineno(1))
+        e.redefined_variable('Variable duplicada')
         ErrorHandler.exitWhenError()
 
 def p_b2(p):
@@ -117,12 +127,12 @@ def p_vars4(p):
 
 def p_savelist(p):
     '''savelist : '''
-    v = Variable(p[-2], vartype, p[-1], None, context_cont)
+    v = Variable(p[-2], vartype, p[-1])
     varList.append(v)
 
 def p_saveid(p):
     '''saveid : '''
-    v = Variable(p[-1], vartype, 1, None, context_cont)
+    v = Variable(p[-1], vartype, 1)
     varList.append(v)
 
 def p_save_type(p):
@@ -175,9 +185,9 @@ def p_verify_id(p):
     '''verify_id : '''
     id = p[-1]
     try:
-        var = varTable.find_variable(id)
-        pilaOperandos.push(var.dir_virt)
-        pTypes.push(var.var_type)
+        var = currentFunc.varTable[id]
+        pilaOperandos.push(var)
+        pTypes.push(currentFunc.memory.getType(var))
     except ValueError:
         print ("Variable not found")
         ErrorHandler.exitWhenError()
@@ -189,7 +199,6 @@ def p_set_value(p):
         operator = pilaOperadores.pop()
         result_operand = pilaOperandos.pop()
         result_type = pTypes.pop()
-
         id_operand = pilaOperandos.pop()
         id_type = pTypes.pop()
         if result_type == id_type:
@@ -197,7 +206,8 @@ def p_set_value(p):
             q = Quad(operator, result_operand, None, id_operand)
             quadList.add_quad(q)
         else:
-            ErrorHandler.print(p.lineno(-1))
+            print('Tipos no compatibles')
+            ErrorHandler.exitWhenError()
 
 def p_cte_id(p):
     '''cte_id : '''
@@ -225,20 +235,30 @@ def p_st_cte(p):
 		| cte_bool'''
 
 def p_funcs(p):
-    '''funcs : FUNC type ID saveidfunc createcontext LPAREN type save_type ID save_par funcs1 RPAREN LBRACE funcvars statements RBRACE funcs3
-	| FUNC VOID ID saveidfunc createcontext LPAREN type save_type ID save_par funcs1 RPAREN LBRACE funcvars statements RBRACE funcs3 '''
+    '''funcs : FUNC type functype ID saveidfunc LPAREN type test save_type ID save_par funcs1 RPAREN LBRACE funcvars statements RBRACE end_func funcs3
+	        | FUNC VOID functype ID saveidfunc LPAREN type save_type ID save_par funcs1 RPAREN LBRACE funcvars statements RBRACE end_func funcs3 '''
     for i in range(0,len(p)):
         print(p[i])
+
+def p_functype(p):
+    '''functype : '''
+    global functype
+    print(p[-1])
+    functype = p[-1]
 
 def p_funcs1(p):
     '''funcs1 : funcs1 COMMA type save_type ID save_par
 	| empty'''
-    print('Funcs1')
+    currentFunc.starting_instruction = quadList.index
 
 def p_statements(p):
     '''statements : statements statute
 	| empty '''
     print('Funcs2')
+
+def p_test(p):
+    '''test : '''
+    print(p[-1])
 
 def p_funcs3(p):
     '''funcs3 : funcs
@@ -251,21 +271,23 @@ def p_funcvars(p):
 
 def p_saveidfunc(p):
     '''saveidfunc : '''
-    pilaOperandos.push(p[-1])
-    print('save id func')
+    global currentFunc, memory
+    id = p[-1]
+    f = Function(id, functype, -1)
+    currentFunc = f
+    memory = currentFunc.memory
 
-def p_createcontext(p):
-    '''createcontext : '''
-    global context_cont
-    context_cont += 1
-    print('Create context')
+def p_end_func(p):
+    '''end_func : '''
+    funcTable[currentFunc.function_id] = currentFunc
 
 def p_save_par(p):
     '''save_par : '''
-    v = Variable(p[-1], vartype, 1, None, context_cont)
-    v.dir_virt = memory.putVarInMemory(context_cont, v.var_type, v.size, v.value)
-    varTable.add_local(v)
-    print('save par')
+    global currentFunc
+    v = Variable(p[-1], vartype, 1)
+    dir = currentFunc.declareVariable(v.var_id, v.var_type)
+    currentFunc.memory.setValue(dir, 'TAKEN')
+    currentFunc.parameters.append(dir)
 
 def p_color(p):
     '''color : COLOR LPAREN color_cte RPAREN SEMICOLON'''
@@ -364,13 +386,13 @@ def p_type_check(p):
         ErrorHandler.type_error()
     else:
         result = pilaOperandos.pop()
-        q = Quad(Operations.GOTOF, None, None, result)
+        q = Quad(Operations.GOTOF.value, None, None, result)
         quadList.add_quad(q)
         pJumps.push(quadList.index)
 
 def p_gotoElse(p):
     '''gotoElse :'''
-    q = Quad(Operations.GOTO, None, None, None)
+    q = Quad(Operations.GOTO.value, None, None, None)
     quadList.add_quad(q)
     false = pJumps.pop()
     pJumps.push(quadList.index)
@@ -415,7 +437,7 @@ def p_top_exp(p):
         l_type = pTypes.pop()
         result_type = cube.getType(l_type, r_type, operator)
         if result_type != Type.ERROR.value:
-            result = memory.putVarInMemory(-1, result_type, 1, None)
+            result = memory.pushVarInMemory(result_type, 1)
             q = Quad(operator, l_operand, r_operand, result)
             quadList.add_quad(q)
             pilaOperandos.push(result)
@@ -454,7 +476,7 @@ def p_top_factor(p):
         result_type = cube.getType(l_type, r_type, operator)
         if result_type != Type.ERROR.value:
             # calcular resultado
-            result = memory.putVarInMemory(-1, result_type, 1, None)
+            result = memory.pushVarInMemory(result_type, 1)
             q = Quad(operator, l_operand, r_operand, result)
             quadList.add_quad(q)
             pilaOperandos.push(result)
@@ -479,9 +501,9 @@ def p_getidvalue(p):
     '''getidvalue : '''
     id = p[-1]
     try:
-        var = varTable.find_variable(id)
+        var = currentFunc.varTable[id]
         pTypes.push(Type.INT.value)
-        pilaOperandos.push(var.dir_virt)
+        pilaOperandos.push(var)
     except:
         ErrorHandler.undefined_variable()
         ErrorHandler.exitWhenError()
@@ -509,32 +531,32 @@ def p_getvalue_b(p):
     return p[0]
 
 def p_relop(p):
-    '''relop :'''
+    '''relop : '''
     op = p[-1]
     if op == '<':
-        pilaOperadores.push(Operations.LESSER)
+        pilaOperadores.push(Operations.LESSER.value)
     if op == '>':
-        pilaOperadores.push(Operations.GREATER)
+        pilaOperadores.push(Operations.GREATER.value)
     if op == '<=':
-        pilaOperadores.push(Operations.LESSEROREQUAL)
+        pilaOperadores.push(Operations.LESSEROREQUAL.value)
     if op == '==':
-        pilaOperadores.push(Operations.EQUAL)
+        pilaOperadores.push(Operations.EQUAL.value)
     if op == '>=':
-        pilaOperadores.push(Operations.GREATEROREQUAL)
+        pilaOperadores.push(Operations.GREATEROREQUAL.value)
     if op == '!=':
-        pilaOperadores.push(Operations.NOTEQUAL)
+        pilaOperadores.push(Operations.NOTEQUAL.value)
 
 def p_top_relop(p):
     '''top_relop :'''
     operator = pilaOperadores.pop()
-    if operator == Operations.LESSER or operator == Operations.GREATER or operator == Operations.LESSEROREQUAL or operator == Operations.EQUAL or operator == Operations.GREATEROREQUAL or operator == Operations.NOTEQUAL:
+    if operator == Operations.LESSER.value or operator == Operations.GREATER.value or operator == Operations.LESSEROREQUAL.value or operator == Operations.EQUAL.value or operator == Operations.GREATEROREQUAL.value or operator == Operations.NOTEQUAL.value:
         r_operand = pilaOperandos.pop()
         r_type = pTypes.pop()
         l_operand = pilaOperandos.pop()
         l_type = pTypes.pop()
         result_type = cube.getType(l_type, r_type, operator)
         if result_type != Type.ERROR.value:
-            result = memory.putVarInMemory(-1, Type.BOOL.value, 1, None)
+            result = memory.pushVarInMemory(Type.BOOL.value, 1)
             q = Quad(operator, l_operand, r_operand, result)
             quadList.add_quad(q)
             pilaOperandos.push(result)
@@ -560,7 +582,7 @@ def p_push_sign(p):
 def p_false_bottom(p):
     '''false_bottom :'''
     if p[-1] is "(":
-        pilaOperadores.push(Operations.LPAREN)
+        pilaOperadores.push(Operations.LPAREN.value)
 
 def p_end_par(p):
     '''end_par :'''
@@ -569,10 +591,11 @@ def p_end_par(p):
 
 def p_push_id(p):
     '''push_id : '''
+    id = p[-1]
     try:
-        var = varTable.find_variable(p[-1])
-        pilaOperandos.push(var.dir_virt)
-        pTypes.push(var.var_type)
+        var = currentFunc.varTable[id]
+        pilaOperandos.push(var)
+        pTypes.push(currentFunc.memory.getType(var))
     except:
         print("ID no encontrado", p[-1])
         ErrorHandler.exitWhenError()
