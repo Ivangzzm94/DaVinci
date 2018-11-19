@@ -138,13 +138,13 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def NOTEQUAL(self, op1, op, r):
-        aux =  not (self.memory.getValue(op1) == self.memory.getValue(op2)):
+        aux =  not (self.memory.getValue(op1) == self.memory.getValue(op2))
 
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
 
     def GREATER(self, op1, op2, r):
-        aux =  self.memory.getValue(op1) > self.memory.getValue(op2):
+        aux =  self.memory.getValue(op1) > self.memory.getValue(op2)
 
 
         self.memory.setValue(r, aux)
