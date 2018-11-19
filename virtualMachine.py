@@ -7,7 +7,7 @@ class VirtualMachine:
 
     def __init__(self):
         self.liveMemory = Stack()
-        self.memory = []
+        self.memory = {}
         self.instruction_pointer = 0
         self.list = None
 

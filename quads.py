@@ -1,5 +1,3 @@
-from typing import List, Any
-
 from enum import Enum, IntEnum
 
 class Operations(IntEnum):
@@ -39,6 +37,7 @@ class Functions(IntEnum):
     PENBACK = 59
     PENON = 60
     PENOFF = 61
+    PRINT = 62
 
 class Type(IntEnum):
     INT = 90

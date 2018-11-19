@@ -13,7 +13,7 @@ from virtualMachine import *
 
 varTable = VariablesTable()
 
-funcParam = []  # Array to save function parameters
+param_index = 0
 varList = []  # Array to save the ID of variables in the same line
 funcList = []
 
@@ -36,15 +36,14 @@ funcTable['DaVinci'] = DaVinci
 currentFunc = funcTable['DaVinci']
 memory = currentFunc.memory
 
-
-
 def p_program(p):
-    '''program : PROGRAM ID SEMICOLON gotomain program1 DAVINCI fillmain block'''
+    '''program : PROGRAM ID SEMICOLON gotomain program1 getglobalmemory DAVINCI fillmain block'''
     quadList.print_Quads()
     #varTable.printVars()
     #print(funcTable)
     for func in funcTable:
-        print(funcTable[func].varTable)
+        print(funcTable[func].memory.printVars(funcTable[func].function_id))
+        print(funcTable[func].varTable, '\n \n')
     '''
     f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
     for i in range(len(quadList.array)):
@@ -70,6 +69,16 @@ def p_program1(p):
 	| program1 vars global_vars
 	| empty'''
 
+def p_getglobalmemory(p):
+    '''getglobalmemory : '''
+    global currentFunc, memory
+    currentFunc = funcTable['DaVinci']
+    memory = currentFunc.memory
+
+def p_update_memory(p):
+    '''updateMemory : '''
+    varTable['DaVinci'] = currentFunc
+
 def p_save_funcs(p):
     '''save_funcs : '''
 
@@ -77,7 +86,6 @@ def p_global_vars(p):
     '''global_vars : '''
     try:
         for var in varList:
-            print(var.var_id, var.var_type)
             if not var.var_id in currentFunc.varTable:
                 dir = funcTable['DaVinci'].declareVariable(var.var_id,var.var_type)
         varList.clear()
@@ -109,17 +117,14 @@ def p_b2(p):
 
 def p_vars(p):
     '''vars : VAR vars2'''
-    print('VArs')
 
 def p_vars2(p):
     '''vars2 : type save_type vars3 SEMICOLON vars2
 	| empty'''
-    print('VArs2')
 
 def p_vars3(p):
     '''vars3 : ID list savelist vars4
 	| ID saveid vars4'''
-    print('VArs3')
 
 def p_vars4(p):
     '''vars4 : COMMA vars3
@@ -159,12 +164,12 @@ def p_statute(p):
 	 | penback
 	 | rotate
 	 | while
-	 | return
 	 | penon
-	 | penoff'''
+	 | penoff
+	 | print'''
 
 def p_while(p):
-    '''while : WHILE while_return LPAREN type_check expression RPAREN LBRACE b2 RBRACE end_while'''
+    '''while : WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while'''
 
 def p_while_return(p):
     '''while_return :'''
@@ -174,8 +179,8 @@ def p_end_while(p):
     '''end_while :'''
     end = pJumps.pop()
     ret = pJumps.pop()
-    quadList.add_quad(Quad(Operations.GOTO, None, None, ret))
-    quadList.fill(quadList.index, end)
+    quadList.add_quad(Quad(Operations.GOTO.value, None, None, ret))
+    quadList.fill(end, quadList.index)
 
 def p_assignment(p):
     '''assignment : ID verify_id ASSIGN push_sign expression set_value SEMICOLON
@@ -235,26 +240,31 @@ def p_st_cte(p):
 		| cte_bool'''
 
 def p_funcs(p):
-    '''funcs : FUNC type functype ID saveidfunc LPAREN type test save_type ID save_par funcs1 RPAREN LBRACE funcvars statements RBRACE end_func funcs3
-	        | FUNC VOID functype ID saveidfunc LPAREN type save_type ID save_par funcs1 RPAREN LBRACE funcvars statements RBRACE end_func funcs3 '''
-    for i in range(0,len(p)):
-        print(p[i])
+    '''funcs : FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements return RBRACE end_func funcs3
+	        | FUNC VOID functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements RBRACE end_func funcs3 '''
 
 def p_functype(p):
     '''functype : '''
     global functype
-    print(p[-1])
     functype = p[-1]
+
+def p_params(p):
+    '''params : type ID save_par params1
+                | empty'''
+    currentFunc.starting_instruction = quadList.index
+
+def p_params1(p):
+    '''params1 : COMMA type ID save_par params1
+                | empty'''
+
 
 def p_funcs1(p):
     '''funcs1 : funcs1 COMMA type save_type ID save_par
 	| empty'''
-    currentFunc.starting_instruction = quadList.index
 
 def p_statements(p):
     '''statements : statements statute
 	| empty '''
-    print('Funcs2')
 
 def p_test(p):
     '''test : '''
@@ -263,7 +273,6 @@ def p_test(p):
 def p_funcs3(p):
     '''funcs3 : funcs
 	| empty'''
-    print('Funcs3')
 
 def p_funcvars(p):
     '''funcvars : vars local_vars
@@ -280,11 +289,13 @@ def p_saveidfunc(p):
 def p_end_func(p):
     '''end_func : '''
     funcTable[currentFunc.function_id] = currentFunc
+    q = Quad(Operations.ENDPROC.value,None, None, None)
+    quadList.add_quad(q)
 
 def p_save_par(p):
     '''save_par : '''
     global currentFunc
-    v = Variable(p[-1], vartype, 1)
+    v = Variable(p[-1], p[-2], 1)
     dir = currentFunc.declareVariable(v.var_id, v.var_type)
     currentFunc.memory.setValue(dir, 'TAKEN')
     currentFunc.parameters.append(dir)
@@ -382,26 +393,27 @@ def p_condition1(p):
 def p_type_check(p):
     '''type_check :'''
     exp_type = pTypes.pop()
-    if exp_type != bool:
-        ErrorHandler.type_error()
+    if exp_type != Type.BOOL.value:
+        print('Error: Variable no booleana')
+        ErrorHandler.exitWhenError()
     else:
         result = pilaOperandos.pop()
-        q = Quad(Operations.GOTOF.value, None, None, result)
+        q = Quad(Operations.GOTOF.value, result, None, None)
         quadList.add_quad(q)
-        pJumps.push(quadList.index)
+        pJumps.push(quadList.index-1)
 
 def p_gotoElse(p):
     '''gotoElse :'''
     q = Quad(Operations.GOTO.value, None, None, None)
     quadList.add_quad(q)
     false = pJumps.pop()
-    pJumps.push(quadList.index)
-    quadList.fill(quadList.index, false)
+    pJumps.push(quadList.index-1)
+    quadList.fill(false, quadList.index)
 
 def p_end_if(p):
     '''end_if :'''
     end = pJumps.pop()
-    quadList.fill(quadList.index, end)
+    quadList.fill(end, quadList.index)
 
 def p_expression(p):
     '''expression : exp expression1'''
@@ -511,21 +523,19 @@ def p_getidvalue(p):
 
 def p_getvalue_i(p):
     '''getvalue_i : '''
-    p[0] = memory.putConsInMemory(Type.INT.value, p[-1])
+    dir = memory.pushVarInMemory(Type.INT.value, 1)
     pTypes.push(Type.INT.value)
-    pilaOperandos.push(p[0])
-    return p[0]
+    pilaOperandos.push(dir)
 
 def p_getvalue_f(p):
     '''getvalue_f : '''
-    p[0] = memory.putConsInMemory(Type.FLOAT.value, p[-1])
+    dir = memory.pushVarInMemory(Type.FLOAT.value, 1)
     pTypes.push(Type.FLOAT.value)
-    pilaOperandos.push(p[0])
-    return p[0]
+    pilaOperandos.push(dir)
 
 def p_getvalue_b(p):
     '''getvalue_b : '''
-    p[0] = memory.putConsInMemory(Type.BOOL.value, p[-1])
+    p[0] = memory.pushVarInMemory(Type.BOOL.value, 1)
     pTypes.push(Type.BOOL.value)
     pilaOperandos.push(p[0])
     return p[0]
@@ -548,8 +558,9 @@ def p_relop(p):
 
 def p_top_relop(p):
     '''top_relop :'''
-    operator = pilaOperadores.pop()
+    operator = pilaOperadores.top()
     if operator == Operations.LESSER.value or operator == Operations.GREATER.value or operator == Operations.LESSEROREQUAL.value or operator == Operations.EQUAL.value or operator == Operations.GREATEROREQUAL.value or operator == Operations.NOTEQUAL.value:
+        operator = pilaOperadores.pop()
         r_operand = pilaOperandos.pop()
         r_type = pTypes.pop()
         l_operand = pilaOperandos.pop()
@@ -601,27 +612,83 @@ def p_push_id(p):
         ErrorHandler.exitWhenError()
 
 def p_call(p):
-    '''call : ID check_name LPAREN create_era call1 RPAREN SEMICOLON gosub'''
+    '''call : ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub'''
 
 def p_check_name(p):
     '''check_name : '''
+    id = p[-1]
     try:
-        f = VariablesTable.find_function(p[-1])
-        quadList.add_quad(Operations.ERA, f, None, None)
+        global currentFunc
+        f = funcTable[id]
+        currentFunc = f
+        print(f.starting_instruction)
     except ErrorHandler as error:
-        error.print(p.lineno(0))
+        print('Funcion no declarada: ', id)
         ErrorHandler.exitWhenError()
 
 def p_create_era(p):
-        '''create_era : '''
+     '''create_era : '''
+     q = Quad(Operations.ERA.value, currentFunc.memory.getSize(), None, None)
+     quadList.add_quad(q)
 
 def p_gosub(p):
     '''gosub : '''
+    q = Quad(Operations.GOSUB.value, currentFunc.function_id, None, currentFunc.starting_instruction)
+    quadList.add_quad(q)
 
 def p_call1(p):
-    '''call1 : ID COMMA call1
-	| exp
-	| st_cte'''
+    '''call1 : ID argument call2
+	| exp argument call2
+	| st_cte argument call2
+	| call2'''
+
+def p_call2(p):
+    '''call2 : COMMA increment exp argument call2
+	| empty'''
+
+def p_increment(p):
+    '''increment : '''
+    global param_index
+    param_index += 1
+
+def p_argument(p):
+    '''argument : '''
+    global param_index
+    argument = pilaOperandos.pop()
+    argType = pTypes.pop()
+    if param_index <= len(currentFunc.parameters):
+        if argType == currentFunc.memory.getType(currentFunc.parameters[param_index]):
+            q = Quad(Operations.PARAM.value, argument, None, param_index)
+            quadList.add_quad(q)
+        else:
+            print('Parameter: ', param_index + 1)
+            print('Type mismatch on:', currentFunc.function_id)
+            ErrorHandler.exitWhenError()
+    else:
+        print('No coincide numero de parametros')
+        ErrorHandler.exitWhenError()
+
+def p_check_params(p):
+    '''check_params : '''
+    global param_index
+    if len(currentFunc.parameters) > param_index:
+        print('No coincide numero de parametros')
+        ErrorHandler.exitWhenError()
+    else:
+        param_index = 0
+
+def p_print(p):
+    '''print : PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON'''
+
+def p_print_multi(p):
+    '''print_multi : COMMA expression to_screen print_multi
+                    | empty'''
+
+def p_to_screen(p):
+    '''to_screen : '''
+    val = pilaOperandos.pop()
+    q = Quad(Functions.PRINT.value, None, None, val)
+    quadList.add_quad(q)
 
 def p_return(p):
     '''return : RETURN var_cte SEMICOLON

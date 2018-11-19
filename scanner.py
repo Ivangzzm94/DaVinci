@@ -8,7 +8,7 @@ tokens = ['ID',     'CTE_INT',      'CTE_FLOAT',    'CTE_STRING',       'EXPRESS
          'ASSIGN',  'GREATER',      'LESSER',       'GREATEROREQUAL',   'AND',          'NOT', 
          'LPAREN',  'RPAREN',       'LBRACE',       'RBRACE',           'LBRACKET',     'RBRACKET',
          'COMMA',   'SEMICOLON',    'DIVIDE',       'LESSEROREQUAL',    'CTE_BOOL',     'TERM',
-         'LIST']
+         'PRINT']
 
 # Dictionary of reserved words
 reserved = {
@@ -46,7 +46,8 @@ reserved = {
     'void': 'VOID',
     'rotate': 'ROTATE',
     'return': 'RETURN',
-    'func': 'FUNC'
+    'func': 'FUNC',
+    'print': 'PRINT'
     }
 
 tokens = tokens+list(reserved.values())
@@ -120,5 +121,5 @@ while True:
     tok = lexer.token()
     if not tok:
         break      # No more input
-    print(tok)
+    #print(tok)
 print("\n")
