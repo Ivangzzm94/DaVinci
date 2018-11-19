@@ -1,11 +1,11 @@
-program a; 
-var Int b, c[10], f, h, j;
+program a;
 
-func void sumaDos(Int a) {
-    Int b = a + 2;
+var Int enteroGlobal;
+
+func Int sumaDos(Int a) {
+    var Float flotanteLocal;
 }
 
 DaVinci {
-    b = 10 + 1;
-    b = 11 * 3;
+    var Int enteroMain;
 }
