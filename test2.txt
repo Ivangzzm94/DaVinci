@@ -1,7 +1,6 @@
 program a;
-
-var Int enteroGlobal;
+var Int x;
 
 DaVinci {
-    circle(50);
+    x = 1 + 2 * 3;
 }

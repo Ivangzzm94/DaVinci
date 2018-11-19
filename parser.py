@@ -475,9 +475,12 @@ def p_var_cte(p):
 def p_getidvalue(p):
     '''getidvalue : '''
     id = p[-1]
-    var = varTable.find_variable(id)
-    pTypes.push(Type.INT.value)
-    pilaOperandos.push(var.dir_virt)
+    try:
+        var = varTable.find_variable(id)
+        pTypes.push(Type.INT.value)
+        pilaOperandos.push(var.dir_virt)
+    except:
+        ErrorHandler.undefined_variable()
     return p[0]
 
 def p_getvalue_i(p):
