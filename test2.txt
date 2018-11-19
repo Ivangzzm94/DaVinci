@@ -3,5 +3,6 @@ program a;
 var Int enteroGlobal;
 
 DaVinci {
-    circle(50);
+	enteroGlobal = 20 * 2;
+	circle(enteroGlobal);
 }
