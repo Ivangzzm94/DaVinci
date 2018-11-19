@@ -22,11 +22,10 @@ class VirtualMachine:
 		for x in range(len(List)):
 			for y in range(4):
 				if not List[x][y] == "None":
-					List[x][y] = int(List[x][y])
+					List[x][y] = List[x][y]
 
 		# Empezar la ejecución de la máquina virtual
 		wn = turtle.Screen()
-		turtle.st()
 		while self.instruction_pointer < len(List):
 			if List[self.instruction_pointer][0] == 15:					#GoTo
 				self.instruction_pointer = List[self.instruction_pointer][3]
@@ -85,7 +84,7 @@ class VirtualMachine:
 		elif operator == 50:
 			self.COLOR(op1)
 		elif operator == 51:
-			self.CIRCLE(op1)
+			self.CIRCLE(memory[op1])
 		elif operator == 52:
 			self.SQUARE(op1)
 		elif operator == 53:
