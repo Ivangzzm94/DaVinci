@@ -6,7 +6,8 @@ from random import randint
 class VirtualMachine:
 
     def __init__(self):
-        self.memory = {}
+        self.liveMemory = Stack()
+        self.memory = []
         self.instruction_pointer = 0
         self.list = None
 
@@ -33,9 +34,6 @@ class VirtualMachine:
                               List[self.instruction_pointer][2], List[self.instruction_pointer][3])
         wn.exitonclick()
 
-    # Crear memoria de ejecución
-    # Apuntador al cuádruplo en ejecición
-    # Subir a memoria lista de cúadruplos, direccion de funciones y tablas de constantes ????
 
     # IFSOTE
     def ReadQuad(self, operator, op1, op2, r):
@@ -141,19 +139,14 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def NOTEQUAL(self, op1, op, r):
-        if not self.memory.getValue(op1) == self.memory.getValue(op2):
-            aux = false
-        else:
-            aux = true
+        aux =  not (self.memory.getValue(op1) == self.memory.getValue(op2)):
 
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
 
     def GREATER(self, op1, op2):
-        if self.memory.getValue(op1) > self.memory.getValue(op2):
-            aux = true
-        else:
-            aux = false
+        aux =  self.memory.getValue(op1) > self.memory.getValue(op2):
+
 
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
