@@ -6,7 +6,8 @@ from random import randint
 class VirtualMachine:
 
     def __init__(self):
-        self.memory = {}
+        self.liveMemory = Stack()
+        self.memory = []
         self.instruction_pointer = 0
         self.list = None
 
@@ -33,9 +34,6 @@ class VirtualMachine:
                               List[self.instruction_pointer][2], List[self.instruction_pointer][3])
         wn.exitonclick()
 
-    # Crear memoria de ejecución
-    # Apuntador al cuádruplo en ejecición
-    # Subir a memoria lista de cúadruplos, direccion de funciones y tablas de constantes ????
 
     # IFSOTE
     def ReadQuad(self, operator, op1, op2, r):
@@ -140,24 +138,19 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def NOTEQUAL(self, op1, op, r):
-        if not self.memory.getValue(op1) == self.memory.getValue(op2):
-            aux = false
-        else:
-            aux = true
+        aux =  not (self.memory.getValue(op1) == self.memory.getValue(op2))
 
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
 
-    def GREATER(self, op1, op2):
-        if self.memory.getValue(op1) > self.memory.getValue(op2):
-            aux = true
-        else:
-            aux = false
+    def GREATER(self, op1, op2, r):
+        aux =  self.memory.getValue(op1) > self.memory.getValue(op2)
+
 
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
 
-    def LESSER(self, op1, op2):
+    def LESSER(self, op1, op2, r):
         if self.memory.getValue(op1) < self.memory.getValue(op2):
             aux = true
         else:
@@ -166,7 +159,7 @@ class VirtualMachine:
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
 
-    def GREATEROREQUAL(self, op1, op2):
+    def GREATEROREQUAL(self, op1, op2, r):
         if self.memory.getValue(op1) >= self.memory.getValue(op2):
             aux = true
         else:
@@ -175,7 +168,7 @@ class VirtualMachine:
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
 
-    def LESSEROREQUAL(self, op1, op2):
+    def LESSEROREQUAL(self, op1, op2, r):
         if self.memory.getValue(op1) <= self.memory.getValue(op2):
             aux = true
         else:
@@ -184,7 +177,7 @@ class VirtualMachine:
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
 
-    def AND(self, op1, op2):
+    def AND(self, op1, op2, r):
         if self.memory.getValue(op1) and self.memory.getValue(op2):
             aux = true
         else:
@@ -214,63 +207,75 @@ class VirtualMachine:
     def GOSUB(self, fun):
         self.instruction_pointer += 1
 
-    def COLOR(self, color):
-        turtle.pencolor(color)
+    def COLOR(self, op1):
+        aux = self.memory.getValue(op1)
+        turtle.pencolor(aux)
         self.instruction_pointer += 1
 
     def CIRCLE(self, radius):
-        r = int(self.memory.getValue(radius))
+        r = self.memory.getValue(radius)
         turtle.circle(r, None, None)
         self.instruction_pointer += 1
 
     def SQUARE(self, len):
+        l = self.memory.getValue(len)
         for i in range(4):
-            turtle.forward(len)
-            turtle.left(len)
+            turtle.forward(l)
+            turtle.left(l)
 
         self.instruction_pointer += 1
 
     def TRIANGLE(self, b, a):
-        turtle.forward(b)
-        turtle.left(b*1.1)
-        turtle.forward(a)
-        turtle.left(b*1.1)
-        turtle.forward(a)
+        base = self.memory.getValue(b)
+        alt = self.memory.getValue(a)
+        turtle.forward(base)
+        turtle.left(base*1.1)
+        turtle.forward(alt)
+        turtle.left(base*1.1)
+        turtle.forward(alt)
 
         self.instruction_pointer += 1
 
     def RECTANGLE(self, l, a):
-        turtle.forward(l)
+        lon = self.memory.getValue(l)
+        alt = self.memory.getValue(a)
+        turtle.forward(lon)
         turtle.left(90)
-        turtle.forward(a)
+        turtle.forward(alt)
         turtle.left(90)
-        turtle.forward(l)
+        turtle.forward(lon)
         turtle.left(90)
-        turtle.forward(a)
+        turtle.forward(alt)
 
         self.instruction_pointer += 1
 
     def POLIGON(self, sides, size):
-        for i in range(1, sides):
-            turtle.forward(size)
-            turtle.left(360 / sides)
+        side = self.memory.getValue(sides)
+        siz = self.memory.getValue(size)
+        for i in range(1, side):
+            turtle.forward(siz)
+            turtle.left(360 / side)
 
         self.instruction_pointer += 1
 
     def ROTATE(self, degree):
-        turtle.tilt(degree)
+        d = self.memory.getValue(degree)
+        turtle.tilt(d)
         self.instruction_pointer += 1
 
     def PENSIZE(self, size):
-        turtle.dot(size)
+        s = self.memory.getValue(size)
+        turtle.dot(s)
         self.instruction_pointer += 1
 
     def PENFORWARD(self, distance):
+        d = self.memory.getValue(distance)
         turtle.forward(distance)
         self.instruction_pointer += 1
 
     def PENBACK(self, distance):
-        turtle.backward(distance)
+        d = self.memory.getValue(distance)
+        turtle.backward(d)
         self.instruction_pointer += 1
 
     def PENON(self):
