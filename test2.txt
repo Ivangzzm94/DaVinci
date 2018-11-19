@@ -2,5 +2,4 @@ program a;
 var Int x;
 
 DaVinci {
-    x = 1 + 2 * 3;
 }

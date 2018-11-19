@@ -46,15 +46,15 @@ class VirtualMachine:
     # IFSOTE
     def ReadQuad(self, operator, op1, op2, r):
         if operator == 1:
-            self.PLUS(op1, op2, r)
+            self.PLUS(self.memory.getValue(op1), self.memory.getValue(op2), self.memory.getValue(r))
         elif operator == 2:
-            self.MINUS(op1, op2, r)
+            self.MINUS(self.memory.getValue(op1), self.memory.getValue(op2), self.memory.getValue(r))
         elif operator == 3:
-            self.TIMES(op1, op2, r)
+            self.TIMES(op1,op2,r)
         elif operator == 4:
-            self.DIVIDE(op1, op2, r)
+            self.DIVIDE(self.memory.getValue(op1), self.memory.getValue(op2), self.memory.getValue(r))
         elif operator == 5:
-            self.ASSIGN(op1, op2, r)
+            self.ASSIGN(op1,op2,r)
         elif operator == 6:
             self.EQUAL(op1, op2, r)
         elif operator == 7:
@@ -112,46 +112,41 @@ class VirtualMachine:
             print("Unknown operation code")
 
     # Operaciones
-    def PLUS(self, op1, op2):
-        op1_dir = List[self.instruction_pointer][op1]
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
+    def PLUS(self, op1, op2, r):
+    	#print(self.memory.getValue(op1))
+        print(op1, op2, r)
         aux = op1 + op2
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+        self.memory.setValue(r, aux)
+        print(self.memory.getValue(r))
         self.instruction_pointer += 1
 
-    def MINUS(self, op1, op2):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
-        aux = op1 - op2
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+    def MINUS(self, op1, op2, r):
+    	print(op1, op2, r)
+    	aux = op1 - op2
+    	self.memory.setValue(r, aux)
+    	print(self.memory.getValue(r))
+    	self.instruction_pointer += 1
 
-    def TIMES(self, op1, op2):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
-        aux = op1 * op2
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+    def TIMES(self, op1, op2, r):
+    	izq = self.memory.getValue(op1)
+    	der = self.memory.getValue(op2)
+    	aux = izq * der
+    	print(r)
+    	self.memory.setValue(r, aux)
+    	self.instruction_pointer += 1
 
-    def DIVIDE(self, op1, op2):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
+    def DIVIDE(self, op1, op2, r):
+        print(op1, op2, r)
         aux = op1 / op2
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+        self.memory.setValue(r, aux)
+        print(self.memory.getValue(r))
+        self.instruction_pointer += 1
 
-    def ASSIGN(self, op1, op2):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
-        op1 = op2
-        Memory[f(quadList[self.instruction_pointer].result)] = op1
+    def ASSIGN(self, op1, op2, r):
+    	value = self.memory.getValue(op1)
+    	self.memory.setValue(r, value)
+    	print(self.memory.getValue(r))
+    	self.instruction_pointer += 1
 
     def EQUAL(self, op1, op2):
         op1_dir = quadList[self.instruction_pointer].left_operand
