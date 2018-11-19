@@ -1,6 +1,11 @@
 program a; 
-var Int a;
+var Int b, c[10], f, h, j;
+
+func void sumaDos(Int a) {
+    Int b = a + 2;
+}
+
 DaVinci {
-    a = a + 1;
-    a = 3 - 4;
+    b = 10 + 1;
+    b = 11 * 3;
 }
