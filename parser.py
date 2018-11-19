@@ -31,11 +31,12 @@ cube = SemanticCube()
 def p_program(p):
     '''program : PROGRAM ID SEMICOLON gotomain program1 DAVINCI fillmain block'''
     quadList.print_Quads()
-    varTable.printVars()
+    #varTable.printVars()
     #memory.printVars(varList, funcList)
-
     f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
-    f.write(str(quadList.array[0])) #escribir en el archivo el cuádruplo
+    for i in range(len(quadList.array)):
+        f.write(str(quadList.array[i])) #escribir en el archivo el cuádruplo
+        f.write('\n')
     f.close() # Cerrar el archivo de texto
 
 def p_fillmain(p):
@@ -88,17 +89,23 @@ def p_b2(p):
     '''b2 : b2 statute
 	| empty'''
 
-
 def p_vars(p):
     '''vars : VAR vars2'''
+    print('VArs')
 
 def p_vars2(p):
     '''vars2 : type save_type vars3 SEMICOLON vars2
 	| empty'''
+    print('VArs2')
 
 def p_vars3(p):
     '''vars3 : ID list savelist vars4
 	| ID saveid vars4'''
+    print('VArs3')
+
+def p_vars4(p):
+    '''vars4 : COMMA vars3
+	| empty'''
 
 def p_savelist(p):
     '''savelist : '''
@@ -109,10 +116,6 @@ def p_saveid(p):
     '''saveid : '''
     v = Variable(p[-1], vartype, 1, None, context_cont)
     varList.append(v)
-
-def p_vars4(p):
-    '''vars4 : COMMA vars3
-	| empty'''
 
 def p_save_type(p):
     '''save_type : '''
@@ -213,36 +216,47 @@ def p_st_cte(p):
 		| cte_bool'''
 
 def p_funcs(p):
-    '''funcs : FUNC type ID saveidfunc createcontext LPAREN type save_type ID save_par funcs1 RPAREN LBRACE funcs2 RBRACE funcs3
-	| FUNC VOID ID saveidfunc createcontext LPAREN type save_type ID save_par funcs1 RPAREN LBRACE funcs2 RBRACE funcs3 '''
+    '''funcs : FUNC type ID saveidfunc createcontext LPAREN type save_type ID save_par funcs1 RPAREN LBRACE funcvars statements RBRACE funcs3
+	| FUNC VOID ID saveidfunc createcontext LPAREN type save_type ID save_par funcs1 RPAREN LBRACE funcvars statements RBRACE funcs3 '''
+    for i in range(0,len(p)):
+        print(p[i])
 
 def p_funcs1(p):
     '''funcs1 : funcs1 COMMA type save_type ID save_par
 	| empty'''
+    print('Funcs1')
 
-def p_funcs2(p):
-    '''funcs2 : funcs2 vars local_vars
-	| funcs2 statute
+def p_statements(p):
+    '''statements : statements statute
 	| empty '''
+    print('Funcs2')
 
 def p_funcs3(p):
     '''funcs3 : funcs
 	| empty'''
+    print('Funcs3')
+
+def p_funcvars(p):
+    '''funcvars : vars local_vars
+    | empty'''
 
 def p_saveidfunc(p):
     '''saveidfunc : '''
     pilaOperandos.push(p[-1])
+    print('save id func')
 
 def p_createcontext(p):
     '''createcontext : '''
     global context_cont
     context_cont += 1
+    print('Create context')
 
 def p_save_par(p):
     '''save_par : '''
     v = Variable(p[-1], vartype, 1, None, context_cont)
     v.dir_virt = memory.putVarInMemory(context_cont, v.var_type, v.size, v.value)
     varTable.add_local(v)
+    print('save par')
 
 def p_color(p):
     '''color : COLOR LPAREN color_cte RPAREN SEMICOLON'''

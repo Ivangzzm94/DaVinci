@@ -1,5 +1,1 @@
 15, None, None, 1
-51, 40, None, None
-51, 50, None, None
-51, 60, None, None
-51, 70, None, None
