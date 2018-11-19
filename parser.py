@@ -34,7 +34,7 @@ def p_program(p):
     '''program : PROGRAM ID SEMICOLON gotomain program1 DAVINCI fillmain block'''
     quadList.print_Quads()
     #varTable.printVars()
-    #memory.printVars(varList, funcList)
+    memory.printVars(varList, funcList)
     f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
     for i in range(len(quadList.array)):
         f.write(str(quadList.array[i])) #escribir en el archivo el cuádruplo
@@ -69,9 +69,10 @@ def p_global_vars(p):
         for var in varList:
             var.dir_virt = memory.putVarInMemory(context_cont, var.var_type, var.size, var.value)
             varTable.add_global(var)
-        #varList.clear()
+        varList.clear()
     except ErrorHandler as e:
         e.print(p.lineno(1))
+        ErrorHandler.exitWhenError()
 
 def p_block(p):
     '''block : LBRACE b1 RBRACE'''
@@ -83,13 +84,14 @@ def p_b1(p):
 def p_local_vars(p):
     '''local_vars : '''
     try:
-        global varList
+        global memory
         for var in varList:
-            var.dir_virt = memory.putVarInMemory(context_cont, var.size, var.var_type, var.value)
+            var.dir_virt = memory.putVarInMemory(context_cont, var.var_type, var.size, var.value)
             varTable.add_local(var)
-        #varList.clear()
+        varList.clear()
     except ErrorHandler as e:
         e.print(p.lineno(1))
+        ErrorHandler.exitWhenError()
 
 def p_b2(p):
     '''b2 : b2 statute
@@ -178,6 +180,7 @@ def p_verify_id(p):
         pTypes.push(var.var_type)
     except ValueError:
         print ("Variable not found")
+        ErrorHandler.exitWhenError()
 
 def p_set_value(p):
     '''set_value : '''
@@ -481,6 +484,7 @@ def p_getidvalue(p):
         pilaOperandos.push(var.dir_virt)
     except:
         ErrorHandler.undefined_variable()
+        ErrorHandler.exitWhenError()
     return p[0]
 
 def p_getvalue_i(p):
@@ -571,7 +575,7 @@ def p_push_id(p):
         pTypes.push(var.var_type)
     except:
         print("ID no encontrado", p[-1])
-        exit(0)
+        ErrorHandler.exitWhenError()
 
 def p_call(p):
     '''call : ID check_name LPAREN create_era call1 RPAREN SEMICOLON gosub'''
@@ -583,6 +587,7 @@ def p_check_name(p):
         quadList.add_quad(Operations.ERA, f, None, None)
     except ErrorHandler as error:
         error.print(p.lineno(0))
+        ErrorHandler.exitWhenError()
 
 def p_create_era(p):
         '''create_era : '''
@@ -620,5 +625,7 @@ if __name__ == '__main__':
                 print("Valid input")
         except EOFError:
             print(EOFError)
+            ErrorHandler.exitWhenError()
     else:
         print("No file to test found")
+        ErrorHandler.exitWhenError()

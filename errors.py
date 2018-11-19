@@ -1,9 +1,16 @@
 import sys
 
 class ErrorHandler(SyntaxError):
+
+    @staticmethod
+    def exitWhenError():
+        print ("Program is closing due to an error")
+        exit(0)
+
     def __init__(self, message):
         self.message = message
         self.error = 'Syntax error'
+
 
     def print(self, lineno):
         print('{} at line {}: {}'.format(self.error, lineno, self.message), file=sys.stderr)

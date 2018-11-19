@@ -34,7 +34,6 @@ class VirtualMachine:
             else:
                 self.ReadQuad(List[self.instruction_pointer][0], List[self.instruction_pointer][1],
                               List[self.instruction_pointer][2], List[self.instruction_pointer][3])
-                self.instruction_pointer += 1
         wn.exitonclick()
 
     # Crear memoria de ejecución
@@ -46,15 +45,15 @@ class VirtualMachine:
     # IFSOTE
     def ReadQuad(self, operator, op1, op2, r):
         if operator == 1:
-            self.PLUS(self.memory.getValue(op1), self.memory.getValue(op2), self.memory.getValue(r))
+            self.PLUS(op1, op2, r)
         elif operator == 2:
-            self.MINUS(self.memory.getValue(op1), self.memory.getValue(op2), self.memory.getValue(r))
+            self.MINUS(op1, op2, r)
         elif operator == 3:
-            self.TIMES(op1,op2,r)
+            self.TIMES(op1, op2, r)
         elif operator == 4:
-            self.DIVIDE(self.memory.getValue(op1), self.memory.getValue(op2), self.memory.getValue(r))
+            self.DIVIDE(op1, op2, r)
         elif operator == 5:
-            self.ASSIGN(op1,op2,r)
+            self.ASSIGN(op1, r)
         elif operator == 6:
             self.EQUAL(op1, op2, r)
         elif operator == 7:
@@ -86,8 +85,7 @@ class VirtualMachine:
         elif operator == 50:
             self.COLOR(op1)
         elif operator == 51:
-            print(self.memory.getValue(op1))
-            self.CIRCLE(self.memory.getValue(op1))
+            self.CIRCLE(op1)
         elif operator == 52:
             self.SQUARE(op1)
         elif operator == 53:
@@ -111,42 +109,37 @@ class VirtualMachine:
         else:
             print("Unknown operation code")
 
+
     # Operaciones
     def PLUS(self, op1, op2, r):
-    	#print(self.memory.getValue(op1))
+        aux = self.memory.getValue(op1) + self.memory.getValue(op2)
+        self.memory.setValue(r,aux)
+        self.instruction_pointer += 1
+
+    def MINUS(self, op1, op2, r):
         print(op1, op2, r)
-        aux = op1 + op2
+        aux = op1 - op2
         self.memory.setValue(r, aux)
         print(self.memory.getValue(r))
         self.instruction_pointer += 1
 
-    def MINUS(self, op1, op2, r):
-    	print(op1, op2, r)
-    	aux = op1 - op2
-    	self.memory.setValue(r, aux)
-    	print(self.memory.getValue(r))
-    	self.instruction_pointer += 1
-
     def TIMES(self, op1, op2, r):
-    	izq = self.memory.getValue(op1)
-    	der = self.memory.getValue(op2)
-    	aux = izq * der
-    	print(r)
-    	self.memory.setValue(r, aux)
-    	self.instruction_pointer += 1
+        izq = self.memory.getValue(op1)
+        der = self.memory.getValue(op2)
+        aux = izq * der
+        self.memory.setValue(r, aux)
+        self.instruction_pointer += 1
 
     def DIVIDE(self, op1, op2, r):
         print(op1, op2, r)
         aux = op1 / op2
         self.memory.setValue(r, aux)
-        print(self.memory.getValue(r))
         self.instruction_pointer += 1
 
-    def ASSIGN(self, op1, op2, r):
-    	value = self.memory.getValue(op1)
-    	self.memory.setValue(r, value)
-    	print(self.memory.getValue(r))
-    	self.instruction_pointer += 1
+    def ASSIGN(self, op1, r):
+
+        self.memory.setValue(r, self.memory.getValue(op1))
+        self.instruction_pointer += 1
 
     def EQUAL(self, op1, op2):
         op1_dir = quadList[self.instruction_pointer].left_operand
@@ -228,7 +221,9 @@ class VirtualMachine:
         turtle.pencolor(color)
 
     def CIRCLE(self, radius):
-        turtle.circle(radius, None, None)
+        r = int(self.memory.getValue(radius))
+        #print(r)
+        turtle.circle(r, None, None)
 
     def SQUARE(self, len):
         for i in range(4):

@@ -1,5 +1,10 @@
 program a;
 var Int x;
 
+func Int myfunc (Int a) {
+    var Int o;
+}
+
 DaVinci {
+    x = 100 + 20;
 }
