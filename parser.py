@@ -160,7 +160,7 @@ def p_end_while(p):
     '''end_while :'''
     end = pJumps.pop()
     ret = pJumps.pop()
-    Quad(Operations.GOTO, None, None, ret)
+    quadList.add_quad(Quad(Operations.GOTO, None, None, ret))
     quadList.fill(quadList.index, end)
 
 def p_assignment(p):
