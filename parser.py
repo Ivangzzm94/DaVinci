@@ -38,6 +38,8 @@ def p_program(p):
     f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
     for i in range(len(quadList.array)):
         f.write(str(quadList.array[i])) #escribir en el archivo el cuádruplo
+        if i < len(quadList.array)-1:
+            f.write('\n')
     f.close() # Cerrar el archivo de texto
     vm = VirtualMachine()
     vm.memory = memory
