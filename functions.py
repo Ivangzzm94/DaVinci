@@ -1,10 +1,16 @@
-from variables import Variable
+from variables import *
 
 class Function:
 
-    def __init__(self, function_id = None, function_type = None):
+    def __init__(self, function_id, function_type, starting_instruction):
         self.function_id = function_id
         self.function_type = function_type
-        self.parameters = None
-        self.paramcount = None
-        self.dir_virt = None
+        self.parameters = []
+        self.memory = Memory()
+        self.starting_instruction = starting_instruction
+        self.varTable = {} # llave = id, valor = dir_virt
+
+    def declareVariable(self, id, type):
+        memDir = self.memory.pushVarInMemory(type, 1)
+        self.varTable[id] = memDir
+        return memDir
