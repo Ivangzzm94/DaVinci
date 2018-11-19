@@ -21,6 +21,9 @@ class Memory:
     def getValue(self, dir):
         return self.memory[dir]
 
+    def setValue(self, dir, value):
+        self.memory[dir] = value
+
     def putVarInMemory(self, context_cont, type, size, value):
         #Cada contexto tiene 10,000 espacios en memoria
         offset = 0 + 8000 * context_cont
