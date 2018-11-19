@@ -3,9 +3,6 @@ from stack import Stack
 from quads import Quads
 from random import randint
 
-
-# from parser import quadList
-
 class VirtualMachine:
 
     def __init__(self):
@@ -37,9 +34,7 @@ class VirtualMachine:
         wn.exitonclick()
 
     # Crear memoria de ejecución
-
     # Apuntador al cuádruplo en ejecición
-
     # Subir a memoria lista de cúadruplos, direccion de funciones y tablas de constantes ????
 
     # IFSOTE
@@ -71,7 +66,7 @@ class VirtualMachine:
         elif operator == 13:
             self.OR(op1, op2, r)
         elif operator == 14:
-            self.NOT(op1, op2, r)
+            self.NOT(op1, r)
         elif operator == 18:
             self.ERA(op1, op2, r)
         elif operator == 19:
@@ -117,22 +112,17 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def MINUS(self, op1, op2, r):
-        print(op1, op2, r)
-        aux = op1 - op2
+        aux = self.memory.getValue(op1) - self.memory.getValue(op2)
         self.memory.setValue(r, aux)
-        print(self.memory.getValue(r))
         self.instruction_pointer += 1
 
     def TIMES(self, op1, op2, r):
-        izq = self.memory.getValue(op1)
-        der = self.memory.getValue(op2)
-        aux = izq * der
+        aux = self.memory.getValue(op1) * self.memory.getValue(op2)
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
 
     def DIVIDE(self, op1, op2, r):
-        print(op1, op2, r)
-        aux = op1 / op2
+        aux = self.memory.getValue(op1) / self.memory.getValue(op2)
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
 
@@ -140,122 +130,153 @@ class VirtualMachine:
         self.memory.setValue(r, self.memory.getValue(op1))
         self.instruction_pointer += 1
 
-    def EQUAL(self, op1, op2):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
-        aux = op1 == op2
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+    def EQUAL(self, op1, op2, r):
+        if self.memory.getValue(op1) == self.memory.getValue(op2):
+            aux = true
+        else:
+            aux = false
 
-    def NOTEQUAL(self, op1, op2):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
-        aux = op1 != op2
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+        self.memory.setValue(r, aux)
+        self.instruction_pointer += 1
+
+    def NOTEQUAL(self, op1, op, r):
+        if not self.memory.getValue(op1) == self.memory.getValue(op2):
+            aux = false
+        else:
+            aux = true
+
+        self.memory.setValue(r, aux)
+        self.instruction_pointer += 1
 
     def GREATER(self, op1, op2):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
-        aux = op1 > op2
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+        if self.memory.getValue(op1) > self.memory.getValue(op2):
+            aux = true
+        else:
+            aux = false
+
+        self.memory.setValue(r, aux)
+        self.instruction_pointer += 1
 
     def LESSER(self, op1, op2):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
-        aux = op1 < op2
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+        if self.memory.getValue(op1) < self.memory.getValue(op2):
+            aux = true
+        else:
+            aux = false
+
+        self.memory.setValue(r, aux)
+        self.instruction_pointer += 1
 
     def GREATEROREQUAL(self, op1, op2):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
-        aux = op1 >= op2
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+        if self.memory.getValue(op1) >= self.memory.getValue(op2):
+            aux = true
+        else:
+            aux = false
+
+        self.memory.setValue(r, aux)
+        self.instruction_pointer += 1
 
     def LESSEROREQUAL(self, op1, op2):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
-        aux = op1 <= op2
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+        if self.memory.getValue(op1) <= self.memory.getValue(op2):
+            aux = true
+        else:
+            aux = false
+
+        self.memory.setValue(r, aux)
+        self.instruction_pointer += 1
 
     def AND(self, op1, op2):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
-        aux = op1 and op2
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+        if self.memory.getValue(op1) and self.memory.getValue(op2):
+            aux = true
+        else:
+            aux = false
+
+        self.memory.setValue(r, aux)
+        self.instruction_pointer += 1
 
     def OR(self, op1, op2):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        op2_dir = quadList[self.instruction_pointer].right_operand
-        op2 = Memory[op2_dir - Base(type)]
-        aux = op1 or op2
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+        if self.memory.getValue(op1) or self.memory.getValue(op2):
+            aux = true
+        else:
+            aux = false
+
+        self.memory.setValue(r, aux)
+        self.instruction_pointer += 1
 
     def NOT(self, op1):
-        op1_dir = quadList[self.instruction_pointer].left_operand
-        op1 = Memory[op1_dir - Base(type)]
-        aux = not op1
-        Memory[f(quadList[self.instruction_pointer].result)] = aux
+        aux = self.memory.getValue(op1)
+        aux = not aux
+        self.memory.setValue(r, aux)
+        self.instruction_pointer += 1
 
     def ERA(self):
-        turtle.pendown()
+        self.instruction_pointer += 1
 
     def GOSUB(self, fun):
-        turtle.pendown()
+        self.instruction_pointer += 1
 
     def COLOR(self, color):
         turtle.pencolor(color)
+        self.instruction_pointer += 1
 
     def CIRCLE(self, radius):
         r = int(self.memory.getValue(radius))
-        #print(r)
         turtle.circle(r, None, None)
+        self.instruction_pointer += 1
 
     def SQUARE(self, len):
         for i in range(4):
-            turtle.forward(80)
-            turtle.left(90)
+            turtle.forward(len)
+            turtle.left(len)
+
+        self.instruction_pointer += 1
 
     def TRIANGLE(self, b, a):
-        turtle.forward(distance)
+        turtle.forward(b)
+        turtle.left(b*1.1)
+        turtle.forward(a)
+        turtle.left(b*1.1)
+        turtle.forward(a)
+
+        self.instruction_pointer += 1
 
     def RECTANGLE(self, l, a):
-        turtle.forward(distance)
+        turtle.forward(l)
+        turtle.left(90)
+        turtle.forward(a)
+        turtle.left(90)
+        turtle.forward(l)
+        turtle.left(90)
+        turtle.forward(a)
+
+        self.instruction_pointer += 1
 
     def POLIGON(self, sides, size):
-        wn = turtle.Screen()
         for i in range(1, sides):
             turtle.forward(size)
             turtle.left(360 / sides)
-        wn.exitonclick()
+
+        self.instruction_pointer += 1
 
     def ROTATE(self, degree):
         turtle.tilt(degree)
+        self.instruction_pointer += 1
 
     def PENSIZE(self, size):
         turtle.dot(size)
+        self.instruction_pointer += 1
 
     def PENFORWARD(self, distance):
         turtle.forward(distance)
+        self.instruction_pointer += 1
 
     def PENBACK(self, distance):
         turtle.backward(distance)
+        self.instruction_pointer += 1
 
     def PENON(self):
         turtle.pendown()
+        self.instruction_pointer += 1
 
     def PENOFF(self):
         turtle.penup()
+        self.instruction_pointer += 1
