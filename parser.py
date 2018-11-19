@@ -9,6 +9,7 @@ from semanticCube import SemanticCube
 from errors import ErrorHandler
 from quads import *
 from stack import *
+from virtualMachine import *
 
 varTable = VariablesTable()
 
@@ -28,6 +29,7 @@ context_cont = 0
 listsize = 1
 cube = SemanticCube()
 
+
 def p_program(p):
     '''program : PROGRAM ID SEMICOLON gotomain program1 DAVINCI fillmain block'''
     quadList.print_Quads()
@@ -36,8 +38,10 @@ def p_program(p):
     f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
     for i in range(len(quadList.array)):
         f.write(str(quadList.array[i])) #escribir en el archivo el cuádruplo
-        f.write('\n')
     f.close() # Cerrar el archivo de texto
+    vm = VirtualMachine()
+    vm.memory = memory
+    vm.run()
 
 def p_fillmain(p):
     '''fillmain : '''
@@ -264,7 +268,7 @@ def p_color(p):
 
 def p_circle(p):
     '''circle : CIRCLE LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Quad(Functions.CIRCLE, p[3], None, None))
+    quadList.add_quad(Quad(Functions.CIRCLE.value, pilaOperandos.pop(), None, None))
 
 def p_square(p):
     '''square : SQUARE LPAREN exp RPAREN SEMICOLON'''

@@ -2,10 +2,7 @@ program a;
 
 var Int enteroGlobal;
 
-func Int sumaDos(Int a) {
-    var Float flotanteLocal;
-}
-
 DaVinci {
-    var Int enteroMain;
+    enteroGlobal = 1 + 2 + 3 + 4;
+    circle(5);
 }

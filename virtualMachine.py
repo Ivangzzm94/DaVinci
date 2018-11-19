@@ -268,6 +268,3 @@ class VirtualMachine:
 
 	def PENOFF(self):
 		turtle.penup()
-
-vm = VirtualMachine()
-vm.run()
