@@ -101,6 +101,8 @@ class VirtualMachine:
             self.PENON()
         elif operator == 61:
             self.PENOFF()
+        elif operator == 62:
+            self.PRINT(r)
         else:
             print("Unknown operation code")
 
@@ -291,4 +293,9 @@ class VirtualMachine:
 
     def PENOFF(self):
         turtle.penup()
+        self.instruction_pointer += 1
+
+    def PRINT(self, r):
+        p = self.memory.getValue(r)
+        print(p)
         self.instruction_pointer += 1
