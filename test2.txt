@@ -1,8 +1,8 @@
 program helloWorld;
 
-var Int i, ooo;
+var Int i; Float f;
 
-func void unentero ()
+func void myFunc (Int a)
 var Int p;
 {
     p = 30;
@@ -12,11 +12,11 @@ func Float myFunc2()
 var Float flotante, f; Bool booleano;
 {
     flotante = 3.0;
-    booleano = 3 > 1;
     return flotante;
 }
 
 DaVinci {
     i = 0 + 4 + 5;
+    myFunc2();
     print(i);
 }
