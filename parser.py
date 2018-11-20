@@ -48,8 +48,6 @@ def p_program(p):
         f = funcTable[func]
         vm.memory[f.function_id] = f.memory.memory
 
-    print(vm.memory)
-
     f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
     for i in range(len(quadList.array)):
         f.write(str(quadList.array[i])) #escribir en el archivo el cuádruplo
@@ -207,7 +205,6 @@ def p_set_value(p):
         id_operand = pilaOperandos.pop()
         id_type = pTypes.pop()
         if result_type == id_type:
-            #result = memory.putVarInMemory(-1, result_type, 1, None)
             q = Quad(operator, result_operand, None, id_operand)
             quadList.add_quad(q)
         else:
@@ -283,11 +280,12 @@ def p_saveidfunc(p):
     id = p[-1]
     f = Function(id, functype, -1)
     currentFunc = f
+    funcTable[currentFunc.function_id] = currentFunc
     memory = currentFunc.memory
 
 def p_end_func(p):
     '''end_func : '''
-    funcTable[currentFunc.function_id] = currentFunc
+    #funcTable[currentFunc.function_id] = currentFunc
     q = Quad(Operations.ENDPROC.value,None, None, None)
     quadList.add_quad(q)
 
@@ -371,6 +369,13 @@ def p_getcallvalue(p):
     '''getcallvalue : '''
     #TODO:
     #obtener el valor desde una llamada
+    global func_calling
+    dir = memory.pushVarInMemory(func_calling.function_type, 1)
+    pTypes.push(func_calling.function_type)
+    pilaOperandos.push(dir)
+    memory.setValue(dir, 'TAKEN')
+    q = Quad(Functions.SAVERETURN.value, None, None, dir)
+    quadList.add_quad(q)
 
 def p_cte_bool(p):
     '''cte_bool : TRUE
@@ -630,7 +635,7 @@ def p_check_name(p):
         func_calling = f
     except ErrorHandler as error:
         print('Funcion no declarada: ', id)
-        ErrorHandler.exitWhenError()
+        error.exitWhenError()
 
 def p_create_era(p):
      '''create_era : '''
@@ -692,8 +697,6 @@ def p_to_screen(p):
 
 def p_return(p):
     '''return : RETURN expression savereturn SEMICOLON'''
-    q = Quad(Operations.ASSIGN.value, p[2], None, currentFunc.memory.pushVarInMemory(pTypes.pop(),1))
-    quadList.add_quad(q)
 
 def p_savereturn(p):
     '''savereturn : '''

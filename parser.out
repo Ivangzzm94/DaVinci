@@ -156,23 +156,24 @@ Rule 139   push_sign -> <empty>
 Rule 140   false_bottom -> <empty>
 Rule 141   end_par -> <empty>
 Rule 142   push_id -> <empty>
-Rule 143   call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
-Rule 144   check_name -> <empty>
-Rule 145   create_era -> <empty>
-Rule 146   gosub -> <empty>
-Rule 147   call1 -> expression argument call2
-Rule 148   call1 -> call2
-Rule 149   call2 -> COMMA expression argument call2
-Rule 150   call2 -> empty
-Rule 151   argument -> <empty>
-Rule 152   check_params -> <empty>
-Rule 153   print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
-Rule 154   print_multi -> COMMA expression to_screen print_multi
-Rule 155   print_multi -> empty
-Rule 156   to_screen -> <empty>
-Rule 157   return -> RETURN expression savereturn SEMICOLON
-Rule 158   savereturn -> <empty>
-Rule 159   empty -> <empty>
+Rule 143   call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
+Rule 144   checkreturn -> <empty>
+Rule 145   check_name -> <empty>
+Rule 146   create_era -> <empty>
+Rule 147   gosub -> <empty>
+Rule 148   call1 -> expression argument call2
+Rule 149   call1 -> call2
+Rule 150   call2 -> COMMA expression argument call2
+Rule 151   call2 -> empty
+Rule 152   argument -> <empty>
+Rule 153   check_params -> <empty>
+Rule 154   print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
+Rule 155   print_multi -> COMMA expression to_screen print_multi
+Rule 156   print_multi -> empty
+Rule 157   to_screen -> <empty>
+Rule 158   return -> RETURN expression savereturn SEMICOLON
+Rule 159   savereturn -> <empty>
+Rule 160   empty -> <empty>
 
 Terminals, with rules where they appear
 
@@ -182,7 +183,7 @@ BLUE                 : 53
 BOOL                 : 95
 CIRCLE               : 80
 COLOR                : 79
-COMMA                : 21 65 67 82 83 84 149 154
+COMMA                : 21 65 67 82 83 84 150 155
 CTE_BOOL             : 
 CTE_FLOAT            : 129
 CTE_INT              : 26 128
@@ -205,7 +206,7 @@ LBRACE               : 10 44 60 61 100 101
 LBRACKET             : 26 48
 LESSER               : 107
 LESSEROREQUAL        : 112
-LPAREN               : 44 60 61 79 80 81 82 83 84 85 86 87 88 89 90 91 100 123 143 153
+LPAREN               : 44 60 61 79 80 81 82 83 84 85 86 87 88 89 90 91 100 123 143 154
 MINUS                : 115
 NOT                  : 
 NOTEQUAL             : 110
@@ -218,17 +219,17 @@ PENSIZE              : 87
 PINK                 : 56
 PLUS                 : 116
 POLIGON              : 84
-PRINT                : 153
+PRINT                : 154
 PROGRAM              : 1
 PURPLE               : 57
 RBRACE               : 10 44 60 61 100 101
 RBRACKET             : 26 48
 RECTANGLE            : 83
 RED                  : 52
-RETURN               : 157
+RETURN               : 158
 ROTATE               : 85 86
-RPAREN               : 44 60 61 79 80 81 82 83 84 85 86 87 88 89 90 91 100 123 143 153
-SEMICOLON            : 1 17 47 48 79 80 81 82 83 84 85 86 87 88 89 90 91 143 153 157
+RPAREN               : 44 60 61 79 80 81 82 83 84 85 86 87 88 89 90 91 100 123 143 154
+SEMICOLON            : 1 17 47 48 79 80 81 82 83 84 85 86 87 88 89 90 91 143 154 158
 SIZE                 : 
 SQUARE               : 81
 STRING               : 58 94
@@ -245,16 +246,17 @@ error                :
 
 Nonterminals, with rules where they appear
 
-argument             : 147 149
+argument             : 148 150
 assignment           : 27
 b1                   : 10
 b2                   : 11 12 14 44 100 101
 block                : 1
 call                 : 28 132
 call1                : 143
-call2                : 147 148 149
+call2                : 148 149 150
 check_name           : 143
 check_params         : 143
+checkreturn          : 143
 circle               : 33
 color                : 35
 color_cte            : 79
@@ -263,14 +265,14 @@ condition1           : 100
 create_era           : 143
 cte_bool             : 59 130
 cte_id               : 48
-empty                : 6 15 18 22 64 66 68 70 73 75 102 113 117 122 150 155
+empty                : 6 15 18 22 64 66 68 70 73 75 102 113 117 122 151 156
 end_func             : 60 61
 end_if               : 100
 end_par              : 123
 end_while            : 44
 exp                  : 48 80 81 82 82 83 83 84 84 85 87 88 89 106 107 108 109 110 111 112 115 116
 exp1                 : 114
-expression           : 44 47 48 100 123 147 149 153 154 157
+expression           : 44 47 48 100 123 148 150 154 155 158
 expression1          : 106
 factor               : 119
 false_bottom         : 123
@@ -302,7 +304,7 @@ penon                : 41
 pensize              : 36
 poligon              : 34
 print                : 43
-print_multi          : 153 154
+print_multi          : 154 155
 program              : 0
 program1             : 1 4 5
 push_id              : 125
@@ -317,7 +319,7 @@ save_type            : 17 67
 saveid               : 20
 saveidfunc           : 60 61
 savelist             : 19
-savereturn           : 157
+savereturn           : 158
 set_value            : 47
 square               : 32
 st_cte               : 
@@ -326,7 +328,7 @@ statute              : 14 69
 term                 : 114 120 121
 term1                : 119
 test                 : 
-to_screen            : 153 154
+to_screen            : 154 155
 top_exp              : 114
 top_factor           : 119
 top_relop            : 107 108 109 110 111 112
@@ -390,11 +392,11 @@ state 5
     (4) program1 -> . program1 funcs save_funcs
     (5) program1 -> . program1 vars global_vars
     (6) program1 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
-    FUNC            reduce using rule 159 (empty -> .)
-    VAR             reduce using rule 159 (empty -> .)
-    DAVINCI         reduce using rule 159 (empty -> .)
+    FUNC            reduce using rule 160 (empty -> .)
+    VAR             reduce using rule 160 (empty -> .)
+    DAVINCI         reduce using rule 160 (empty -> .)
 
     program1                       shift and go to state 6
     empty                          shift and go to state 7
@@ -481,33 +483,33 @@ state 12
     (93) type -> . FLOAT
     (94) type -> . STRING
     (95) type -> . BOOL
-    (159) empty -> .
+    (160) empty -> .
 
     INT             shift and go to state 18
     FLOAT           shift and go to state 19
     STRING          shift and go to state 20
     BOOL            shift and go to state 21
-    FUNC            reduce using rule 159 (empty -> .)
-    VAR             reduce using rule 159 (empty -> .)
-    DAVINCI         reduce using rule 159 (empty -> .)
-    ID              reduce using rule 159 (empty -> .)
-    IF              reduce using rule 159 (empty -> .)
-    TRIANGLE        reduce using rule 159 (empty -> .)
-    RECTANGLE       reduce using rule 159 (empty -> .)
-    SQUARE          reduce using rule 159 (empty -> .)
-    CIRCLE          reduce using rule 159 (empty -> .)
-    POLIGON         reduce using rule 159 (empty -> .)
-    COLOR           reduce using rule 159 (empty -> .)
-    PENSIZE         reduce using rule 159 (empty -> .)
-    PENFORWARD      reduce using rule 159 (empty -> .)
-    PENBACK         reduce using rule 159 (empty -> .)
-    ROTATE          reduce using rule 159 (empty -> .)
-    WHILE           reduce using rule 159 (empty -> .)
-    PENON           reduce using rule 159 (empty -> .)
-    PENOFF          reduce using rule 159 (empty -> .)
-    PRINT           reduce using rule 159 (empty -> .)
-    RBRACE          reduce using rule 159 (empty -> .)
-    LBRACE          reduce using rule 159 (empty -> .)
+    FUNC            reduce using rule 160 (empty -> .)
+    VAR             reduce using rule 160 (empty -> .)
+    DAVINCI         reduce using rule 160 (empty -> .)
+    ID              reduce using rule 160 (empty -> .)
+    IF              reduce using rule 160 (empty -> .)
+    TRIANGLE        reduce using rule 160 (empty -> .)
+    RECTANGLE       reduce using rule 160 (empty -> .)
+    SQUARE          reduce using rule 160 (empty -> .)
+    CIRCLE          reduce using rule 160 (empty -> .)
+    POLIGON         reduce using rule 160 (empty -> .)
+    COLOR           reduce using rule 160 (empty -> .)
+    PENSIZE         reduce using rule 160 (empty -> .)
+    PENFORWARD      reduce using rule 160 (empty -> .)
+    PENBACK         reduce using rule 160 (empty -> .)
+    ROTATE          reduce using rule 160 (empty -> .)
+    WHILE           reduce using rule 160 (empty -> .)
+    PENON           reduce using rule 160 (empty -> .)
+    PENOFF          reduce using rule 160 (empty -> .)
+    PRINT           reduce using rule 160 (empty -> .)
+    RBRACE          reduce using rule 160 (empty -> .)
+    LBRACE          reduce using rule 160 (empty -> .)
 
     vars2                          shift and go to state 22
     type                           shift and go to state 23
@@ -697,26 +699,26 @@ state 30
     (16) vars -> . VAR vars2
     (14) b2 -> . b2 statute
     (15) b2 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
     VAR             shift and go to state 12
-    ID              reduce using rule 159 (empty -> .)
-    IF              reduce using rule 159 (empty -> .)
-    TRIANGLE        reduce using rule 159 (empty -> .)
-    RECTANGLE       reduce using rule 159 (empty -> .)
-    SQUARE          reduce using rule 159 (empty -> .)
-    CIRCLE          reduce using rule 159 (empty -> .)
-    POLIGON         reduce using rule 159 (empty -> .)
-    COLOR           reduce using rule 159 (empty -> .)
-    PENSIZE         reduce using rule 159 (empty -> .)
-    PENFORWARD      reduce using rule 159 (empty -> .)
-    PENBACK         reduce using rule 159 (empty -> .)
-    ROTATE          reduce using rule 159 (empty -> .)
-    WHILE           reduce using rule 159 (empty -> .)
-    PENON           reduce using rule 159 (empty -> .)
-    PENOFF          reduce using rule 159 (empty -> .)
-    PRINT           reduce using rule 159 (empty -> .)
-    RBRACE          reduce using rule 159 (empty -> .)
+    ID              reduce using rule 160 (empty -> .)
+    IF              reduce using rule 160 (empty -> .)
+    TRIANGLE        reduce using rule 160 (empty -> .)
+    RECTANGLE       reduce using rule 160 (empty -> .)
+    SQUARE          reduce using rule 160 (empty -> .)
+    CIRCLE          reduce using rule 160 (empty -> .)
+    POLIGON         reduce using rule 160 (empty -> .)
+    COLOR           reduce using rule 160 (empty -> .)
+    PENSIZE         reduce using rule 160 (empty -> .)
+    PENFORWARD      reduce using rule 160 (empty -> .)
+    PENBACK         reduce using rule 160 (empty -> .)
+    ROTATE          reduce using rule 160 (empty -> .)
+    WHILE           reduce using rule 160 (empty -> .)
+    PENON           reduce using rule 160 (empty -> .)
+    PENOFF          reduce using rule 160 (empty -> .)
+    PRINT           reduce using rule 160 (empty -> .)
+    RBRACE          reduce using rule 160 (empty -> .)
 
     b1                             shift and go to state 35
     vars                           shift and go to state 36
@@ -817,7 +819,7 @@ state 37
     (43) statute -> . print
     (47) assignment -> . ID verify_id ASSIGN push_sign expression set_value SEMICOLON
     (48) assignment -> . ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
     (100) condition -> . IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if
     (82) triangle -> . TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
     (83) rectangle -> . RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
@@ -833,7 +835,7 @@ state 37
     (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
-    (153) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
+    (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
 
     RBRACE          reduce using rule 12 (b1 -> b2 .)
     ID              shift and go to state 65
@@ -918,33 +920,33 @@ state 41
     (93) type -> . FLOAT
     (94) type -> . STRING
     (95) type -> . BOOL
-    (159) empty -> .
+    (160) empty -> .
 
     INT             shift and go to state 18
     FLOAT           shift and go to state 19
     STRING          shift and go to state 20
     BOOL            shift and go to state 21
-    FUNC            reduce using rule 159 (empty -> .)
-    VAR             reduce using rule 159 (empty -> .)
-    DAVINCI         reduce using rule 159 (empty -> .)
-    ID              reduce using rule 159 (empty -> .)
-    IF              reduce using rule 159 (empty -> .)
-    TRIANGLE        reduce using rule 159 (empty -> .)
-    RECTANGLE       reduce using rule 159 (empty -> .)
-    SQUARE          reduce using rule 159 (empty -> .)
-    CIRCLE          reduce using rule 159 (empty -> .)
-    POLIGON         reduce using rule 159 (empty -> .)
-    COLOR           reduce using rule 159 (empty -> .)
-    PENSIZE         reduce using rule 159 (empty -> .)
-    PENFORWARD      reduce using rule 159 (empty -> .)
-    PENBACK         reduce using rule 159 (empty -> .)
-    ROTATE          reduce using rule 159 (empty -> .)
-    WHILE           reduce using rule 159 (empty -> .)
-    PENON           reduce using rule 159 (empty -> .)
-    PENOFF          reduce using rule 159 (empty -> .)
-    PRINT           reduce using rule 159 (empty -> .)
-    RBRACE          reduce using rule 159 (empty -> .)
-    LBRACE          reduce using rule 159 (empty -> .)
+    FUNC            reduce using rule 160 (empty -> .)
+    VAR             reduce using rule 160 (empty -> .)
+    DAVINCI         reduce using rule 160 (empty -> .)
+    ID              reduce using rule 160 (empty -> .)
+    IF              reduce using rule 160 (empty -> .)
+    TRIANGLE        reduce using rule 160 (empty -> .)
+    RECTANGLE       reduce using rule 160 (empty -> .)
+    SQUARE          reduce using rule 160 (empty -> .)
+    CIRCLE          reduce using rule 160 (empty -> .)
+    POLIGON         reduce using rule 160 (empty -> .)
+    COLOR           reduce using rule 160 (empty -> .)
+    PENSIZE         reduce using rule 160 (empty -> .)
+    PENFORWARD      reduce using rule 160 (empty -> .)
+    PENBACK         reduce using rule 160 (empty -> .)
+    ROTATE          reduce using rule 160 (empty -> .)
+    WHILE           reduce using rule 160 (empty -> .)
+    PENON           reduce using rule 160 (empty -> .)
+    PENOFF          reduce using rule 160 (empty -> .)
+    PRINT           reduce using rule 160 (empty -> .)
+    RBRACE          reduce using rule 160 (empty -> .)
+    LBRACE          reduce using rule 160 (empty -> .)
 
     type                           shift and go to state 23
     vars2                          shift and go to state 83
@@ -965,10 +967,10 @@ state 43
     (20) vars3 -> ID saveid . vars4
     (21) vars4 -> . COMMA vars3
     (22) vars4 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
     COMMA           shift and go to state 86
-    SEMICOLON       reduce using rule 159 (empty -> .)
+    SEMICOLON       reduce using rule 160 (empty -> .)
 
     vars4                          shift and go to state 85
     empty                          shift and go to state 87
@@ -992,25 +994,25 @@ state 46
     (11) b1 -> vars local_vars . b2
     (14) b2 -> . b2 statute
     (15) b2 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
-    ID              reduce using rule 159 (empty -> .)
-    IF              reduce using rule 159 (empty -> .)
-    TRIANGLE        reduce using rule 159 (empty -> .)
-    RECTANGLE       reduce using rule 159 (empty -> .)
-    SQUARE          reduce using rule 159 (empty -> .)
-    CIRCLE          reduce using rule 159 (empty -> .)
-    POLIGON         reduce using rule 159 (empty -> .)
-    COLOR           reduce using rule 159 (empty -> .)
-    PENSIZE         reduce using rule 159 (empty -> .)
-    PENFORWARD      reduce using rule 159 (empty -> .)
-    PENBACK         reduce using rule 159 (empty -> .)
-    ROTATE          reduce using rule 159 (empty -> .)
-    WHILE           reduce using rule 159 (empty -> .)
-    PENON           reduce using rule 159 (empty -> .)
-    PENOFF          reduce using rule 159 (empty -> .)
-    PRINT           reduce using rule 159 (empty -> .)
-    RBRACE          reduce using rule 159 (empty -> .)
+    ID              reduce using rule 160 (empty -> .)
+    IF              reduce using rule 160 (empty -> .)
+    TRIANGLE        reduce using rule 160 (empty -> .)
+    RECTANGLE       reduce using rule 160 (empty -> .)
+    SQUARE          reduce using rule 160 (empty -> .)
+    CIRCLE          reduce using rule 160 (empty -> .)
+    POLIGON         reduce using rule 160 (empty -> .)
+    COLOR           reduce using rule 160 (empty -> .)
+    PENSIZE         reduce using rule 160 (empty -> .)
+    PENFORWARD      reduce using rule 160 (empty -> .)
+    PENBACK         reduce using rule 160 (empty -> .)
+    ROTATE          reduce using rule 160 (empty -> .)
+    WHILE           reduce using rule 160 (empty -> .)
+    PENON           reduce using rule 160 (empty -> .)
+    PENOFF          reduce using rule 160 (empty -> .)
+    PRINT           reduce using rule 160 (empty -> .)
+    RBRACE          reduce using rule 160 (empty -> .)
 
     b2                             shift and go to state 89
     empty                          shift and go to state 38
@@ -1450,14 +1452,14 @@ state 65
 
     (47) assignment -> ID . verify_id ASSIGN push_sign expression set_value SEMICOLON
     (48) assignment -> ID . cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON
-    (143) call -> ID . check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> ID . check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
     (49) verify_id -> .
     (51) cte_id -> .
-    (144) check_name -> .
+    (145) check_name -> .
 
     ASSIGN          reduce using rule 49 (verify_id -> .)
     LBRACKET        reduce using rule 51 (cte_id -> .)
-    LPAREN          reduce using rule 144 (check_name -> .)
+    LPAREN          reduce using rule 145 (check_name -> .)
 
     verify_id                      shift and go to state 90
     cte_id                         shift and go to state 91
@@ -1566,7 +1568,7 @@ state 79
 
 state 80
 
-    (153) print -> PRINT . LPAREN expression to_screen print_multi RPAREN SEMICOLON
+    (154) print -> PRINT . LPAREN expression to_screen print_multi RPAREN SEMICOLON
 
     LPAREN          shift and go to state 107
 
@@ -1580,13 +1582,13 @@ state 81
     (93) type -> . FLOAT
     (94) type -> . STRING
     (95) type -> . BOOL
-    (159) empty -> .
+    (160) empty -> .
 
     INT             shift and go to state 18
     FLOAT           shift and go to state 19
     STRING          shift and go to state 20
     BOOL            shift and go to state 21
-    RPAREN          reduce using rule 159 (empty -> .)
+    RPAREN          reduce using rule 160 (empty -> .)
 
     type                           shift and go to state 108
     params                         shift and go to state 109
@@ -1601,13 +1603,13 @@ state 82
     (93) type -> . FLOAT
     (94) type -> . STRING
     (95) type -> . BOOL
-    (159) empty -> .
+    (160) empty -> .
 
     INT             shift and go to state 18
     FLOAT           shift and go to state 19
     STRING          shift and go to state 20
     BOOL            shift and go to state 21
-    RPAREN          reduce using rule 159 (empty -> .)
+    RPAREN          reduce using rule 160 (empty -> .)
 
     params                         shift and go to state 111
     type                           shift and go to state 108
@@ -1645,10 +1647,10 @@ state 84
     (19) vars3 -> ID list savelist . vars4
     (21) vars4 -> . COMMA vars3
     (22) vars4 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
     COMMA           shift and go to state 86
-    SEMICOLON       reduce using rule 159 (empty -> .)
+    SEMICOLON       reduce using rule 160 (empty -> .)
 
     vars4                          shift and go to state 112
     empty                          shift and go to state 87
@@ -1707,7 +1709,7 @@ state 89
     (43) statute -> . print
     (47) assignment -> . ID verify_id ASSIGN push_sign expression set_value SEMICOLON
     (48) assignment -> . ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
     (100) condition -> . IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if
     (82) triangle -> . TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
     (83) rectangle -> . RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
@@ -1723,7 +1725,7 @@ state 89
     (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
-    (153) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
+    (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
 
     RBRACE          reduce using rule 11 (b1 -> vars local_vars b2 .)
     ID              shift and go to state 65
@@ -1778,7 +1780,7 @@ state 91
 
 state 92
 
-    (143) call -> ID check_name . LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> ID check_name . LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 117
 
@@ -1800,7 +1802,7 @@ state 93
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -1833,7 +1835,7 @@ state 94
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -1865,7 +1867,7 @@ state 95
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -1897,7 +1899,7 @@ state 96
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -1929,7 +1931,7 @@ state 97
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -1961,7 +1963,7 @@ state 98
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -2012,7 +2014,7 @@ state 100
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -2044,7 +2046,7 @@ state 101
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -2076,7 +2078,7 @@ state 102
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -2109,7 +2111,7 @@ state 103
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     CTE_STRING      shift and go to state 147
     LPAREN          shift and go to state 118
@@ -2149,7 +2151,7 @@ state 106
 
 state 107
 
-    (153) print -> PRINT LPAREN . expression to_screen print_multi RPAREN SEMICOLON
+    (154) print -> PRINT LPAREN . expression to_screen print_multi RPAREN SEMICOLON
     (106) expression -> . exp expression1
     (114) exp -> . term top_exp exp1
     (119) term -> . factor top_factor term1
@@ -2164,7 +2166,7 @@ state 107
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -2273,7 +2275,7 @@ state 116
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -2291,17 +2293,17 @@ state 116
 
 state 117
 
-    (143) call -> ID check_name LPAREN . create_era call1 RPAREN check_params SEMICOLON gosub
-    (145) create_era -> .
+    (143) call -> ID check_name LPAREN . create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
+    (146) create_era -> .
 
-    COMMA           reduce using rule 145 (create_era -> .)
-    LPAREN          reduce using rule 145 (create_era -> .)
-    ID              reduce using rule 145 (create_era -> .)
-    CTE_INT         reduce using rule 145 (create_era -> .)
-    CTE_FLOAT       reduce using rule 145 (create_era -> .)
-    TRUE            reduce using rule 145 (create_era -> .)
-    FALSE           reduce using rule 145 (create_era -> .)
-    RPAREN          reduce using rule 145 (create_era -> .)
+    COMMA           reduce using rule 146 (create_era -> .)
+    LPAREN          reduce using rule 146 (create_era -> .)
+    ID              reduce using rule 146 (create_era -> .)
+    CTE_INT         reduce using rule 146 (create_era -> .)
+    CTE_FLOAT       reduce using rule 146 (create_era -> .)
+    TRUE            reduce using rule 146 (create_era -> .)
+    FALSE           reduce using rule 146 (create_era -> .)
+    RPAREN          reduce using rule 146 (create_era -> .)
 
     create_era                     shift and go to state 157
 
@@ -2336,7 +2338,7 @@ state 120
     (111) expression1 -> . GREATEROREQUAL relop exp top_relop
     (112) expression1 -> . LESSEROREQUAL relop exp top_relop
     (113) expression1 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
     LESSER          shift and go to state 161
     GREATER         shift and go to state 162
@@ -2344,9 +2346,9 @@ state 120
     NOTEQUAL        shift and go to state 164
     GREATEROREQUAL  shift and go to state 165
     LESSEROREQUAL   shift and go to state 166
-    RPAREN          reduce using rule 159 (empty -> .)
-    COMMA           reduce using rule 159 (empty -> .)
-    SEMICOLON       reduce using rule 159 (empty -> .)
+    RPAREN          reduce using rule 160 (empty -> .)
+    COMMA           reduce using rule 160 (empty -> .)
+    SEMICOLON       reduce using rule 160 (empty -> .)
 
     expression1                    shift and go to state 160
     empty                          shift and go to state 167
@@ -2418,11 +2420,11 @@ state 124
     (125) factor -> ID . push_id
     (127) var_cte -> ID . getidvalue
     (131) var_cte -> ID . list getarrayvalue
-    (143) call -> ID . check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> ID . check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
     (142) push_id -> .
     (133) getidvalue -> .
     (26) list -> . LBRACKET CTE_INT RBRACKET
-    (144) check_name -> .
+    (145) check_name -> .
 
   ! reduce/reduce conflict for DIVIDE resolved using rule 133 (getidvalue -> .)
   ! reduce/reduce conflict for TIMES resolved using rule 133 (getidvalue -> .)
@@ -2453,7 +2455,7 @@ state 124
     RBRACKET        reduce using rule 133 (getidvalue -> .)
     SEMICOLON       reduce using rule 133 (getidvalue -> .)
     LBRACKET        shift and go to state 44
-    LPAREN          reduce using rule 144 (check_name -> .)
+    LPAREN          reduce using rule 145 (check_name -> .)
 
   ! DIVIDE          [ reduce using rule 142 (push_id -> .) ]
   ! TIMES           [ reduce using rule 142 (push_id -> .) ]
@@ -2739,7 +2741,7 @@ state 148
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -2772,11 +2774,11 @@ state 150
 
 state 151
 
-    (153) print -> PRINT LPAREN expression . to_screen print_multi RPAREN SEMICOLON
-    (156) to_screen -> .
+    (154) print -> PRINT LPAREN expression . to_screen print_multi RPAREN SEMICOLON
+    (157) to_screen -> .
 
-    COMMA           reduce using rule 156 (to_screen -> .)
-    RPAREN          reduce using rule 156 (to_screen -> .)
+    COMMA           reduce using rule 157 (to_screen -> .)
+    RPAREN          reduce using rule 157 (to_screen -> .)
 
     to_screen                      shift and go to state 191
 
@@ -2796,10 +2798,10 @@ state 153
     (74) funcvars -> . vars local_vars
     (75) funcvars -> . empty
     (16) vars -> . VAR vars2
-    (159) empty -> .
+    (160) empty -> .
 
     VAR             shift and go to state 12
-    LBRACE          reduce using rule 159 (empty -> .)
+    LBRACE          reduce using rule 160 (empty -> .)
 
     funcvars                       shift and go to state 193
     vars                           shift and go to state 194
@@ -2811,10 +2813,10 @@ state 154
     (74) funcvars -> . vars local_vars
     (75) funcvars -> . empty
     (16) vars -> . VAR vars2
-    (159) empty -> .
+    (160) empty -> .
 
     VAR             shift and go to state 12
-    LBRACE          reduce using rule 159 (empty -> .)
+    LBRACE          reduce using rule 160 (empty -> .)
 
     funcvars                       shift and go to state 196
     vars                           shift and go to state 194
@@ -2837,7 +2839,7 @@ state 155
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -2863,14 +2865,14 @@ state 156
 
 state 157
 
-    (143) call -> ID check_name LPAREN create_era . call1 RPAREN check_params SEMICOLON gosub
-    (147) call1 -> . expression argument call2
-    (148) call1 -> . call2
+    (143) call -> ID check_name LPAREN create_era . call1 RPAREN check_params SEMICOLON gosub checkreturn
+    (148) call1 -> . expression argument call2
+    (149) call1 -> . call2
     (106) expression -> . exp expression1
-    (149) call2 -> . COMMA expression argument call2
-    (150) call2 -> . empty
+    (150) call2 -> . COMMA expression argument call2
+    (151) call2 -> . empty
     (114) exp -> . term top_exp exp1
-    (159) empty -> .
+    (160) empty -> .
     (119) term -> . factor top_factor term1
     (123) factor -> . LPAREN false_bottom expression RPAREN end_par
     (124) factor -> . var_cte
@@ -2883,10 +2885,10 @@ state 157
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     COMMA           shift and go to state 202
-    RPAREN          reduce using rule 159 (empty -> .)
+    RPAREN          reduce using rule 160 (empty -> .)
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
     CTE_INT         shift and go to state 125
@@ -2922,7 +2924,7 @@ state 158
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -3056,20 +3058,20 @@ state 168
     (115) exp1 -> . MINUS push_sign exp
     (116) exp1 -> . PLUS push_sign exp
     (117) exp1 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
     MINUS           shift and go to state 213
     PLUS            shift and go to state 214
-    LESSER          reduce using rule 159 (empty -> .)
-    GREATER         reduce using rule 159 (empty -> .)
-    EQUAL           reduce using rule 159 (empty -> .)
-    NOTEQUAL        reduce using rule 159 (empty -> .)
-    GREATEROREQUAL  reduce using rule 159 (empty -> .)
-    LESSEROREQUAL   reduce using rule 159 (empty -> .)
-    RPAREN          reduce using rule 159 (empty -> .)
-    COMMA           reduce using rule 159 (empty -> .)
-    RBRACKET        reduce using rule 159 (empty -> .)
-    SEMICOLON       reduce using rule 159 (empty -> .)
+    LESSER          reduce using rule 160 (empty -> .)
+    GREATER         reduce using rule 160 (empty -> .)
+    EQUAL           reduce using rule 160 (empty -> .)
+    NOTEQUAL        reduce using rule 160 (empty -> .)
+    GREATEROREQUAL  reduce using rule 160 (empty -> .)
+    LESSEROREQUAL   reduce using rule 160 (empty -> .)
+    RPAREN          reduce using rule 160 (empty -> .)
+    COMMA           reduce using rule 160 (empty -> .)
+    RBRACKET        reduce using rule 160 (empty -> .)
+    SEMICOLON       reduce using rule 160 (empty -> .)
 
     exp1                           shift and go to state 212
     empty                          shift and go to state 215
@@ -3080,22 +3082,22 @@ state 169
     (120) term1 -> . DIVIDE push_sign term
     (121) term1 -> . TIMES push_sign term
     (122) term1 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
     DIVIDE          shift and go to state 217
     TIMES           shift and go to state 218
-    MINUS           reduce using rule 159 (empty -> .)
-    PLUS            reduce using rule 159 (empty -> .)
-    LESSER          reduce using rule 159 (empty -> .)
-    GREATER         reduce using rule 159 (empty -> .)
-    EQUAL           reduce using rule 159 (empty -> .)
-    NOTEQUAL        reduce using rule 159 (empty -> .)
-    GREATEROREQUAL  reduce using rule 159 (empty -> .)
-    LESSEROREQUAL   reduce using rule 159 (empty -> .)
-    RPAREN          reduce using rule 159 (empty -> .)
-    COMMA           reduce using rule 159 (empty -> .)
-    RBRACKET        reduce using rule 159 (empty -> .)
-    SEMICOLON       reduce using rule 159 (empty -> .)
+    MINUS           reduce using rule 160 (empty -> .)
+    PLUS            reduce using rule 160 (empty -> .)
+    LESSER          reduce using rule 160 (empty -> .)
+    GREATER         reduce using rule 160 (empty -> .)
+    EQUAL           reduce using rule 160 (empty -> .)
+    NOTEQUAL        reduce using rule 160 (empty -> .)
+    GREATEROREQUAL  reduce using rule 160 (empty -> .)
+    LESSEROREQUAL   reduce using rule 160 (empty -> .)
+    RPAREN          reduce using rule 160 (empty -> .)
+    COMMA           reduce using rule 160 (empty -> .)
+    RBRACKET        reduce using rule 160 (empty -> .)
+    SEMICOLON       reduce using rule 160 (empty -> .)
 
     term1                          shift and go to state 216
     empty                          shift and go to state 219
@@ -3258,7 +3260,7 @@ state 177
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -3290,7 +3292,7 @@ state 178
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -3336,7 +3338,7 @@ state 181
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -3451,13 +3453,13 @@ state 190
 
 state 191
 
-    (153) print -> PRINT LPAREN expression to_screen . print_multi RPAREN SEMICOLON
-    (154) print_multi -> . COMMA expression to_screen print_multi
-    (155) print_multi -> . empty
-    (159) empty -> .
+    (154) print -> PRINT LPAREN expression to_screen . print_multi RPAREN SEMICOLON
+    (155) print_multi -> . COMMA expression to_screen print_multi
+    (156) print_multi -> . empty
+    (160) empty -> .
 
     COMMA           shift and go to state 234
-    RPAREN          reduce using rule 159 (empty -> .)
+    RPAREN          reduce using rule 160 (empty -> .)
 
     print_multi                    shift and go to state 233
     empty                          shift and go to state 235
@@ -3467,10 +3469,10 @@ state 192
     (63) params -> type ID save_par . params1
     (65) params1 -> . COMMA type ID save_par params1
     (66) params1 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
     COMMA           shift and go to state 237
-    RPAREN          reduce using rule 159 (empty -> .)
+    RPAREN          reduce using rule 160 (empty -> .)
 
     params1                        shift and go to state 236
     empty                          shift and go to state 238
@@ -3523,31 +3525,31 @@ state 198
 
 state 199
 
-    (143) call -> ID check_name LPAREN create_era call1 . RPAREN check_params SEMICOLON gosub
+    (143) call -> ID check_name LPAREN create_era call1 . RPAREN check_params SEMICOLON gosub checkreturn
 
     RPAREN          shift and go to state 244
 
 
 state 200
 
-    (147) call1 -> expression . argument call2
-    (151) argument -> .
+    (148) call1 -> expression . argument call2
+    (152) argument -> .
 
-    COMMA           reduce using rule 151 (argument -> .)
-    RPAREN          reduce using rule 151 (argument -> .)
+    COMMA           reduce using rule 152 (argument -> .)
+    RPAREN          reduce using rule 152 (argument -> .)
 
     argument                       shift and go to state 245
 
 state 201
 
-    (148) call1 -> call2 .
+    (149) call1 -> call2 .
 
-    RPAREN          reduce using rule 148 (call1 -> call2 .)
+    RPAREN          reduce using rule 149 (call1 -> call2 .)
 
 
 state 202
 
-    (149) call2 -> COMMA . expression argument call2
+    (150) call2 -> COMMA . expression argument call2
     (106) expression -> . exp expression1
     (114) exp -> . term top_exp exp1
     (119) term -> . factor top_factor term1
@@ -3562,7 +3564,7 @@ state 202
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -3581,9 +3583,9 @@ state 202
 
 state 203
 
-    (150) call2 -> empty .
+    (151) call2 -> empty .
 
-    RPAREN          reduce using rule 150 (call2 -> empty .)
+    RPAREN          reduce using rule 151 (call2 -> empty .)
 
 
 state 204
@@ -3616,7 +3618,7 @@ state 206
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -3648,7 +3650,7 @@ state 207
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -3680,7 +3682,7 @@ state 208
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -3712,7 +3714,7 @@ state 209
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -3744,7 +3746,7 @@ state 210
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -3776,7 +3778,7 @@ state 211
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -4160,14 +4162,14 @@ state 232
 
 state 233
 
-    (153) print -> PRINT LPAREN expression to_screen print_multi . RPAREN SEMICOLON
+    (154) print -> PRINT LPAREN expression to_screen print_multi . RPAREN SEMICOLON
 
     RPAREN          shift and go to state 263
 
 
 state 234
 
-    (154) print_multi -> COMMA . expression to_screen print_multi
+    (155) print_multi -> COMMA . expression to_screen print_multi
     (106) expression -> . exp expression1
     (114) exp -> . term top_exp exp1
     (119) term -> . factor top_factor term1
@@ -4182,7 +4184,7 @@ state 234
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -4201,9 +4203,9 @@ state 234
 
 state 235
 
-    (155) print_multi -> empty .
+    (156) print_multi -> empty .
 
-    RPAREN          reduce using rule 155 (print_multi -> empty .)
+    RPAREN          reduce using rule 156 (print_multi -> empty .)
 
 
 state 236
@@ -4240,25 +4242,25 @@ state 239
     (60) funcs -> FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE . statements return RBRACE end_func funcs3
     (69) statements -> . statements statute
     (70) statements -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
-    RETURN          reduce using rule 159 (empty -> .)
-    ID              reduce using rule 159 (empty -> .)
-    IF              reduce using rule 159 (empty -> .)
-    TRIANGLE        reduce using rule 159 (empty -> .)
-    RECTANGLE       reduce using rule 159 (empty -> .)
-    SQUARE          reduce using rule 159 (empty -> .)
-    CIRCLE          reduce using rule 159 (empty -> .)
-    POLIGON         reduce using rule 159 (empty -> .)
-    COLOR           reduce using rule 159 (empty -> .)
-    PENSIZE         reduce using rule 159 (empty -> .)
-    PENFORWARD      reduce using rule 159 (empty -> .)
-    PENBACK         reduce using rule 159 (empty -> .)
-    ROTATE          reduce using rule 159 (empty -> .)
-    WHILE           reduce using rule 159 (empty -> .)
-    PENON           reduce using rule 159 (empty -> .)
-    PENOFF          reduce using rule 159 (empty -> .)
-    PRINT           reduce using rule 159 (empty -> .)
+    RETURN          reduce using rule 160 (empty -> .)
+    ID              reduce using rule 160 (empty -> .)
+    IF              reduce using rule 160 (empty -> .)
+    TRIANGLE        reduce using rule 160 (empty -> .)
+    RECTANGLE       reduce using rule 160 (empty -> .)
+    SQUARE          reduce using rule 160 (empty -> .)
+    CIRCLE          reduce using rule 160 (empty -> .)
+    POLIGON         reduce using rule 160 (empty -> .)
+    COLOR           reduce using rule 160 (empty -> .)
+    PENSIZE         reduce using rule 160 (empty -> .)
+    PENFORWARD      reduce using rule 160 (empty -> .)
+    PENBACK         reduce using rule 160 (empty -> .)
+    ROTATE          reduce using rule 160 (empty -> .)
+    WHILE           reduce using rule 160 (empty -> .)
+    PENON           reduce using rule 160 (empty -> .)
+    PENOFF          reduce using rule 160 (empty -> .)
+    PRINT           reduce using rule 160 (empty -> .)
 
     statements                     shift and go to state 266
     empty                          shift and go to state 267
@@ -4275,25 +4277,25 @@ state 241
     (61) funcs -> FUNC VOID functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE . statements RBRACE end_func funcs3
     (69) statements -> . statements statute
     (70) statements -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
-    RBRACE          reduce using rule 159 (empty -> .)
-    ID              reduce using rule 159 (empty -> .)
-    IF              reduce using rule 159 (empty -> .)
-    TRIANGLE        reduce using rule 159 (empty -> .)
-    RECTANGLE       reduce using rule 159 (empty -> .)
-    SQUARE          reduce using rule 159 (empty -> .)
-    CIRCLE          reduce using rule 159 (empty -> .)
-    POLIGON         reduce using rule 159 (empty -> .)
-    COLOR           reduce using rule 159 (empty -> .)
-    PENSIZE         reduce using rule 159 (empty -> .)
-    PENFORWARD      reduce using rule 159 (empty -> .)
-    PENBACK         reduce using rule 159 (empty -> .)
-    ROTATE          reduce using rule 159 (empty -> .)
-    WHILE           reduce using rule 159 (empty -> .)
-    PENON           reduce using rule 159 (empty -> .)
-    PENOFF          reduce using rule 159 (empty -> .)
-    PRINT           reduce using rule 159 (empty -> .)
+    RBRACE          reduce using rule 160 (empty -> .)
+    ID              reduce using rule 160 (empty -> .)
+    IF              reduce using rule 160 (empty -> .)
+    TRIANGLE        reduce using rule 160 (empty -> .)
+    RECTANGLE       reduce using rule 160 (empty -> .)
+    SQUARE          reduce using rule 160 (empty -> .)
+    CIRCLE          reduce using rule 160 (empty -> .)
+    POLIGON         reduce using rule 160 (empty -> .)
+    COLOR           reduce using rule 160 (empty -> .)
+    PENSIZE         reduce using rule 160 (empty -> .)
+    PENFORWARD      reduce using rule 160 (empty -> .)
+    PENBACK         reduce using rule 160 (empty -> .)
+    ROTATE          reduce using rule 160 (empty -> .)
+    WHILE           reduce using rule 160 (empty -> .)
+    PENON           reduce using rule 160 (empty -> .)
+    PENOFF          reduce using rule 160 (empty -> .)
+    PRINT           reduce using rule 160 (empty -> .)
 
     statements                     shift and go to state 268
     empty                          shift and go to state 267
@@ -4322,7 +4324,7 @@ state 243
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -4341,33 +4343,33 @@ state 243
 
 state 244
 
-    (143) call -> ID check_name LPAREN create_era call1 RPAREN . check_params SEMICOLON gosub
-    (152) check_params -> .
+    (143) call -> ID check_name LPAREN create_era call1 RPAREN . check_params SEMICOLON gosub checkreturn
+    (153) check_params -> .
 
-    SEMICOLON       reduce using rule 152 (check_params -> .)
+    SEMICOLON       reduce using rule 153 (check_params -> .)
 
     check_params                   shift and go to state 271
 
 state 245
 
-    (147) call1 -> expression argument . call2
-    (149) call2 -> . COMMA expression argument call2
-    (150) call2 -> . empty
-    (159) empty -> .
+    (148) call1 -> expression argument . call2
+    (150) call2 -> . COMMA expression argument call2
+    (151) call2 -> . empty
+    (160) empty -> .
 
     COMMA           shift and go to state 202
-    RPAREN          reduce using rule 159 (empty -> .)
+    RPAREN          reduce using rule 160 (empty -> .)
 
     call2                          shift and go to state 272
     empty                          shift and go to state 203
 
 state 246
 
-    (149) call2 -> COMMA expression . argument call2
-    (151) argument -> .
+    (150) call2 -> COMMA expression . argument call2
+    (152) argument -> .
 
-    COMMA           reduce using rule 151 (argument -> .)
-    RPAREN          reduce using rule 151 (argument -> .)
+    COMMA           reduce using rule 152 (argument -> .)
+    RPAREN          reduce using rule 152 (argument -> .)
 
     argument                       shift and go to state 273
 
@@ -4398,25 +4400,25 @@ state 248
     (100) condition -> IF LPAREN expression RPAREN type_check LBRACE . b2 RBRACE condition1 end_if
     (14) b2 -> . b2 statute
     (15) b2 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
-    RBRACE          reduce using rule 159 (empty -> .)
-    ID              reduce using rule 159 (empty -> .)
-    IF              reduce using rule 159 (empty -> .)
-    TRIANGLE        reduce using rule 159 (empty -> .)
-    RECTANGLE       reduce using rule 159 (empty -> .)
-    SQUARE          reduce using rule 159 (empty -> .)
-    CIRCLE          reduce using rule 159 (empty -> .)
-    POLIGON         reduce using rule 159 (empty -> .)
-    COLOR           reduce using rule 159 (empty -> .)
-    PENSIZE         reduce using rule 159 (empty -> .)
-    PENFORWARD      reduce using rule 159 (empty -> .)
-    PENBACK         reduce using rule 159 (empty -> .)
-    ROTATE          reduce using rule 159 (empty -> .)
-    WHILE           reduce using rule 159 (empty -> .)
-    PENON           reduce using rule 159 (empty -> .)
-    PENOFF          reduce using rule 159 (empty -> .)
-    PRINT           reduce using rule 159 (empty -> .)
+    RBRACE          reduce using rule 160 (empty -> .)
+    ID              reduce using rule 160 (empty -> .)
+    IF              reduce using rule 160 (empty -> .)
+    TRIANGLE        reduce using rule 160 (empty -> .)
+    RECTANGLE       reduce using rule 160 (empty -> .)
+    SQUARE          reduce using rule 160 (empty -> .)
+    CIRCLE          reduce using rule 160 (empty -> .)
+    POLIGON         reduce using rule 160 (empty -> .)
+    COLOR           reduce using rule 160 (empty -> .)
+    PENSIZE         reduce using rule 160 (empty -> .)
+    PENFORWARD      reduce using rule 160 (empty -> .)
+    PENBACK         reduce using rule 160 (empty -> .)
+    ROTATE          reduce using rule 160 (empty -> .)
+    WHILE           reduce using rule 160 (empty -> .)
+    PENON           reduce using rule 160 (empty -> .)
+    PENOFF          reduce using rule 160 (empty -> .)
+    PRINT           reduce using rule 160 (empty -> .)
 
     b2                             shift and go to state 275
     empty                          shift and go to state 38
@@ -4503,7 +4505,7 @@ state 255
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -4535,7 +4537,7 @@ state 256
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -4566,7 +4568,7 @@ state 257
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -4596,7 +4598,7 @@ state 258
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -4641,18 +4643,18 @@ state 262
 
 state 263
 
-    (153) print -> PRINT LPAREN expression to_screen print_multi RPAREN . SEMICOLON
+    (154) print -> PRINT LPAREN expression to_screen print_multi RPAREN . SEMICOLON
 
     SEMICOLON       shift and go to state 290
 
 
 state 264
 
-    (154) print_multi -> COMMA expression . to_screen print_multi
-    (156) to_screen -> .
+    (155) print_multi -> COMMA expression . to_screen print_multi
+    (157) to_screen -> .
 
-    COMMA           reduce using rule 156 (to_screen -> .)
-    RPAREN          reduce using rule 156 (to_screen -> .)
+    COMMA           reduce using rule 157 (to_screen -> .)
+    RPAREN          reduce using rule 157 (to_screen -> .)
 
     to_screen                      shift and go to state 291
 
@@ -4667,7 +4669,7 @@ state 266
 
     (60) funcs -> FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements . return RBRACE end_func funcs3
     (69) statements -> statements . statute
-    (157) return -> . RETURN expression savereturn SEMICOLON
+    (158) return -> . RETURN expression savereturn SEMICOLON
     (27) statute -> . assignment
     (28) statute -> . call
     (29) statute -> . condition
@@ -4687,7 +4689,7 @@ state 266
     (43) statute -> . print
     (47) assignment -> . ID verify_id ASSIGN push_sign expression set_value SEMICOLON
     (48) assignment -> . ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
     (100) condition -> . IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if
     (82) triangle -> . TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
     (83) rectangle -> . RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
@@ -4703,7 +4705,7 @@ state 266
     (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
-    (153) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
+    (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
 
     RETURN          shift and go to state 295
     ID              shift and go to state 65
@@ -4790,7 +4792,7 @@ state 268
     (43) statute -> . print
     (47) assignment -> . ID verify_id ASSIGN push_sign expression set_value SEMICOLON
     (48) assignment -> . ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
     (100) condition -> . IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if
     (82) triangle -> . TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
     (83) rectangle -> . RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
@@ -4806,7 +4808,7 @@ state 268
     (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
-    (153) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
+    (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
 
     RBRACE          shift and go to state 296
     ID              shift and go to state 65
@@ -4878,27 +4880,27 @@ state 270
 
 state 271
 
-    (143) call -> ID check_name LPAREN create_era call1 RPAREN check_params . SEMICOLON gosub
+    (143) call -> ID check_name LPAREN create_era call1 RPAREN check_params . SEMICOLON gosub checkreturn
 
     SEMICOLON       shift and go to state 298
 
 
 state 272
 
-    (147) call1 -> expression argument call2 .
+    (148) call1 -> expression argument call2 .
 
-    RPAREN          reduce using rule 147 (call1 -> expression argument call2 .)
+    RPAREN          reduce using rule 148 (call1 -> expression argument call2 .)
 
 
 state 273
 
-    (149) call2 -> COMMA expression argument . call2
-    (149) call2 -> . COMMA expression argument call2
-    (150) call2 -> . empty
-    (159) empty -> .
+    (150) call2 -> COMMA expression argument . call2
+    (150) call2 -> . COMMA expression argument call2
+    (151) call2 -> . empty
+    (160) empty -> .
 
     COMMA           shift and go to state 202
-    RPAREN          reduce using rule 159 (empty -> .)
+    RPAREN          reduce using rule 160 (empty -> .)
 
     call2                          shift and go to state 299
     empty                          shift and go to state 203
@@ -4946,7 +4948,7 @@ state 275
     (43) statute -> . print
     (47) assignment -> . ID verify_id ASSIGN push_sign expression set_value SEMICOLON
     (48) assignment -> . ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
     (100) condition -> . IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if
     (82) triangle -> . TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
     (83) rectangle -> . RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
@@ -4962,7 +4964,7 @@ state 275
     (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
-    (153) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
+    (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
 
     RBRACE          shift and go to state 300
     ID              shift and go to state 65
@@ -5200,62 +5202,62 @@ state 289
     (44) while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE . b2 RBRACE end_while
     (14) b2 -> . b2 statute
     (15) b2 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
-    RBRACE          reduce using rule 159 (empty -> .)
-    ID              reduce using rule 159 (empty -> .)
-    IF              reduce using rule 159 (empty -> .)
-    TRIANGLE        reduce using rule 159 (empty -> .)
-    RECTANGLE       reduce using rule 159 (empty -> .)
-    SQUARE          reduce using rule 159 (empty -> .)
-    CIRCLE          reduce using rule 159 (empty -> .)
-    POLIGON         reduce using rule 159 (empty -> .)
-    COLOR           reduce using rule 159 (empty -> .)
-    PENSIZE         reduce using rule 159 (empty -> .)
-    PENFORWARD      reduce using rule 159 (empty -> .)
-    PENBACK         reduce using rule 159 (empty -> .)
-    ROTATE          reduce using rule 159 (empty -> .)
-    WHILE           reduce using rule 159 (empty -> .)
-    PENON           reduce using rule 159 (empty -> .)
-    PENOFF          reduce using rule 159 (empty -> .)
-    PRINT           reduce using rule 159 (empty -> .)
+    RBRACE          reduce using rule 160 (empty -> .)
+    ID              reduce using rule 160 (empty -> .)
+    IF              reduce using rule 160 (empty -> .)
+    TRIANGLE        reduce using rule 160 (empty -> .)
+    RECTANGLE       reduce using rule 160 (empty -> .)
+    SQUARE          reduce using rule 160 (empty -> .)
+    CIRCLE          reduce using rule 160 (empty -> .)
+    POLIGON         reduce using rule 160 (empty -> .)
+    COLOR           reduce using rule 160 (empty -> .)
+    PENSIZE         reduce using rule 160 (empty -> .)
+    PENFORWARD      reduce using rule 160 (empty -> .)
+    PENBACK         reduce using rule 160 (empty -> .)
+    ROTATE          reduce using rule 160 (empty -> .)
+    WHILE           reduce using rule 160 (empty -> .)
+    PENON           reduce using rule 160 (empty -> .)
+    PENOFF          reduce using rule 160 (empty -> .)
+    PRINT           reduce using rule 160 (empty -> .)
 
     b2                             shift and go to state 301
     empty                          shift and go to state 38
 
 state 290
 
-    (153) print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .
+    (154) print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .
 
-    ID              reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    IF              reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    TRIANGLE        reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    RECTANGLE       reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    SQUARE          reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    CIRCLE          reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    POLIGON         reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    COLOR           reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    PENSIZE         reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    PENFORWARD      reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    PENBACK         reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    ROTATE          reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    WHILE           reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    PENON           reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    PENOFF          reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    PRINT           reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    RBRACE          reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
-    RETURN          reduce using rule 153 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    ID              reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    IF              reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    TRIANGLE        reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    RECTANGLE       reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    SQUARE          reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    CIRCLE          reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    POLIGON         reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    COLOR           reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    PENSIZE         reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    PENFORWARD      reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    PENBACK         reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    ROTATE          reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    WHILE           reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    PENON           reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    PENOFF          reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    PRINT           reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    RBRACE          reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
+    RETURN          reduce using rule 154 (print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON .)
 
 
 state 291
 
-    (154) print_multi -> COMMA expression to_screen . print_multi
-    (154) print_multi -> . COMMA expression to_screen print_multi
-    (155) print_multi -> . empty
-    (159) empty -> .
+    (155) print_multi -> COMMA expression to_screen . print_multi
+    (155) print_multi -> . COMMA expression to_screen print_multi
+    (156) print_multi -> . empty
+    (160) empty -> .
 
     COMMA           shift and go to state 234
-    RPAREN          reduce using rule 159 (empty -> .)
+    RPAREN          reduce using rule 160 (empty -> .)
 
     print_multi                    shift and go to state 302
     empty                          shift and go to state 235
@@ -5303,7 +5305,7 @@ state 294
 
 state 295
 
-    (157) return -> RETURN . expression savereturn SEMICOLON
+    (158) return -> RETURN . expression savereturn SEMICOLON
     (106) expression -> . exp expression1
     (114) exp -> . term top_exp exp1
     (119) term -> . factor top_factor term1
@@ -5318,7 +5320,7 @@ state 295
     (132) var_cte -> . call getcallvalue
     (98) cte_bool -> . TRUE
     (99) cte_bool -> . FALSE
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
@@ -5372,49 +5374,49 @@ state 297
 
 state 298
 
-    (143) call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON . gosub
-    (146) gosub -> .
+    (143) call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON . gosub checkreturn
+    (147) gosub -> .
 
-    ID              reduce using rule 146 (gosub -> .)
-    IF              reduce using rule 146 (gosub -> .)
-    TRIANGLE        reduce using rule 146 (gosub -> .)
-    RECTANGLE       reduce using rule 146 (gosub -> .)
-    SQUARE          reduce using rule 146 (gosub -> .)
-    CIRCLE          reduce using rule 146 (gosub -> .)
-    POLIGON         reduce using rule 146 (gosub -> .)
-    COLOR           reduce using rule 146 (gosub -> .)
-    PENSIZE         reduce using rule 146 (gosub -> .)
-    PENFORWARD      reduce using rule 146 (gosub -> .)
-    PENBACK         reduce using rule 146 (gosub -> .)
-    ROTATE          reduce using rule 146 (gosub -> .)
-    WHILE           reduce using rule 146 (gosub -> .)
-    PENON           reduce using rule 146 (gosub -> .)
-    PENOFF          reduce using rule 146 (gosub -> .)
-    PRINT           reduce using rule 146 (gosub -> .)
-    RBRACE          reduce using rule 146 (gosub -> .)
-    DIVIDE          reduce using rule 146 (gosub -> .)
-    TIMES           reduce using rule 146 (gosub -> .)
-    MINUS           reduce using rule 146 (gosub -> .)
-    PLUS            reduce using rule 146 (gosub -> .)
-    LESSER          reduce using rule 146 (gosub -> .)
-    GREATER         reduce using rule 146 (gosub -> .)
-    EQUAL           reduce using rule 146 (gosub -> .)
-    NOTEQUAL        reduce using rule 146 (gosub -> .)
-    GREATEROREQUAL  reduce using rule 146 (gosub -> .)
-    LESSEROREQUAL   reduce using rule 146 (gosub -> .)
-    RPAREN          reduce using rule 146 (gosub -> .)
-    COMMA           reduce using rule 146 (gosub -> .)
-    RBRACKET        reduce using rule 146 (gosub -> .)
-    SEMICOLON       reduce using rule 146 (gosub -> .)
-    RETURN          reduce using rule 146 (gosub -> .)
+    ID              reduce using rule 147 (gosub -> .)
+    IF              reduce using rule 147 (gosub -> .)
+    TRIANGLE        reduce using rule 147 (gosub -> .)
+    RECTANGLE       reduce using rule 147 (gosub -> .)
+    SQUARE          reduce using rule 147 (gosub -> .)
+    CIRCLE          reduce using rule 147 (gosub -> .)
+    POLIGON         reduce using rule 147 (gosub -> .)
+    COLOR           reduce using rule 147 (gosub -> .)
+    PENSIZE         reduce using rule 147 (gosub -> .)
+    PENFORWARD      reduce using rule 147 (gosub -> .)
+    PENBACK         reduce using rule 147 (gosub -> .)
+    ROTATE          reduce using rule 147 (gosub -> .)
+    WHILE           reduce using rule 147 (gosub -> .)
+    PENON           reduce using rule 147 (gosub -> .)
+    PENOFF          reduce using rule 147 (gosub -> .)
+    PRINT           reduce using rule 147 (gosub -> .)
+    RBRACE          reduce using rule 147 (gosub -> .)
+    DIVIDE          reduce using rule 147 (gosub -> .)
+    TIMES           reduce using rule 147 (gosub -> .)
+    MINUS           reduce using rule 147 (gosub -> .)
+    PLUS            reduce using rule 147 (gosub -> .)
+    LESSER          reduce using rule 147 (gosub -> .)
+    GREATER         reduce using rule 147 (gosub -> .)
+    EQUAL           reduce using rule 147 (gosub -> .)
+    NOTEQUAL        reduce using rule 147 (gosub -> .)
+    GREATEROREQUAL  reduce using rule 147 (gosub -> .)
+    LESSEROREQUAL   reduce using rule 147 (gosub -> .)
+    RPAREN          reduce using rule 147 (gosub -> .)
+    COMMA           reduce using rule 147 (gosub -> .)
+    RBRACKET        reduce using rule 147 (gosub -> .)
+    SEMICOLON       reduce using rule 147 (gosub -> .)
+    RETURN          reduce using rule 147 (gosub -> .)
 
     gosub                          shift and go to state 307
 
 state 299
 
-    (149) call2 -> COMMA expression argument call2 .
+    (150) call2 -> COMMA expression argument call2 .
 
-    RPAREN          reduce using rule 149 (call2 -> COMMA expression argument call2 .)
+    RPAREN          reduce using rule 150 (call2 -> COMMA expression argument call2 .)
 
 
 state 300
@@ -5423,27 +5425,27 @@ state 300
     (101) condition1 -> . gotoElse ELSE LBRACE b2 RBRACE
     (102) condition1 -> . empty
     (104) gotoElse -> .
-    (159) empty -> .
+    (160) empty -> .
 
     ELSE            reduce using rule 104 (gotoElse -> .)
-    ID              reduce using rule 159 (empty -> .)
-    IF              reduce using rule 159 (empty -> .)
-    TRIANGLE        reduce using rule 159 (empty -> .)
-    RECTANGLE       reduce using rule 159 (empty -> .)
-    SQUARE          reduce using rule 159 (empty -> .)
-    CIRCLE          reduce using rule 159 (empty -> .)
-    POLIGON         reduce using rule 159 (empty -> .)
-    COLOR           reduce using rule 159 (empty -> .)
-    PENSIZE         reduce using rule 159 (empty -> .)
-    PENFORWARD      reduce using rule 159 (empty -> .)
-    PENBACK         reduce using rule 159 (empty -> .)
-    ROTATE          reduce using rule 159 (empty -> .)
-    WHILE           reduce using rule 159 (empty -> .)
-    PENON           reduce using rule 159 (empty -> .)
-    PENOFF          reduce using rule 159 (empty -> .)
-    PRINT           reduce using rule 159 (empty -> .)
-    RBRACE          reduce using rule 159 (empty -> .)
-    RETURN          reduce using rule 159 (empty -> .)
+    ID              reduce using rule 160 (empty -> .)
+    IF              reduce using rule 160 (empty -> .)
+    TRIANGLE        reduce using rule 160 (empty -> .)
+    RECTANGLE       reduce using rule 160 (empty -> .)
+    SQUARE          reduce using rule 160 (empty -> .)
+    CIRCLE          reduce using rule 160 (empty -> .)
+    POLIGON         reduce using rule 160 (empty -> .)
+    COLOR           reduce using rule 160 (empty -> .)
+    PENSIZE         reduce using rule 160 (empty -> .)
+    PENFORWARD      reduce using rule 160 (empty -> .)
+    PENBACK         reduce using rule 160 (empty -> .)
+    ROTATE          reduce using rule 160 (empty -> .)
+    WHILE           reduce using rule 160 (empty -> .)
+    PENON           reduce using rule 160 (empty -> .)
+    PENOFF          reduce using rule 160 (empty -> .)
+    PRINT           reduce using rule 160 (empty -> .)
+    RBRACE          reduce using rule 160 (empty -> .)
+    RETURN          reduce using rule 160 (empty -> .)
 
     condition1                     shift and go to state 308
     gotoElse                       shift and go to state 309
@@ -5472,7 +5474,7 @@ state 301
     (43) statute -> . print
     (47) assignment -> . ID verify_id ASSIGN push_sign expression set_value SEMICOLON
     (48) assignment -> . ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
     (100) condition -> . IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if
     (82) triangle -> . TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
     (83) rectangle -> . RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
@@ -5488,7 +5490,7 @@ state 301
     (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
-    (153) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
+    (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
 
     RBRACE          shift and go to state 311
     ID              shift and go to state 65
@@ -5529,9 +5531,9 @@ state 301
 
 state 302
 
-    (154) print_multi -> COMMA expression to_screen print_multi .
+    (155) print_multi -> COMMA expression to_screen print_multi .
 
-    RPAREN          reduce using rule 154 (print_multi -> COMMA expression to_screen print_multi .)
+    RPAREN          reduce using rule 155 (print_multi -> COMMA expression to_screen print_multi .)
 
 
 state 303
@@ -5539,10 +5541,10 @@ state 303
     (65) params1 -> COMMA type ID save_par . params1
     (65) params1 -> . COMMA type ID save_par params1
     (66) params1 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
     COMMA           shift and go to state 237
-    RPAREN          reduce using rule 159 (empty -> .)
+    RPAREN          reduce using rule 160 (empty -> .)
 
     params1                        shift and go to state 312
     empty                          shift and go to state 238
@@ -5560,10 +5562,10 @@ state 304
 
 state 305
 
-    (157) return -> RETURN expression . savereturn SEMICOLON
-    (158) savereturn -> .
+    (158) return -> RETURN expression . savereturn SEMICOLON
+    (159) savereturn -> .
 
-    SEMICOLON       reduce using rule 158 (savereturn -> .)
+    SEMICOLON       reduce using rule 159 (savereturn -> .)
 
     savereturn                     shift and go to state 314
 
@@ -5574,14 +5576,14 @@ state 306
     (73) funcs3 -> . empty
     (60) funcs -> . FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements return RBRACE end_func funcs3
     (61) funcs -> . FUNC VOID functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements RBRACE end_func funcs3
-    (159) empty -> .
+    (160) empty -> .
 
   ! shift/reduce conflict for FUNC resolved as shift
     FUNC            shift and go to state 11
-    VAR             reduce using rule 159 (empty -> .)
-    DAVINCI         reduce using rule 159 (empty -> .)
+    VAR             reduce using rule 160 (empty -> .)
+    DAVINCI         reduce using rule 160 (empty -> .)
 
-  ! FUNC            [ reduce using rule 159 (empty -> .) ]
+  ! FUNC            [ reduce using rule 160 (empty -> .) ]
 
     funcs3                         shift and go to state 315
     funcs                          shift and go to state 316
@@ -5589,41 +5591,43 @@ state 306
 
 state 307
 
-    (143) call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .
+    (143) call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub . checkreturn
+    (144) checkreturn -> .
 
-    ID              reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    IF              reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    TRIANGLE        reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    RECTANGLE       reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    SQUARE          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    CIRCLE          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    POLIGON         reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    COLOR           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    PENSIZE         reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    PENFORWARD      reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    PENBACK         reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    ROTATE          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    WHILE           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    PENON           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    PENOFF          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    PRINT           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    RBRACE          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    DIVIDE          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    TIMES           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    MINUS           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    PLUS            reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    LESSER          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    GREATER         reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    EQUAL           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    NOTEQUAL        reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    GREATEROREQUAL  reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    LESSEROREQUAL   reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    RPAREN          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    COMMA           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    RBRACKET        reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    SEMICOLON       reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
-    RETURN          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub .)
+    ID              reduce using rule 144 (checkreturn -> .)
+    IF              reduce using rule 144 (checkreturn -> .)
+    TRIANGLE        reduce using rule 144 (checkreturn -> .)
+    RECTANGLE       reduce using rule 144 (checkreturn -> .)
+    SQUARE          reduce using rule 144 (checkreturn -> .)
+    CIRCLE          reduce using rule 144 (checkreturn -> .)
+    POLIGON         reduce using rule 144 (checkreturn -> .)
+    COLOR           reduce using rule 144 (checkreturn -> .)
+    PENSIZE         reduce using rule 144 (checkreturn -> .)
+    PENFORWARD      reduce using rule 144 (checkreturn -> .)
+    PENBACK         reduce using rule 144 (checkreturn -> .)
+    ROTATE          reduce using rule 144 (checkreturn -> .)
+    WHILE           reduce using rule 144 (checkreturn -> .)
+    PENON           reduce using rule 144 (checkreturn -> .)
+    PENOFF          reduce using rule 144 (checkreturn -> .)
+    PRINT           reduce using rule 144 (checkreturn -> .)
+    RBRACE          reduce using rule 144 (checkreturn -> .)
+    DIVIDE          reduce using rule 144 (checkreturn -> .)
+    TIMES           reduce using rule 144 (checkreturn -> .)
+    MINUS           reduce using rule 144 (checkreturn -> .)
+    PLUS            reduce using rule 144 (checkreturn -> .)
+    LESSER          reduce using rule 144 (checkreturn -> .)
+    GREATER         reduce using rule 144 (checkreturn -> .)
+    EQUAL           reduce using rule 144 (checkreturn -> .)
+    NOTEQUAL        reduce using rule 144 (checkreturn -> .)
+    GREATEROREQUAL  reduce using rule 144 (checkreturn -> .)
+    LESSEROREQUAL   reduce using rule 144 (checkreturn -> .)
+    RPAREN          reduce using rule 144 (checkreturn -> .)
+    COMMA           reduce using rule 144 (checkreturn -> .)
+    RBRACKET        reduce using rule 144 (checkreturn -> .)
+    SEMICOLON       reduce using rule 144 (checkreturn -> .)
+    RETURN          reduce using rule 144 (checkreturn -> .)
 
+    checkreturn                    shift and go to state 318
 
 state 308
 
@@ -5649,13 +5653,13 @@ state 308
     RBRACE          reduce using rule 105 (end_if -> .)
     RETURN          reduce using rule 105 (end_if -> .)
 
-    end_if                         shift and go to state 318
+    end_if                         shift and go to state 319
 
 state 309
 
     (101) condition1 -> gotoElse . ELSE LBRACE b2 RBRACE
 
-    ELSE            shift and go to state 319
+    ELSE            shift and go to state 320
 
 
 state 310
@@ -5706,7 +5710,7 @@ state 311
     RBRACE          reduce using rule 46 (end_while -> .)
     RETURN          reduce using rule 46 (end_while -> .)
 
-    end_while                      shift and go to state 320
+    end_while                      shift and go to state 321
 
 state 312
 
@@ -5722,24 +5726,24 @@ state 313
     (73) funcs3 -> . empty
     (60) funcs -> . FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements return RBRACE end_func funcs3
     (61) funcs -> . FUNC VOID functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements RBRACE end_func funcs3
-    (159) empty -> .
+    (160) empty -> .
 
   ! shift/reduce conflict for FUNC resolved as shift
     FUNC            shift and go to state 11
-    VAR             reduce using rule 159 (empty -> .)
-    DAVINCI         reduce using rule 159 (empty -> .)
+    VAR             reduce using rule 160 (empty -> .)
+    DAVINCI         reduce using rule 160 (empty -> .)
 
-  ! FUNC            [ reduce using rule 159 (empty -> .) ]
+  ! FUNC            [ reduce using rule 160 (empty -> .) ]
 
-    funcs3                         shift and go to state 321
+    funcs3                         shift and go to state 322
     funcs                          shift and go to state 316
     empty                          shift and go to state 317
 
 state 314
 
-    (157) return -> RETURN expression savereturn . SEMICOLON
+    (158) return -> RETURN expression savereturn . SEMICOLON
 
-    SEMICOLON       shift and go to state 322
+    SEMICOLON       shift and go to state 323
 
 
 state 315
@@ -5771,6 +5775,44 @@ state 317
 
 state 318
 
+    (143) call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .
+
+    ID              reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    IF              reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    TRIANGLE        reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    RECTANGLE       reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    SQUARE          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    CIRCLE          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    POLIGON         reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    COLOR           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    PENSIZE         reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    PENFORWARD      reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    PENBACK         reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    ROTATE          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    WHILE           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    PENON           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    PENOFF          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    PRINT           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    RBRACE          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    DIVIDE          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    TIMES           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    MINUS           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    PLUS            reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    LESSER          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    GREATER         reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    EQUAL           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    NOTEQUAL        reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    GREATEROREQUAL  reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    LESSEROREQUAL   reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    RPAREN          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    COMMA           reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    RBRACKET        reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    SEMICOLON       reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+    RETURN          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
+
+
+state 319
+
     (100) condition -> IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if .
 
     ID              reduce using rule 100 (condition -> IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if .)
@@ -5793,14 +5835,14 @@ state 318
     RETURN          reduce using rule 100 (condition -> IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if .)
 
 
-state 319
+state 320
 
     (101) condition1 -> gotoElse ELSE . LBRACE b2 RBRACE
 
-    LBRACE          shift and go to state 323
+    LBRACE          shift and go to state 324
 
 
-state 320
+state 321
 
     (44) while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .
 
@@ -5824,7 +5866,7 @@ state 320
     RETURN          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
 
 
-state 321
+state 322
 
     (60) funcs -> FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements return RBRACE end_func funcs3 .
 
@@ -5833,42 +5875,42 @@ state 321
     DAVINCI         reduce using rule 60 (funcs -> FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements return RBRACE end_func funcs3 .)
 
 
-state 322
-
-    (157) return -> RETURN expression savereturn SEMICOLON .
-
-    RBRACE          reduce using rule 157 (return -> RETURN expression savereturn SEMICOLON .)
-
-
 state 323
+
+    (158) return -> RETURN expression savereturn SEMICOLON .
+
+    RBRACE          reduce using rule 158 (return -> RETURN expression savereturn SEMICOLON .)
+
+
+state 324
 
     (101) condition1 -> gotoElse ELSE LBRACE . b2 RBRACE
     (14) b2 -> . b2 statute
     (15) b2 -> . empty
-    (159) empty -> .
+    (160) empty -> .
 
-    RBRACE          reduce using rule 159 (empty -> .)
-    ID              reduce using rule 159 (empty -> .)
-    IF              reduce using rule 159 (empty -> .)
-    TRIANGLE        reduce using rule 159 (empty -> .)
-    RECTANGLE       reduce using rule 159 (empty -> .)
-    SQUARE          reduce using rule 159 (empty -> .)
-    CIRCLE          reduce using rule 159 (empty -> .)
-    POLIGON         reduce using rule 159 (empty -> .)
-    COLOR           reduce using rule 159 (empty -> .)
-    PENSIZE         reduce using rule 159 (empty -> .)
-    PENFORWARD      reduce using rule 159 (empty -> .)
-    PENBACK         reduce using rule 159 (empty -> .)
-    ROTATE          reduce using rule 159 (empty -> .)
-    WHILE           reduce using rule 159 (empty -> .)
-    PENON           reduce using rule 159 (empty -> .)
-    PENOFF          reduce using rule 159 (empty -> .)
-    PRINT           reduce using rule 159 (empty -> .)
+    RBRACE          reduce using rule 160 (empty -> .)
+    ID              reduce using rule 160 (empty -> .)
+    IF              reduce using rule 160 (empty -> .)
+    TRIANGLE        reduce using rule 160 (empty -> .)
+    RECTANGLE       reduce using rule 160 (empty -> .)
+    SQUARE          reduce using rule 160 (empty -> .)
+    CIRCLE          reduce using rule 160 (empty -> .)
+    POLIGON         reduce using rule 160 (empty -> .)
+    COLOR           reduce using rule 160 (empty -> .)
+    PENSIZE         reduce using rule 160 (empty -> .)
+    PENFORWARD      reduce using rule 160 (empty -> .)
+    PENBACK         reduce using rule 160 (empty -> .)
+    ROTATE          reduce using rule 160 (empty -> .)
+    WHILE           reduce using rule 160 (empty -> .)
+    PENON           reduce using rule 160 (empty -> .)
+    PENOFF          reduce using rule 160 (empty -> .)
+    PRINT           reduce using rule 160 (empty -> .)
 
-    b2                             shift and go to state 324
+    b2                             shift and go to state 325
     empty                          shift and go to state 38
 
-state 324
+state 325
 
     (101) condition1 -> gotoElse ELSE LBRACE b2 . RBRACE
     (14) b2 -> b2 . statute
@@ -5891,7 +5933,7 @@ state 324
     (43) statute -> . print
     (47) assignment -> . ID verify_id ASSIGN push_sign expression set_value SEMICOLON
     (48) assignment -> . ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub
+    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
     (100) condition -> . IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if
     (82) triangle -> . TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
     (83) rectangle -> . RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
@@ -5907,9 +5949,9 @@ state 324
     (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
-    (153) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
+    (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
 
-    RBRACE          shift and go to state 325
+    RBRACE          shift and go to state 326
     ID              shift and go to state 65
     IF              shift and go to state 66
     TRIANGLE        shift and go to state 67
@@ -5946,7 +5988,7 @@ state 324
     penoff                         shift and go to state 63
     print                          shift and go to state 64
 
-state 325
+state 326
 
     (101) condition1 -> gotoElse ELSE LBRACE b2 RBRACE .
 

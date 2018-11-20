@@ -39,6 +39,7 @@ class Functions(IntEnum):
     PENOFF = 61
     PRINT = 62
     RETURN = 63
+    SAVERETURN = 64
 
 class Type(IntEnum):
     INT = 90

@@ -9,6 +9,7 @@ class Function:
         self.memory = Memory()
         self.starting_instruction = starting_instruction
         self.varTable = {} # llave = id, valor = dir_virt
+        self.retDir = None
 
     def declareVariable(self, id, type):
         memDir = self.memory.pushVarInMemory(type, 1)

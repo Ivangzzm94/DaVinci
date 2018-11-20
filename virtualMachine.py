@@ -16,6 +16,7 @@ class VirtualMachine:
         self.contextStack = Stack()
         self.nextMem = Memory()
         self.nextFuncRunning = None
+        self.returnStack = Stack()
 
     def run(self):
         # Lee lista de cúadruplos y meterlos a la lista "List"
@@ -23,7 +24,7 @@ class VirtualMachine:
         self.contextStack.push('DaVinci')
         self.liveMemory.push(self.memory[self.contextStack.top()])
         self.memSize += len(self.memory[self.contextStack.top()].items())
-        #print(self.funcTable)
+        print(self.memory)
         with open("quads.txt") as file:
             text = file.read()
 
@@ -41,7 +42,7 @@ class VirtualMachine:
         # Empezar la ejecución de la máquina virtual
         wn = turtle.Screen()
         while self.instruction_pointer < len(List):
-            if List[self.instruction_pointer][0] == 15 or List[self.instruction_pointer][0] == 16 :  # GoTo , GotoF
+            if List[self.instruction_pointer][0] == 15:  # GoTo
                 self.instruction_pointer = List[self.instruction_pointer][3]
             else:
                 self.ReadQuad(List[self.instruction_pointer][0], List[self.instruction_pointer][1],
@@ -79,12 +80,14 @@ class VirtualMachine:
             self.OR(op1, op2, r)
         elif operator == 14:
             self.NOT(op1, r)
+        elif operator == 16:
+            self.GOTOF(op1, r)
         elif operator == 18:
             self.ERA(op1, r)
         elif operator == 19:
             self.GOSUB(op1, r)
         elif operator == 20:
-            self.ENDPROC(op1, op2, r)
+            self.ENDPROC()
         elif operator == 21:
             self.PARAM(op1, r)
         elif operator == 22:
@@ -115,9 +118,14 @@ class VirtualMachine:
             self.PENOFF()
         elif operator == 62:
             self.PRINT(r)
+        elif operator == 63:
+            self.RETURN(r)
+        elif operator == 64:
+            self.SAVERETURN(r)
         else:
             print("Unknown operation code")
 
+        print(self.liveMemory.size())
 
     # Operaciones
     def PLUS(self, op1, op2, r):
@@ -228,16 +236,24 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def ERA(self, op1, r):
-        self.memSize += op1
+        self.nextFuncRunning = self.funcTable[str(r)]
+        nfr = self.nextFuncRunning
+
+        if nfr.function_type == Type.INT.value or nfr.function_type == Type.FLOAT.value or nfr.function_type == Type.BOOL.value or nfr.function_type == Type.STRING.value:
+            self.memSize += op1 + 2
+        else:
+            self.memSize += op1 + 1
+
         if self.memSize > 1000000:
             print("Stack Overflow, límite de memoria excedido(1,000,000)")
             exit(0)
         else:
             self.nextMem.memory = self.memory[r]
-            self.nextFuncRunning = self.funcTable[str(r)]
-            self.instruction_pointer += 1
+
+        self.instruction_pointer += 1
 
     def GOSUB(self, fun, r):
+        self.liveMemory.push(self.instruction_pointer + 1)
         self.liveMemory.push(self.nextMem.memory)
         self.contextStack.push(fun)
         self.instruction_pointer = r
@@ -271,7 +287,6 @@ class VirtualMachine:
         turtle.forward(alt)
         turtle.left(base*1.1)
         turtle.forward(alt)
-
         self.instruction_pointer += 1
 
     def RECTANGLE(self, l, a):
@@ -313,7 +328,7 @@ class VirtualMachine:
     def PENFORWARD(self, distance):
         mem = self.liveMemory.top()
         d = mem[distance]
-        turtle.forward(distance)
+        turtle.forward(d)
         self.instruction_pointer += 1
 
     def PENBACK(self, distance):
@@ -323,12 +338,10 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def PENON(self):
-        mem = self.liveMemory.top()
         turtle.pendown()
         self.instruction_pointer += 1
 
     def PENOFF(self):
-        mem = self.liveMemory.top()
         turtle.penup()
         self.instruction_pointer += 1
 
@@ -344,7 +357,31 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def ENDPROC(self):
-        self.memSize -= len(self.liveMemory.top().items())
+        nfr = self.funcTable[self.contextStack.top()]
+
+        if nfr.function_type == Type.INT.value or nfr.function_type == Type.FLOAT.value or nfr.function_type == Type.BOOL.value or nfr.function_type == Type.STRING.value:
+            self.memSize -= len(self.liveMemory.top().items()) + 2
+        else:
+            self.memSize -= len(self.liveMemory.top().items()) + 1
+
         self.liveMemory.pop()
+        self.instruction_pointer = int(self.liveMemory.pop())
         self.contextStack.pop()
+
+    def RETURN(self, r):
+        mem = self.liveMemory.top()
+        self.returnStack.push(mem[r])
         self.instruction_pointer += 1
+
+    def SAVERETURN(self, r):
+        mem = self.liveMemory.top()
+        if self.returnStack.size() > 0:
+            mem[r] = self.returnStack.pop()
+        self.instruction_pointer += 1
+
+    def GOTOF(self, op1, r):
+        mem = self.liveMemory.top()
+        if mem[op1]:
+            self.instruction_pointer += 1
+        else:
+            self.instruction_pointer = r

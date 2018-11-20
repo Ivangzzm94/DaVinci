@@ -1,23 +1,21 @@
 program helloWorld;
 
-var Int i; Float f;
+var Int i;
 
-func void myFunc (Int a)
-var Int p;
+func Int factorial (Int x)
+var Int a;
 {
-    p = a;
-    circle(p);
-}
-
-func Float myFunc2()
-var Float flotante, f; Bool booleano;
-{
-    flotante = 3.0;
-    return flotante;
+    if ( x == 0 )
+    {
+        a = 1;
+    }
+    else {
+        a = x * factorial(x - 1) ;;
+    }
+    return a;
 }
 
 DaVinci {
-    i = 0 + 4 + 5;
+    i = 4 + 5;
     print(i);
-    myFunc(i);
 }
