@@ -5,7 +5,8 @@ var Int i; Float f;
 func void myFunc (Int a)
 var Int p;
 {
-    p = 30;
+    p = a;
+    circle(p);
 }
 
 func Float myFunc2()
@@ -17,6 +18,6 @@ var Float flotante, f; Bool booleano;
 
 DaVinci {
     i = 0 + 4 + 5;
-    myFunc2();
     print(i);
+    myFunc(i);
 }

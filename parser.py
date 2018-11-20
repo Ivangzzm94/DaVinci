@@ -42,19 +42,22 @@ def p_program(p):
     quadList.print_Quads()
     #varTable.printVars()
     #print(funcTable)
+    vm = VirtualMachine()
+    vm.funcTable = funcTable
     for func in funcTable:
-        print(funcTable[func].memory.printVars(funcTable[func].function_id))
-        print(funcTable[func].varTable, '\n \n')
-    '''
+        f = funcTable[func]
+        vm.memory[f.function_id] = f.memory.memory
+
+    print(vm.memory)
+
     f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
     for i in range(len(quadList.array)):
         f.write(str(quadList.array[i])) #escribir en el archivo el cuádruplo
         if i < len(quadList.array)-1:
             f.write('\n')
     f.close() # Cerrar el archivo de texto
-    vm = VirtualMachine()
-    vm.memory = memory
-    vm.run()'''
+
+    vm.run()
 
 def p_fillmain(p):
     '''fillmain : '''
@@ -523,19 +526,21 @@ def p_getvalue_i(p):
     dir = memory.pushVarInMemory(Type.INT.value, 1)
     pTypes.push(Type.INT.value)
     pilaOperandos.push(dir)
+    memory.setValue(dir, p[-1])
 
 def p_getvalue_f(p):
     '''getvalue_f : '''
     dir = memory.pushVarInMemory(Type.FLOAT.value, 1)
     pTypes.push(Type.FLOAT.value)
     pilaOperandos.push(dir)
+    memory.setValue(dir, p[-1])
 
 def p_getvalue_b(p):
     '''getvalue_b : '''
     p[0] = memory.pushVarInMemory(Type.BOOL.value, 1)
     pTypes.push(Type.BOOL.value)
     pilaOperandos.push(p[0])
-    return p[0]
+    memory.setValue(dir, p[-1])
 
 def p_relop(p):
     '''relop : '''
@@ -609,7 +614,12 @@ def p_push_id(p):
         ErrorHandler.exitWhenError()
 
 def p_call(p):
-    '''call : ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub'''
+    '''call : ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn'''
+
+def p_checkreturn(p):
+    '''checkreturn : '''
+    #if func_calling.function_type == Type.INT.value or func_calling.function_type == Type.FLOAT.value or func_calling.function_type == Type.BOOL.value or func_calling.function_type == Type.STRING.value:
+        #q = Quad(Operations.ASSIGN.value, )
 
 def p_check_name(p):
     '''check_name : '''
@@ -624,7 +634,7 @@ def p_check_name(p):
 
 def p_create_era(p):
      '''create_era : '''
-     q = Quad(Operations.ERA.value, func_calling.memory.getSize(), None, None)
+     q = Quad(Operations.ERA.value, func_calling.memory.getSize(), None, func_calling.function_id)
      quadList.add_quad(q)
 
 def p_gosub(p):

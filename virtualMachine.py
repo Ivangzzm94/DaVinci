@@ -1,5 +1,6 @@
 import turtle
 from stack import Stack
+from variables import *
 from quads import Quads
 from random import randint
 
@@ -10,11 +11,19 @@ class VirtualMachine:
         self.memory = {}
         self.instruction_pointer = 0
         self.list = None
-        self.limit = 1000000
+        self.memSize = 0
         self.funcTable = {}
+        self.contextStack = Stack()
+        self.nextMem = Memory()
+        self.nextFuncRunning = None
 
     def run(self):
         # Lee lista de cúadruplos y meterlos a la lista "List"
+
+        self.contextStack.push('DaVinci')
+        self.liveMemory.push(self.memory[self.contextStack.top()])
+        self.memSize += len(self.memory[self.contextStack.top()].items())
+        #print(self.funcTable)
         with open("quads.txt") as file:
             text = file.read()
 
@@ -24,7 +33,10 @@ class VirtualMachine:
         for x in range(len(List)):
             for y in range(4):
                 if not List[x][y] == "None":
-                    List[x][y] = int(List[x][y])
+                    try:
+                        List[x][y] = int(List[x][y])
+                    except:
+                        List[x][y] = List[x][y]
 
         # Empezar la ejecución de la máquina virtual
         wn = turtle.Screen()
@@ -68,13 +80,13 @@ class VirtualMachine:
         elif operator == 14:
             self.NOT(op1, r)
         elif operator == 18:
-            self.ERA(op1)
+            self.ERA(op1, r)
         elif operator == 19:
             self.GOSUB(op1, r)
         elif operator == 20:
             self.ENDPROC(op1, op2, r)
         elif operator == 21:
-            self.PARAM(op1, op2, r)
+            self.PARAM(op1, r)
         elif operator == 22:
             self.VER(op1, op2, r)
         elif operator == 50:
@@ -109,134 +121,151 @@ class VirtualMachine:
 
     # Operaciones
     def PLUS(self, op1, op2, r):
-        aux = self.memory.getValue(op1) + self.memory.getValue(op2)
-        self.memory.setValue(r,aux)
+        mem = self.liveMemory.top()
+        aux = mem[op1] + mem[op2]
+        mem[r] = aux
         self.instruction_pointer += 1
 
     def MINUS(self, op1, op2, r):
-        aux = self.memory.getValue(op1) - self.memory.getValue(op2)
-        self.memory.setValue(r, aux)
+        mem = self.liveMemory.top()
+        aux = mem[op1] - mem[op2]
+        mem[r] = aux
         self.instruction_pointer += 1
 
     def TIMES(self, op1, op2, r):
-        aux = self.memory.getValue(op1) * self.memory.getValue(op2)
-        self.memory.setValue(r, aux)
+        mem = self.liveMemory.top()
+        aux = mem[op1] * mem[op2]
+        mem[r] = aux
         self.instruction_pointer += 1
 
     def DIVIDE(self, op1, op2, r):
-        aux = self.memory.getValue(op1) / self.memory.getValue(op2)
-        self.memory.setValue(r, aux)
+        mem = self.liveMemory.top()
+        aux = mem[op1] / mem[op2]
+        mem[r] = aux
         self.instruction_pointer += 1
 
     def ASSIGN(self, op1, r):
-        self.memory.setValue(r, self.memory.getValue(op1))
+        mem = self.liveMemory.top()
+        mem[r] = mem[op1]
         self.instruction_pointer += 1
 
     def EQUAL(self, op1, op2, r):
-        if self.memory.getValue(op1) == self.memory.getValue(op2):
-            aux = true
+        mem = self.liveMemory.top()
+        if mem[op1] == mem[op2]:
+            aux = True
         else:
-            aux = false
+            aux = False
 
-        self.memory.setValue(r, aux)
+        mem[r] = aux
         self.instruction_pointer += 1
 
-    def NOTEQUAL(self, op1, op, r):
-        aux =  not (self.memory.getValue(op1) == self.memory.getValue(op2))
+    def NOTEQUAL(self, op1, op2, r):
+        mem = self.liveMemory.top()
+        aux =  not (mem[op1] == mem[op2])
 
-        self.memory.setValue(r, aux)
+        mem[r] = aux
         self.instruction_pointer += 1
 
     def GREATER(self, op1, op2, r):
-        aux =  self.memory.getValue(op1) > self.memory.getValue(op2)
-
-
-        self.memory.setValue(r, aux)
+        mem = self.liveMemory.top()
+        aux =  mem[op1] > mem[op2]
+        mem[r] = aux
         self.instruction_pointer += 1
 
     def LESSER(self, op1, op2, r):
-        if self.memory.getValue(op1) < self.memory.getValue(op2):
-            aux = true
+        mem = self.liveMemory.top()
+        if mem[op1] < mem[op2]:
+            aux = True
         else:
-            aux = false
-
-        self.memory.setValue(r, aux)
+            aux = False
+        mem[r] = aux
         self.instruction_pointer += 1
 
     def GREATEROREQUAL(self, op1, op2, r):
-        if self.memory.getValue(op1) >= self.memory.getValue(op2):
-            aux = true
+        mem = self.liveMemory.top()
+        if mem[op1] >= mem[op2]:
+            aux = True
         else:
-            aux = false
-
-        self.memory.setValue(r, aux)
+            aux = False
+        mem[r] = aux
         self.instruction_pointer += 1
 
     def LESSEROREQUAL(self, op1, op2, r):
-        if self.memory.getValue(op1) <= self.memory.getValue(op2):
-            aux = true
+        mem = self.liveMemory.top()
+        if mem[op1] <= mem[op2]:
+            aux = True
         else:
-            aux = false
+            aux = False
 
-        self.memory.setValue(r, aux)
+        mem[r] = aux
         self.instruction_pointer += 1
 
     def AND(self, op1, op2, r):
-        if self.memory.getValue(op1) and self.memory.getValue(op2):
-            aux = true
+        mem = self.liveMemory.top()
+        if mem[op1] and mem[op2]:
+            aux = True
         else:
-            aux = false
+            aux = False
 
-        self.memory.setValue(r, aux)
+        mem[r] = aux
         self.instruction_pointer += 1
 
     def OR(self, op1, op2, r):
-        if self.memory.getValue(op1) or self.memory.getValue(op2):
-            aux = true
+        mem = self.liveMemory.top()
+        if mem[op1] or mem[op2]:
+            aux = True
         else:
-            aux = false
+            aux = False
 
-        self.memory.setValue(r, aux)
+        mem[r] = aux
         self.instruction_pointer += 1
 
     def NOT(self, op1, r):
-        aux = self.memory.getValue(op1)
+        mem = self.liveMemory.top()
+        aux = mem[op1]
         aux = not aux
-        self.memory.setValue(r, aux)
+        mem[r] = aux
         self.instruction_pointer += 1
 
-    def ERA(self, op1):
-        self.limit -= op1
-        if self.limit < 0:
+    def ERA(self, op1, r):
+        self.memSize += op1
+        if self.memSize > 1000000:
             print("Stack Overflow, límite de memoria excedido(1,000,000)")
-        self.instruction_pointer += 1
+            exit(0)
+        else:
+            self.nextMem.memory = self.memory[r]
+            self.nextFuncRunning = self.funcTable[str(r)]
+            self.instruction_pointer += 1
 
     def GOSUB(self, fun, r):
-        localMemory = funcTable[fun].memory.memory
-        self.liveMemory.push(localMemory)
+        self.liveMemory.push(self.nextMem.memory)
+        self.contextStack.push(fun)
         self.instruction_pointer = r
 
     def COLOR(self, op1):
-        aux = self.memory.getValue(op1)
+        mem = self.liveMemory.top()
+        aux = mem[op1]
         turtle.pencolor(aux)
         self.instruction_pointer += 1
 
-    def CIRCLE(self, radius, r):
-        r = self.memory.getValue(radius)
-        turtle.circle(r, None, None)
+    def CIRCLE(self, r):
+        mem = self.liveMemory.top()
+        radio = int(mem[r])
+        turtle.circle(radio, None, None)
         self.instruction_pointer += 1
 
     def SQUARE(self, len):
-        l = self.memory.getValue(len)
+        mem = self.liveMemory.top()
+        l = mem[len]
         for i in range(4):
             turtle.forward(l)
             turtle.left(l)
-
         self.instruction_pointer += 1
 
     def TRIANGLE(self, b, a):
-        base = self.memory.getValue(b)
-        alt = self.memory.getValue(a)
+        mem = self.liveMemory.top()
+        base = mem[b]
+        alt = mem[a]
         turtle.forward(base)
         turtle.left(base*1.1)
         turtle.forward(alt)
@@ -246,8 +275,9 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def RECTANGLE(self, l, a):
-        lon = self.memory.getValue(l)
-        alt = self.memory.getValue(a)
+        mem = self.liveMemory.top()
+        lon = mem[l]
+        alt = mem[a]
         turtle.forward(lon)
         turtle.left(90)
         turtle.forward(alt)
@@ -259,8 +289,9 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def POLIGON(self, sides, size):
-        side = self.memory.getValue(sides)
-        siz = self.memory.getValue(size)
+        mem = self.liveMemory.top()
+        side = mem[sides]
+        siz = mem[size]
         for i in range(1, side):
             turtle.forward(siz)
             turtle.left(360 / side)
@@ -268,34 +299,52 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def ROTATE(self, degree):
-        d = self.memory.getValue(degree)
+        mem = self.liveMemory.top()
+        d = mem[degree]
         turtle.tilt(d)
         self.instruction_pointer += 1
 
     def PENSIZE(self, size):
-        s = self.memory.getValue(size)
+        mem = self.liveMemory.top()
+        s = mem[size]
         turtle.dot(s)
         self.instruction_pointer += 1
 
     def PENFORWARD(self, distance):
-        d = self.memory.getValue(distance)
+        mem = self.liveMemory.top()
+        d = mem[distance]
         turtle.forward(distance)
         self.instruction_pointer += 1
 
     def PENBACK(self, distance):
-        d = self.memory.getValue(distance)
+        mem = self.liveMemory.top()
+        d = mem[distance]
         turtle.backward(d)
         self.instruction_pointer += 1
 
     def PENON(self):
+        mem = self.liveMemory.top()
         turtle.pendown()
         self.instruction_pointer += 1
 
     def PENOFF(self):
+        mem = self.liveMemory.top()
         turtle.penup()
         self.instruction_pointer += 1
 
     def PRINT(self, r):
-        p = self.memory.getValue(r)
+        mem = self.liveMemory.top()
+        p = mem[r]
         print(p)
+        self.instruction_pointer += 1
+
+    def PARAM(self, op1, r):
+        actualMemory = self.liveMemory.top()
+        self.nextMem.setValue(self.nextFuncRunning.parameters[r], actualMemory[op1])
+        self.instruction_pointer += 1
+
+    def ENDPROC(self):
+        self.memSize -= len(self.liveMemory.top().items())
+        self.liveMemory.pop()
+        self.contextStack.pop()
         self.instruction_pointer += 1
