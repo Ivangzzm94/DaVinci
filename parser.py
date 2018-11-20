@@ -29,6 +29,7 @@ variableTable = {}
 
 vartype = None
 functype = None
+func_calling = None
 listsize = 1
 cube = SemanticCube()
 DaVinci = Function('DaVinci', 'void', -1)
@@ -74,10 +75,6 @@ def p_getglobalmemory(p):
     global currentFunc, memory
     currentFunc = funcTable['DaVinci']
     memory = currentFunc.memory
-
-def p_update_memory(p):
-    '''updateMemory : '''
-    varTable['DaVinci'] = currentFunc
 
 def p_save_funcs(p):
     '''save_funcs : '''
@@ -256,7 +253,6 @@ def p_params(p):
 def p_params1(p):
     '''params1 : COMMA type ID save_par params1
                 | empty'''
-
 
 def p_funcs1(p):
     '''funcs1 : funcs1 COMMA type save_type ID save_par
@@ -512,12 +508,13 @@ def p_var_cte(p):
 def p_getidvalue(p):
     '''getidvalue : '''
     id = p[-1]
+    global currentFunc
     try:
         var = currentFunc.varTable[id]
-        pTypes.push(Type.INT.value)
+        pTypes.push(memory.getType(var))
         pilaOperandos.push(var)
     except:
-        ErrorHandler.undefined_variable()
+        print('Variable no definida', id)
         ErrorHandler.exitWhenError()
     return p[0]
 
@@ -618,64 +615,57 @@ def p_check_name(p):
     '''check_name : '''
     id = p[-1]
     try:
-        global currentFunc
+        global func_calling
         f = funcTable[id]
-        currentFunc = f
-        print(f.starting_instruction)
+        func_calling = f
     except ErrorHandler as error:
         print('Funcion no declarada: ', id)
         ErrorHandler.exitWhenError()
 
 def p_create_era(p):
      '''create_era : '''
-     q = Quad(Operations.ERA.value, currentFunc.memory.getSize(), None, None)
+     q = Quad(Operations.ERA.value, func_calling.memory.getSize(), None, None)
      quadList.add_quad(q)
 
 def p_gosub(p):
     '''gosub : '''
-    q = Quad(Operations.GOSUB.value, currentFunc.function_id, None, currentFunc.starting_instruction)
+    q = Quad(Operations.GOSUB.value, func_calling.function_id, None, func_calling.starting_instruction)
     quadList.add_quad(q)
 
 def p_call1(p):
-    '''call1 : ID argument call2
-	| exp argument call2
-	| st_cte argument call2
+    '''call1 : expression argument call2
 	| call2'''
 
 def p_call2(p):
-    '''call2 : COMMA increment exp argument call2
+    '''call2 : COMMA expression argument call2
 	| empty'''
-
-def p_increment(p):
-    '''increment : '''
-    global param_index
-    param_index += 1
 
 def p_argument(p):
     '''argument : '''
     global param_index
     argument = pilaOperandos.pop()
     argType = pTypes.pop()
-    if param_index <= len(currentFunc.parameters):
-        if argType == currentFunc.memory.getType(currentFunc.parameters[param_index]):
+    if param_index <= len(func_calling.parameters):
+        if argType == func_calling.memory.getType(func_calling.parameters[param_index]):
             q = Quad(Operations.PARAM.value, argument, None, param_index)
             quadList.add_quad(q)
+            param_index += 1
         else:
             print('Parameter: ', param_index + 1)
-            print('Type mismatch on:', currentFunc.function_id)
+            print('Type mismatch on:', func_calling.function_id)
             ErrorHandler.exitWhenError()
     else:
-        print('No coincide numero de parametros')
+        print('No coincide numero de parametros:', 'Esperados: ', len(func_calling.parameters), 'Recibidos: ',param_index )
         ErrorHandler.exitWhenError()
 
 def p_check_params(p):
     '''check_params : '''
     global param_index
-    if len(currentFunc.parameters) > param_index:
-        print('No coincide numero de parametros')
-        ErrorHandler.exitWhenError()
-    else:
+    if len(func_calling.parameters) == param_index:
         param_index = 0
+    else:
+        print('No coincide numero de parametros: ', 'Esperados:', len(func_calling.parameters), 'Recibidos:',param_index )
+        ErrorHandler.exitWhenError()
 
 def p_print(p):
     '''print : PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON'''
@@ -691,8 +681,20 @@ def p_to_screen(p):
     quadList.add_quad(q)
 
 def p_return(p):
-    '''return : RETURN var_cte SEMICOLON
-			| RETURN st_cte SEMICOLON'''
+    '''return : RETURN expression savereturn SEMICOLON'''
+    q = Quad(Operations.ASSIGN.value, p[2], None, currentFunc.memory.pushVarInMemory(pTypes.pop(),1))
+    quadList.add_quad(q)
+
+def p_savereturn(p):
+    '''savereturn : '''
+    f = currentFunc
+    if f.function_type == pTypes.top():
+        value = pilaOperandos.pop()
+        q = Quad(Functions.RETURN.value, None, None, value)
+        quadList.add_quad(q)
+    else:
+        print("Syntax error, returning a type different than the expected")
+        ErrorHandler.exitWhenError()
 
 def p_empty(p):
     '''empty :'''

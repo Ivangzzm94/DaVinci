@@ -40,6 +40,7 @@ class Functions(IntEnum):
     PENON = 60
     PENOFF = 61
     PRINT = 62
+    RETURN = 63
 
 class Type(IntEnum):
     INT = 90
