@@ -10,6 +10,8 @@ class VirtualMachine:
         self.memory = {}
         self.instruction_pointer = 0
         self.list = None
+        self.limit = 1000000
+        self.funcTable = {}
 
     def run(self):
         # Lee lista de cúadruplos y meterlos a la lista "List"
@@ -27,7 +29,7 @@ class VirtualMachine:
         # Empezar la ejecución de la máquina virtual
         wn = turtle.Screen()
         while self.instruction_pointer < len(List):
-            if List[self.instruction_pointer][0] == 15:  # GoTo
+            if List[self.instruction_pointer][0] == 15 or List[self.instruction_pointer][0] == 16 :  # GoTo , GotoF
                 self.instruction_pointer = List[self.instruction_pointer][3]
             else:
                 self.ReadQuad(List[self.instruction_pointer][0], List[self.instruction_pointer][1],
@@ -66,9 +68,9 @@ class VirtualMachine:
         elif operator == 14:
             self.NOT(op1, r)
         elif operator == 18:
-            self.ERA(op1, op2, r)
+            self.ERA(op1)
         elif operator == 19:
-            self.GOSUB(op1, op2, r)
+            self.GOSUB(op1, r)
         elif operator == 20:
             self.ENDPROC(op1, op2, r)
         elif operator == 21:
@@ -186,7 +188,7 @@ class VirtualMachine:
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
 
-    def OR(self, op1, op2):
+    def OR(self, op1, op2, r):
         if self.memory.getValue(op1) or self.memory.getValue(op2):
             aux = true
         else:
@@ -195,24 +197,29 @@ class VirtualMachine:
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
 
-    def NOT(self, op1):
+    def NOT(self, op1, r):
         aux = self.memory.getValue(op1)
         aux = not aux
         self.memory.setValue(r, aux)
         self.instruction_pointer += 1
 
-    def ERA(self):
+    def ERA(self, op1):
+        self.limit -= op1
+        if self.limit < 0:
+            print("Stack Overflow, límite de memoria excedido(1,000,000)")
         self.instruction_pointer += 1
 
-    def GOSUB(self, fun):
-        self.instruction_pointer += 1
+    def GOSUB(self, fun, r):
+        localMemory = funcTable[fun].memory.memory
+        self.liveMemory.push(localMemory)
+        self.instruction_pointer = r
 
     def COLOR(self, op1):
         aux = self.memory.getValue(op1)
         turtle.pencolor(aux)
         self.instruction_pointer += 1
 
-    def CIRCLE(self, radius):
+    def CIRCLE(self, radius, r):
         r = self.memory.getValue(radius)
         turtle.circle(r, None, None)
         self.instruction_pointer += 1
