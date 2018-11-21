@@ -1,6 +1,6 @@
 program helloWorld;
 
-var Int i; Float f; var Int y;
+var Int i; Float f; var Int y; var Bool b, d;
 
 func Int factorial (Int x)
 var Int a;
@@ -35,5 +35,17 @@ DaVinci {
     {
         y = 2222;
         print(y);
+    }
+
+    b = true;
+    d = false;
+
+    if(b == d)
+    {
+        print(b);
+    }
+    else
+    {
+        print(d);
     }
 }

@@ -548,7 +548,7 @@ def p_getvalue_b(p):
     p[0] = memory.pushVarInMemory(Type.BOOL.value, 1)
     pTypes.push(Type.BOOL.value)
     pilaOperandos.push(p[0])
-    memory.setValue(dir, p[-1])
+    memory.setValue(p[0], p[-1])
 
 def p_relop(p):
     '''relop : '''
