@@ -125,8 +125,6 @@ class VirtualMachine:
         else:
             print("Unknown operation code")
 
-        print(self.liveMemory.size())
-
     # Operaciones
     def PLUS(self, op1, op2, r):
         mem = self.liveMemory.top()

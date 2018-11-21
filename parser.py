@@ -222,15 +222,15 @@ def p_color_cte(p):
 		| PINK
 		| PURPLE'''
     if p[1] == 'red':
-        p[0] = Color.RED.value
+        pilaOperandos.push(Color.RED.value)
     if p[1] == 'blue':
-        p[0] = Color.BLUE.value
+        pilaOperandos.push(Color.BLUE.value)
     if p[1] == 'yellow':
-        p[0] = Color.YELLOW.value
+        pilaOperandos.push(Color.YELLOW.value)
     if p[1] == 'pink':
-        p[0] = Color.PINK.value
+        pilaOperandos.push(Color.PINK.value)
     if p[1] == 'purple':
-        p[0] = Color.PURPLE.value
+        pilaOperandos.push(Color.PURPLE.value)
 
 def p_st_cte(p):
     '''st_cte : STRING
@@ -299,7 +299,7 @@ def p_save_par(p):
 
 def p_color(p):
     '''color : COLOR LPAREN color_cte RPAREN SEMICOLON'''
-    quadList.add_quad(Quad(Functions.COLOR, p[3], None, None))
+    quadList.add_quad(Quad(Functions.COLOR.value, pilaOperandos.pop(), None, None))
 
 def p_circle(p):
     '''circle : CIRCLE LPAREN exp RPAREN SEMICOLON'''
@@ -307,44 +307,46 @@ def p_circle(p):
 
 def p_square(p):
     '''square : SQUARE LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Quad(Functions.SQUARE, p[3], None, None))
+    quadList.add_quad(Quad(Functions.SQUARE.value, pilaOperandos.pop(), None, None))
 
 def p_triangle(p):
     '''triangle : TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
-    quadList.add_quad(Quad(Functions.TRIANGLE, p[3], p[5], None))
+    quadList.add_quad(Quad(Functions.TRIANGLE.value, pilaOperandos.pop(), pilaOperandos.pop(), None))
 
 def p_rectangle(p):
     '''rectangle : RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON'''
-    quadList.add_quad(Quad(Functions.RECTANGLE, p[3], p[5], None))
+    quadList.add_quad(Quad(Functions.RECTANGLE.value, pilaOperandos.pop(), pilaOperandos.pop(), None))
 
 def p_poligon(p):
     '''poligon : POLIGON LPAREN exp COMMA exp RPAREN SEMICOLON'''
-    quadList.add_quad(Quad(Functions.POLIGON, p[3], p[5], None))
+    quadList.add_quad(Quad(Functions.POLIGON.value, pilaOperandos.pop(), pilaOperandos.pop(), None))
 
 def p_rotate(p):
     '''rotate : ROTATE LPAREN exp RPAREN SEMICOLON
 	| ROTATE LPAREN CTE_STRING RPAREN SEMICOLON'''
-    quadList.add_quad(Quad(Functions.ROTATE, p[3], None, None))
+    quadList.add_quad(Quad(Functions.ROTATE.value, pilaOperandos.pop(), None, None))
 
 def p_pensize(p):
     '''pensize : PENSIZE LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Quad(Functions.PENSIZE, p[3], None, None))
+    quadList.add_quad(Quad(Functions.PENSIZE.value, pilaOperandos.pop(), None, None))
 
 def p_penforward(p):
     '''penforward : PENFORWARD LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Quad(Functions.PENFORWARD, p[3], None, None))
+    val = pilaOperandos.pop()
+    q = Quad(Functions.PENFORWARD.value, val, None, None)
+    quadList.add_quad(q)
 
 def p_penback(p):
     '''penback : PENBACK LPAREN exp RPAREN SEMICOLON'''
-    quadList.add_quad(Quad(Functions.PENBACK, p[3], None, None))
+    quadList.add_quad(Quad(Functions.PENBACK.value, pilaOperandos.pop(), None, None))
 
 def p_penon(p):
     '''penon : PENON LPAREN RPAREN SEMICOLON'''
-    quadList.add_quad(Quad(Functions.PENON, None, None, None))
+    quadList.add_quad(Quad(Functions.PENON.value, None, None, None))
 
 def p_penoff(p):
     '''penoff : PENOFF LPAREN RPAREN SEMICOLON'''
-    quadList.add_quad(Quad(Functions.PENOFF, None, None, None))
+    quadList.add_quad(Quad(Functions.PENOFF.value, None, None, None))
 
 def p_type(p):
     '''type : INT
