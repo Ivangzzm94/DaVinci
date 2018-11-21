@@ -518,6 +518,7 @@ def p_getidvalue(p):
     id = p[-1]
     global currentFunc
     try:
+        print(currentFunc.varTable)
         var = currentFunc.varTable[id]
         pTypes.push(memory.getType(var))
         pilaOperandos.push(var)

@@ -12,10 +12,12 @@ var Int a;
     else {
         a = x * factorial(x - 1) ;;
     }
+    print (a);
     return a;
+
 }
 
 DaVinci {
-    i = 4 + 5;
+    i = factorial(0);;
     print(i);
 }
