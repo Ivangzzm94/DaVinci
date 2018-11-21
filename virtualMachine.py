@@ -24,7 +24,6 @@ class VirtualMachine:
         self.contextStack.push('DaVinci')
         self.liveMemory.push(self.memory[self.contextStack.top()])
         self.memSize += len(self.memory[self.contextStack.top()].items())
-        print(self.memory)
         with open("quads.txt") as file:
             text = file.read()
 
@@ -257,9 +256,21 @@ class VirtualMachine:
         self.instruction_pointer = r
 
     def COLOR(self, op1):
-        mem = self.liveMemory.top()
-        aux = mem[op1]
-        turtle.pencolor(aux)
+        aux = op1
+        color = None
+        if aux == 100:
+            color = 'red'
+        elif aux == 101:
+            color = 'blue'
+        elif aux == 102:
+            color = 'yellow'
+        elif aux == 103:
+            color = 'green'
+        elif aux == 104:
+            color = 'pink'
+        elif aux == 105:
+            color = 'purple'
+        turtle.pencolor(color)
         self.instruction_pointer += 1
 
     def CIRCLE(self, r):
@@ -273,7 +284,7 @@ class VirtualMachine:
         l = mem[len]
         for i in range(4):
             turtle.forward(l)
-            turtle.left(l)
+            turtle.left(90)
         self.instruction_pointer += 1
 
     def TRIANGLE(self, b, a):
@@ -314,7 +325,7 @@ class VirtualMachine:
     def ROTATE(self, degree):
         mem = self.liveMemory.top()
         d = mem[degree]
-        turtle.tilt(d)
+        turtle.left(d)
         self.instruction_pointer += 1
 
     def PENSIZE(self, size):

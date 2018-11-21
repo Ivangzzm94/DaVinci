@@ -1,25 +1,20 @@
-program helloWorld;
+program fact;
 
-var Int i; Float f;
+var Int i, a;
 
-func Int factorial (Int x)
-var Int a;
+func Int factorial(Int a)
+var Int aux;
 {
-    if ( x == 0 )
-    {
-        a = 1;
+    aux = a;
+    a = a - 1;
+    while(a > 0) {
+        aux = aux * a;
+        a = a - 1;
     }
-    else {
-        a = x * factorial(x - 1) ;;
-    }
-    print (a);
-    return a;
-
+    return aux;
 }
 
 DaVinci {
-    i = factorial(0);;
-    f = 3 / 9;
-    print(f, i);
-    penForward(factorial(0); * 10 * 10);
+    i = 2;
+    print(factorial(3 * i););
 }

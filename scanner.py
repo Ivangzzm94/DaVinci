@@ -7,8 +7,7 @@ tokens = ['ID',     'CTE_INT',      'CTE_FLOAT',    'CTE_STRING',       'EXPRESS
          'ST_CTE',  'OR',           'NOTEQUAL',     'PLUS',             'MINUS',  
          'ASSIGN',  'GREATER',      'LESSER',       'GREATEROREQUAL',   'AND',          'NOT', 
          'LPAREN',  'RPAREN',       'LBRACE',       'RBRACE',           'LBRACKET',     'RBRACKET',
-         'COMMA',   'SEMICOLON',    'DIVIDE',       'LESSEROREQUAL',    'CTE_BOOL',     'TERM',
-         'PRINT']
+         'COMMA',   'SEMICOLON',    'DIVIDE',       'LESSEROREQUAL',    'CTE_BOOL',     'TERM']
 
 # Dictionary of reserved words
 reserved = {

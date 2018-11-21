@@ -1,0 +1,17 @@
+program factorial;
+
+func Int factorial(Int a)
+var Int aux, i;
+{
+    aux = a;
+    a = a - 1;
+    while(a > 1) {
+        a = a - 1;
+        aux = aux + aux * a ;
+    }
+    return aux;
+}
+
+DaVinci {
+    print(factorial(5););
+}

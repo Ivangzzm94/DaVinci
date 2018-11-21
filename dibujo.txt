@@ -1,0 +1,25 @@
+program dibujo;
+
+func void dibujo(Int n)
+var Int cont, col;
+{
+    col = 10;
+    cont = 1;
+    color(red);
+    while(cont < n + 1) {
+        square(cont * 10);
+        cont = cont + 1;
+        if (col > 5) {
+            color(blue);
+            col = 1;
+        } else {
+            color(red);
+            col = 10;
+        }
+        rotate(18);
+    }
+}
+
+DaVinci {
+    dibujo(10);
+}
