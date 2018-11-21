@@ -1,7 +1,5 @@
 program fact;
 
-var Int i, a;
-
 func Int factorial(Int a)
 var Int aux;
 {
@@ -15,6 +13,5 @@ var Int aux;
 }
 
 DaVinci {
-    i = 2;
-    print(factorial(3 * i););
+
 }
