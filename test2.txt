@@ -1,6 +1,6 @@
 program helloWorld;
 
-var Int i; Float f;
+var Int i; Float f; var Int y;
 
 func Int factorial (Int x)
 var Int a;
@@ -22,4 +22,18 @@ DaVinci {
     f = 3 / 9;
     print(f, i);
     penForward(factorial(0); * 10 * 10);
+    while(i < 5)
+    {
+        var Int x;
+        x = 1 + 10;
+        print(x);
+        print(i);
+        i = i + 1;
+    }
+
+    if(1 < 2)
+    {
+        y = 2222;
+        print(y);
+    }
 }

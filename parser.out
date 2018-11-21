@@ -57,7 +57,7 @@ Rule 40    statute -> while
 Rule 41    statute -> penon
 Rule 42    statute -> penoff
 Rule 43    statute -> print
-Rule 44    while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
+Rule 44    while -> WHILE while_return LPAREN expression RPAREN type_check block end_while
 Rule 45    while_return -> <empty>
 Rule 46    end_while -> <empty>
 Rule 47    assignment -> ID verify_id ASSIGN push_sign expression set_value SEMICOLON
@@ -202,7 +202,7 @@ GREEN                : 55
 ID                   : 1 19 20 47 48 60 61 63 65 67 125 127 131 143
 IF                   : 100
 INT                  : 92
-LBRACE               : 10 44 60 61 100 101
+LBRACE               : 10 60 61 100 101
 LBRACKET             : 26 48
 LESSER               : 107
 LESSEROREQUAL        : 112
@@ -222,7 +222,7 @@ POLIGON              : 84
 PRINT                : 154
 PROGRAM              : 1
 PURPLE               : 57
-RBRACE               : 10 44 60 61 100 101
+RBRACE               : 10 60 61 100 101
 RBRACKET             : 26 48
 RECTANGLE            : 83
 RED                  : 52
@@ -249,8 +249,8 @@ Nonterminals, with rules where they appear
 argument             : 148 150
 assignment           : 27
 b1                   : 10
-b2                   : 11 12 14 44 100 101
-block                : 1
+b2                   : 11 12 14 100 101
+block                : 1 44
 call                 : 28 132
 call1                : 143
 call2                : 148 149 150
@@ -832,7 +832,7 @@ state 37
     (89) penback -> . PENBACK LPAREN exp RPAREN SEMICOLON
     (85) rotate -> . ROTATE LPAREN exp RPAREN SEMICOLON
     (86) rotate -> . ROTATE LPAREN CTE_STRING RPAREN SEMICOLON
-    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
+    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check block end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
     (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
@@ -987,6 +987,24 @@ state 45
     (10) block -> LBRACE b1 RBRACE .
 
     $end            reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    ID              reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    IF              reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    TRIANGLE        reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    RECTANGLE       reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    SQUARE          reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    CIRCLE          reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    POLIGON         reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    COLOR           reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    PENSIZE         reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    PENFORWARD      reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    PENBACK         reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    ROTATE          reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    WHILE           reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    PENON           reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    PENOFF          reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    PRINT           reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    RBRACE          reduce using rule 10 (block -> LBRACE b1 RBRACE .)
+    RETURN          reduce using rule 10 (block -> LBRACE b1 RBRACE .)
 
 
 state 46
@@ -1545,7 +1563,7 @@ state 76
 
 state 77
 
-    (44) while -> WHILE . while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
+    (44) while -> WHILE . while_return LPAREN expression RPAREN type_check block end_while
     (45) while_return -> .
 
     LPAREN          reduce using rule 45 (while_return -> .)
@@ -1722,7 +1740,7 @@ state 89
     (89) penback -> . PENBACK LPAREN exp RPAREN SEMICOLON
     (85) rotate -> . ROTATE LPAREN exp RPAREN SEMICOLON
     (86) rotate -> . ROTATE LPAREN CTE_STRING RPAREN SEMICOLON
-    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
+    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check block end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
     (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
@@ -2130,7 +2148,7 @@ state 103
 
 state 104
 
-    (44) while -> WHILE while_return . LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
+    (44) while -> WHILE while_return . LPAREN expression RPAREN type_check block end_while
 
     LPAREN          shift and go to state 148
 
@@ -2726,7 +2744,7 @@ state 147
 
 state 148
 
-    (44) while -> WHILE while_return LPAREN . expression RPAREN type_check LBRACE b2 RBRACE end_while
+    (44) while -> WHILE while_return LPAREN . expression RPAREN type_check block end_while
     (106) expression -> . exp expression1
     (114) exp -> . term top_exp exp1
     (119) term -> . factor top_factor term1
@@ -3398,7 +3416,7 @@ state 187
 
 state 188
 
-    (44) while -> WHILE while_return LPAREN expression . RPAREN type_check LBRACE b2 RBRACE end_while
+    (44) while -> WHILE while_return LPAREN expression . RPAREN type_check block end_while
 
     RPAREN          shift and go to state 232
 
@@ -4153,7 +4171,7 @@ state 231
 
 state 232
 
-    (44) while -> WHILE while_return LPAREN expression RPAREN . type_check LBRACE b2 RBRACE end_while
+    (44) while -> WHILE while_return LPAREN expression RPAREN . type_check block end_while
     (103) type_check -> .
 
     LBRACE          reduce using rule 103 (type_check -> .)
@@ -4636,10 +4654,12 @@ state 261
 
 state 262
 
-    (44) while -> WHILE while_return LPAREN expression RPAREN type_check . LBRACE b2 RBRACE end_while
+    (44) while -> WHILE while_return LPAREN expression RPAREN type_check . block end_while
+    (10) block -> . LBRACE b1 RBRACE
 
-    LBRACE          shift and go to state 289
+    LBRACE          shift and go to state 30
 
+    block                          shift and go to state 289
 
 state 263
 
@@ -4702,7 +4722,7 @@ state 266
     (89) penback -> . PENBACK LPAREN exp RPAREN SEMICOLON
     (85) rotate -> . ROTATE LPAREN exp RPAREN SEMICOLON
     (86) rotate -> . ROTATE LPAREN CTE_STRING RPAREN SEMICOLON
-    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
+    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check block end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
     (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
@@ -4805,7 +4825,7 @@ state 268
     (89) penback -> . PENBACK LPAREN exp RPAREN SEMICOLON
     (85) rotate -> . ROTATE LPAREN exp RPAREN SEMICOLON
     (86) rotate -> . ROTATE LPAREN CTE_STRING RPAREN SEMICOLON
-    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
+    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check block end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
     (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
@@ -4961,7 +4981,7 @@ state 275
     (89) penback -> . PENBACK LPAREN exp RPAREN SEMICOLON
     (85) rotate -> . ROTATE LPAREN exp RPAREN SEMICOLON
     (86) rotate -> . ROTATE LPAREN CTE_STRING RPAREN SEMICOLON
-    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
+    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check block end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
     (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
@@ -5199,31 +5219,29 @@ state 288
 
 state 289
 
-    (44) while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE . b2 RBRACE end_while
-    (14) b2 -> . b2 statute
-    (15) b2 -> . empty
-    (160) empty -> .
+    (44) while -> WHILE while_return LPAREN expression RPAREN type_check block . end_while
+    (46) end_while -> .
 
-    RBRACE          reduce using rule 160 (empty -> .)
-    ID              reduce using rule 160 (empty -> .)
-    IF              reduce using rule 160 (empty -> .)
-    TRIANGLE        reduce using rule 160 (empty -> .)
-    RECTANGLE       reduce using rule 160 (empty -> .)
-    SQUARE          reduce using rule 160 (empty -> .)
-    CIRCLE          reduce using rule 160 (empty -> .)
-    POLIGON         reduce using rule 160 (empty -> .)
-    COLOR           reduce using rule 160 (empty -> .)
-    PENSIZE         reduce using rule 160 (empty -> .)
-    PENFORWARD      reduce using rule 160 (empty -> .)
-    PENBACK         reduce using rule 160 (empty -> .)
-    ROTATE          reduce using rule 160 (empty -> .)
-    WHILE           reduce using rule 160 (empty -> .)
-    PENON           reduce using rule 160 (empty -> .)
-    PENOFF          reduce using rule 160 (empty -> .)
-    PRINT           reduce using rule 160 (empty -> .)
+    ID              reduce using rule 46 (end_while -> .)
+    IF              reduce using rule 46 (end_while -> .)
+    TRIANGLE        reduce using rule 46 (end_while -> .)
+    RECTANGLE       reduce using rule 46 (end_while -> .)
+    SQUARE          reduce using rule 46 (end_while -> .)
+    CIRCLE          reduce using rule 46 (end_while -> .)
+    POLIGON         reduce using rule 46 (end_while -> .)
+    COLOR           reduce using rule 46 (end_while -> .)
+    PENSIZE         reduce using rule 46 (end_while -> .)
+    PENFORWARD      reduce using rule 46 (end_while -> .)
+    PENBACK         reduce using rule 46 (end_while -> .)
+    ROTATE          reduce using rule 46 (end_while -> .)
+    WHILE           reduce using rule 46 (end_while -> .)
+    PENON           reduce using rule 46 (end_while -> .)
+    PENOFF          reduce using rule 46 (end_while -> .)
+    PRINT           reduce using rule 46 (end_while -> .)
+    RBRACE          reduce using rule 46 (end_while -> .)
+    RETURN          reduce using rule 46 (end_while -> .)
 
-    b2                             shift and go to state 301
-    empty                          shift and go to state 38
+    end_while                      shift and go to state 301
 
 state 290
 
@@ -5453,81 +5471,27 @@ state 300
 
 state 301
 
-    (44) while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 . RBRACE end_while
-    (14) b2 -> b2 . statute
-    (27) statute -> . assignment
-    (28) statute -> . call
-    (29) statute -> . condition
-    (30) statute -> . triangle
-    (31) statute -> . rectangle
-    (32) statute -> . square
-    (33) statute -> . circle
-    (34) statute -> . poligon
-    (35) statute -> . color
-    (36) statute -> . pensize
-    (37) statute -> . penforward
-    (38) statute -> . penback
-    (39) statute -> . rotate
-    (40) statute -> . while
-    (41) statute -> . penon
-    (42) statute -> . penoff
-    (43) statute -> . print
-    (47) assignment -> . ID verify_id ASSIGN push_sign expression set_value SEMICOLON
-    (48) assignment -> . ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON
-    (143) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
-    (100) condition -> . IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if
-    (82) triangle -> . TRIANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
-    (83) rectangle -> . RECTANGLE LPAREN exp COMMA exp RPAREN SEMICOLON
-    (81) square -> . SQUARE LPAREN exp RPAREN SEMICOLON
-    (80) circle -> . CIRCLE LPAREN exp RPAREN SEMICOLON
-    (84) poligon -> . POLIGON LPAREN exp COMMA exp RPAREN SEMICOLON
-    (79) color -> . COLOR LPAREN color_cte RPAREN SEMICOLON
-    (87) pensize -> . PENSIZE LPAREN exp RPAREN SEMICOLON
-    (88) penforward -> . PENFORWARD LPAREN exp RPAREN SEMICOLON
-    (89) penback -> . PENBACK LPAREN exp RPAREN SEMICOLON
-    (85) rotate -> . ROTATE LPAREN exp RPAREN SEMICOLON
-    (86) rotate -> . ROTATE LPAREN CTE_STRING RPAREN SEMICOLON
-    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
-    (90) penon -> . PENON LPAREN RPAREN SEMICOLON
-    (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
-    (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
+    (44) while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .
 
-    RBRACE          shift and go to state 311
-    ID              shift and go to state 65
-    IF              shift and go to state 66
-    TRIANGLE        shift and go to state 67
-    RECTANGLE       shift and go to state 68
-    SQUARE          shift and go to state 69
-    CIRCLE          shift and go to state 70
-    POLIGON         shift and go to state 71
-    COLOR           shift and go to state 72
-    PENSIZE         shift and go to state 73
-    PENFORWARD      shift and go to state 74
-    PENBACK         shift and go to state 75
-    ROTATE          shift and go to state 76
-    WHILE           shift and go to state 77
-    PENON           shift and go to state 78
-    PENOFF          shift and go to state 79
-    PRINT           shift and go to state 80
+    ID              reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    IF              reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    TRIANGLE        reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    RECTANGLE       reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    SQUARE          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    CIRCLE          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    POLIGON         reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    COLOR           reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    PENSIZE         reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    PENFORWARD      reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    PENBACK         reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    ROTATE          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    WHILE           reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    PENON           reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    PENOFF          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    PRINT           reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    RBRACE          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
+    RETURN          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check block end_while .)
 
-    statute                        shift and go to state 47
-    assignment                     shift and go to state 48
-    call                           shift and go to state 49
-    condition                      shift and go to state 50
-    triangle                       shift and go to state 51
-    rectangle                      shift and go to state 52
-    square                         shift and go to state 53
-    circle                         shift and go to state 54
-    poligon                        shift and go to state 55
-    color                          shift and go to state 56
-    pensize                        shift and go to state 57
-    penforward                     shift and go to state 58
-    penback                        shift and go to state 59
-    rotate                         shift and go to state 60
-    while                          shift and go to state 61
-    penon                          shift and go to state 62
-    penoff                         shift and go to state 63
-    print                          shift and go to state 64
 
 state 302
 
@@ -5546,7 +5510,7 @@ state 303
     COMMA           shift and go to state 237
     RPAREN          reduce using rule 160 (empty -> .)
 
-    params1                        shift and go to state 312
+    params1                        shift and go to state 311
     empty                          shift and go to state 238
 
 state 304
@@ -5558,7 +5522,7 @@ state 304
     VAR             reduce using rule 77 (end_func -> .)
     DAVINCI         reduce using rule 77 (end_func -> .)
 
-    end_func                       shift and go to state 313
+    end_func                       shift and go to state 312
 
 state 305
 
@@ -5567,7 +5531,7 @@ state 305
 
     SEMICOLON       reduce using rule 159 (savereturn -> .)
 
-    savereturn                     shift and go to state 314
+    savereturn                     shift and go to state 313
 
 state 306
 
@@ -5585,9 +5549,9 @@ state 306
 
   ! FUNC            [ reduce using rule 160 (empty -> .) ]
 
-    funcs3                         shift and go to state 315
-    funcs                          shift and go to state 316
-    empty                          shift and go to state 317
+    funcs3                         shift and go to state 314
+    funcs                          shift and go to state 315
+    empty                          shift and go to state 316
 
 state 307
 
@@ -5627,7 +5591,7 @@ state 307
     SEMICOLON       reduce using rule 144 (checkreturn -> .)
     RETURN          reduce using rule 144 (checkreturn -> .)
 
-    checkreturn                    shift and go to state 318
+    checkreturn                    shift and go to state 317
 
 state 308
 
@@ -5653,13 +5617,13 @@ state 308
     RBRACE          reduce using rule 105 (end_if -> .)
     RETURN          reduce using rule 105 (end_if -> .)
 
-    end_if                         shift and go to state 319
+    end_if                         shift and go to state 318
 
 state 309
 
     (101) condition1 -> gotoElse . ELSE LBRACE b2 RBRACE
 
-    ELSE            shift and go to state 320
+    ELSE            shift and go to state 319
 
 
 state 310
@@ -5688,38 +5652,12 @@ state 310
 
 state 311
 
-    (44) while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE . end_while
-    (46) end_while -> .
-
-    ID              reduce using rule 46 (end_while -> .)
-    IF              reduce using rule 46 (end_while -> .)
-    TRIANGLE        reduce using rule 46 (end_while -> .)
-    RECTANGLE       reduce using rule 46 (end_while -> .)
-    SQUARE          reduce using rule 46 (end_while -> .)
-    CIRCLE          reduce using rule 46 (end_while -> .)
-    POLIGON         reduce using rule 46 (end_while -> .)
-    COLOR           reduce using rule 46 (end_while -> .)
-    PENSIZE         reduce using rule 46 (end_while -> .)
-    PENFORWARD      reduce using rule 46 (end_while -> .)
-    PENBACK         reduce using rule 46 (end_while -> .)
-    ROTATE          reduce using rule 46 (end_while -> .)
-    WHILE           reduce using rule 46 (end_while -> .)
-    PENON           reduce using rule 46 (end_while -> .)
-    PENOFF          reduce using rule 46 (end_while -> .)
-    PRINT           reduce using rule 46 (end_while -> .)
-    RBRACE          reduce using rule 46 (end_while -> .)
-    RETURN          reduce using rule 46 (end_while -> .)
-
-    end_while                      shift and go to state 321
-
-state 312
-
     (65) params1 -> COMMA type ID save_par params1 .
 
     RPAREN          reduce using rule 65 (params1 -> COMMA type ID save_par params1 .)
 
 
-state 313
+state 312
 
     (60) funcs -> FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements return RBRACE end_func . funcs3
     (72) funcs3 -> . funcs
@@ -5735,18 +5673,18 @@ state 313
 
   ! FUNC            [ reduce using rule 160 (empty -> .) ]
 
-    funcs3                         shift and go to state 322
-    funcs                          shift and go to state 316
-    empty                          shift and go to state 317
+    funcs3                         shift and go to state 320
+    funcs                          shift and go to state 315
+    empty                          shift and go to state 316
 
-state 314
+state 313
 
     (158) return -> RETURN expression savereturn . SEMICOLON
 
-    SEMICOLON       shift and go to state 323
+    SEMICOLON       shift and go to state 321
 
 
-state 315
+state 314
 
     (61) funcs -> FUNC VOID functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements RBRACE end_func funcs3 .
 
@@ -5755,7 +5693,7 @@ state 315
     DAVINCI         reduce using rule 61 (funcs -> FUNC VOID functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements RBRACE end_func funcs3 .)
 
 
-state 316
+state 315
 
     (72) funcs3 -> funcs .
 
@@ -5764,7 +5702,7 @@ state 316
     DAVINCI         reduce using rule 72 (funcs3 -> funcs .)
 
 
-state 317
+state 316
 
     (73) funcs3 -> empty .
 
@@ -5773,7 +5711,7 @@ state 317
     DAVINCI         reduce using rule 73 (funcs3 -> empty .)
 
 
-state 318
+state 317
 
     (143) call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .
 
@@ -5811,7 +5749,7 @@ state 318
     RETURN          reduce using rule 143 (call -> ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn .)
 
 
-state 319
+state 318
 
     (100) condition -> IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if .
 
@@ -5835,38 +5773,14 @@ state 319
     RETURN          reduce using rule 100 (condition -> IF LPAREN expression RPAREN type_check LBRACE b2 RBRACE condition1 end_if .)
 
 
-state 320
+state 319
 
     (101) condition1 -> gotoElse ELSE . LBRACE b2 RBRACE
 
-    LBRACE          shift and go to state 324
+    LBRACE          shift and go to state 322
 
 
-state 321
-
-    (44) while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .
-
-    ID              reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    IF              reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    TRIANGLE        reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    RECTANGLE       reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    SQUARE          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    CIRCLE          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    POLIGON         reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    COLOR           reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    PENSIZE         reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    PENFORWARD      reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    PENBACK         reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    ROTATE          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    WHILE           reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    PENON           reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    PENOFF          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    PRINT           reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    RBRACE          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-    RETURN          reduce using rule 44 (while -> WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while .)
-
-
-state 322
+state 320
 
     (60) funcs -> FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements return RBRACE end_func funcs3 .
 
@@ -5875,14 +5789,14 @@ state 322
     DAVINCI         reduce using rule 60 (funcs -> FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements return RBRACE end_func funcs3 .)
 
 
-state 323
+state 321
 
     (158) return -> RETURN expression savereturn SEMICOLON .
 
     RBRACE          reduce using rule 158 (return -> RETURN expression savereturn SEMICOLON .)
 
 
-state 324
+state 322
 
     (101) condition1 -> gotoElse ELSE LBRACE . b2 RBRACE
     (14) b2 -> . b2 statute
@@ -5907,10 +5821,10 @@ state 324
     PENOFF          reduce using rule 160 (empty -> .)
     PRINT           reduce using rule 160 (empty -> .)
 
-    b2                             shift and go to state 325
+    b2                             shift and go to state 323
     empty                          shift and go to state 38
 
-state 325
+state 323
 
     (101) condition1 -> gotoElse ELSE LBRACE b2 . RBRACE
     (14) b2 -> b2 . statute
@@ -5946,12 +5860,12 @@ state 325
     (89) penback -> . PENBACK LPAREN exp RPAREN SEMICOLON
     (85) rotate -> . ROTATE LPAREN exp RPAREN SEMICOLON
     (86) rotate -> . ROTATE LPAREN CTE_STRING RPAREN SEMICOLON
-    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while
+    (44) while -> . WHILE while_return LPAREN expression RPAREN type_check block end_while
     (90) penon -> . PENON LPAREN RPAREN SEMICOLON
     (91) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
     (154) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
 
-    RBRACE          shift and go to state 326
+    RBRACE          shift and go to state 324
     ID              shift and go to state 65
     IF              shift and go to state 66
     TRIANGLE        shift and go to state 67
@@ -5988,7 +5902,7 @@ state 325
     penoff                         shift and go to state 63
     print                          shift and go to state 64
 
-state 326
+state 324
 
     (101) condition1 -> gotoElse ELSE LBRACE b2 RBRACE .
 
@@ -6015,7 +5929,7 @@ WARNING:
 WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for FUNC in state 306 resolved as shift
-WARNING: shift/reduce conflict for FUNC in state 313 resolved as shift
+WARNING: shift/reduce conflict for FUNC in state 312 resolved as shift
 WARNING: reduce/reduce conflict in state 124 resolved using rule (getidvalue -> <empty>)
 WARNING: rejected rule (push_id -> <empty>) in state 124
 WARNING: Rule (push_id -> <empty>) is never reduced

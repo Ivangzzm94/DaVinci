@@ -167,7 +167,7 @@ def p_statute(p):
 	 | print'''
 
 def p_while(p):
-    '''while : WHILE while_return LPAREN expression RPAREN type_check LBRACE b2 RBRACE end_while'''
+    '''while : WHILE while_return LPAREN expression RPAREN type_check block end_while'''
 
 def p_while_return(p):
     '''while_return :'''
