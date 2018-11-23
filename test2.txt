@@ -1,17 +1,12 @@
 program fact;
 
-func Int factorial(Int a)
-var Int aux;
+var Int g,l,o,b; Float a,les;
+
+func Int myFunc (Int p, Int op)
+var Float f1, f2, f3;
 {
-    aux = a;
-    a = a - 1;
-    while(a > 0) {
-        aux = aux * a;
-        a = a - 1;
-    }
-    return aux;
 }
 
 DaVinci {
-
+    g = 3+1;
 }

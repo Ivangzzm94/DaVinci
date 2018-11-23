@@ -25,6 +25,16 @@ class Memory:
         elif dir < 16000:
             return Type.STRING.value
 
+    def getLiveType(self, dir):
+        if dir < 250000:
+            return Type.INT.value
+        elif dir < 500000:
+            return  Type.FLOAT.value
+        elif dir < 750000:
+            return Type.BOOL.value
+        elif dir < 1000000:
+            return Type.STRING.value
+
     def getSize(self):
         return len(self.memory.items())
 
@@ -133,6 +143,58 @@ class Memory:
 
         elif type == Type.STRING.value:
             nextAvailable = offset + 6000
+            for dir in self.memory.items():
+                if not nextAvailable in self.memory:
+                    break
+                elif self.memory[nextAvailable] == None:
+                    break
+                nextAvailable += 1
+            for dir in range(nextAvailable, nextAvailable + size):
+                self.memory[dir] = "TAKEN"
+            return nextAvailable
+
+    def pushVarLiveMemory(self, type, size):
+        offset = 0
+        if type == Type.INT.value:
+            nextAvailable = offset + 0
+
+            for dir in self.memory.items():
+                if not nextAvailable in self.memory:
+                    break
+                elif self.memory[nextAvailable] == None:
+                    break
+                nextAvailable += 1
+
+            for dir in range(nextAvailable, nextAvailable + size):
+                self.memory[dir] = "TAKEN"
+            return nextAvailable
+
+        elif type == Type.FLOAT.value:
+            nextAvailable = offset + 250000
+            for dir in self.memory.items():
+                if not nextAvailable in self.memory:
+                    break
+                elif self.memory[nextAvailable] == None:
+                    break
+                nextAvailable += 1
+            for dir in range(nextAvailable, nextAvailable + size):
+                self.memory[dir] = "TAKEN"
+            return nextAvailable
+
+        elif type == Type.BOOL.value:
+            nextAvailable = offset + 250000 * 2
+            for dir in self.memory.items():
+                if not nextAvailable in self.memory:
+                    break
+                elif self.memory[nextAvailable] == None:
+                    break
+                nextAvailable += 1
+            for dir in range(nextAvailable, nextAvailable + size):
+                self.memory[dir] = "TAKEN"
+            return nextAvailable
+
+        elif type == Type.STRING.value:
+            nextAvailable = offset + 250000 * 3
             for dir in self.memory.items():
                 if not nextAvailable in self.memory:
                     break

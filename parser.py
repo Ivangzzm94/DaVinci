@@ -41,11 +41,14 @@ def p_program(p):
     '''program : PROGRAM ID SEMICOLON gotomain program1 getglobalmemory DAVINCI fillmain block'''
     quadList.print_Quads()
     #varTable.printVars()
-    #print(funcTable)
+    #print
+    #print(funcTable['DaVinci'].varTable.items())
     vm = VirtualMachine()
     vm.funcTable = funcTable
     for func in funcTable:
         f = funcTable[func]
+        print(f.varTable)
+        print(f.memory.memory)
         vm.memory[f.function_id] = f.memory.memory
 
     f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
@@ -83,9 +86,13 @@ def p_save_funcs(p):
 def p_global_vars(p):
     '''global_vars : '''
     try:
+        offset = 0
         for var in varList:
             if not var.var_id in currentFunc.varTable:
-                dir = funcTable['DaVinci'].declareVariable(var.var_id,var.var_type)
+                dir = funcTable['DaVinci'].declareVariable(var.var_id, var.var_type, var.size, offset)
+                offset += 1
+            else:
+                ErrorHandler.redefined_variable('Variable duplicada')
         varList.clear()
     except ErrorHandler as e:
         e.redefined_variable('Variable duplicada')
@@ -101,9 +108,11 @@ def p_b1(p):
 def p_local_vars(p):
     '''local_vars : '''
     try:
+        offset = 0 + param_index
         for var in varList:
             if not var.var_id in currentFunc.varTable or not var.var_id in funcTable['DaVinci'].varTable:
-                currentFunc.declareVariable(var.var_id,var.var_type)
+                currentFunc.declareVariable(var.var_id, var.var_type, var.size, offset)
+                offset += 1
         varList.clear()
     except ErrorHandler as e:
         e.redefined_variable('Variable duplicada')
@@ -189,8 +198,8 @@ def p_verify_id(p):
     id = p[-1]
     try:
         var = currentFunc.varTable[id]
-        pilaOperandos.push(var)
-        pTypes.push(currentFunc.memory.getType(var))
+        pilaOperandos.push(var[0])
+        pTypes.push(currentFunc.memory.getType(var[0]))
     except ValueError:
         print ("Variable not found")
         ErrorHandler.exitWhenError()
@@ -293,7 +302,7 @@ def p_save_par(p):
     '''save_par : '''
     global currentFunc
     v = Variable(p[-1], p[-2], 1)
-    dir = currentFunc.declareVariable(v.var_id, v.var_type)
+    dir = currentFunc.declareVariable(v.var_id, v.var_type, v.size, param_index)
     currentFunc.memory.setValue(dir, 'TAKEN')
     currentFunc.parameters.append(dir)
 
@@ -614,8 +623,8 @@ def p_push_id(p):
     id = p[-1]
     try:
         var = currentFunc.varTable[id]
-        pilaOperandos.push(var)
-        pTypes.push(currentFunc.memory.getType(var))
+        pilaOperandos.push(var[0])
+        pTypes.push(currentFunc.memory.getType(var[0]))
     except:
         print("ID no encontrado", p[-1])
         ErrorHandler.exitWhenError()
@@ -712,7 +721,7 @@ def p_savereturn(p):
         ErrorHandler.exitWhenError()
 
 def p_empty(p):
-    '''empty :'''
+    '''empty : '''
     pass
 
 def p_error(p):
@@ -725,7 +734,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         file = sys.argv[1]
         try:
-            f = open('dibujo.txt')
+            f = open('test2.txt')
             data = f.read()
             f.close()
             if parser_DaVinci.parse(data) == "COMPILED":

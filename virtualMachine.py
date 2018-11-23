@@ -11,19 +11,28 @@ class VirtualMachine:
         self.memory = {}
         self.instruction_pointer = 0
         self.list = None
-        self.memSize = 0
         self.funcTable = {}
         self.contextStack = Stack()
         self.nextMem = Memory()
         self.nextFuncRunning = None
         self.returnStack = Stack()
+        self.contextCount = 0
+
+    def pushToLive(self, funcID):
+        func = self.funcTable[funcID]
+        for i in func.varTable.items():
+            dirV = i[1][0]
+            val = func.memory.memory[dirV]
+            dirR = (dirV - 8000) + 8000*self.contextCount
+            self.liveMemory.push({dirR, val})
+        self.contextCount += 1
 
     def run(self):
         # Lee lista de cúadruplos y meterlos a la lista "List"
 
         self.contextStack.push('DaVinci')
-        self.liveMemory.push(self.memory[self.contextStack.top()])
-        self.memSize += len(self.memory[self.contextStack.top()].items())
+        self.pushToLive(self.contextStack.top())
+
         with open("quads.txt") as file:
             text = file.read()
 
