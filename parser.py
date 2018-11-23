@@ -220,17 +220,28 @@ def p_color_cte(p):
 		| YELLOW
 		| GREEN
 		| PINK
-		| PURPLE'''
+		| PURPLE
+        | BLACK
+        | BROWN
+        | WHITE'''
     if p[1] == 'red':
         pilaOperandos.push(Color.RED.value)
     if p[1] == 'blue':
         pilaOperandos.push(Color.BLUE.value)
     if p[1] == 'yellow':
         pilaOperandos.push(Color.YELLOW.value)
+    if p[1] == 'green':
+        pilaOperandos.push(Color.GREEN.value)
     if p[1] == 'pink':
         pilaOperandos.push(Color.PINK.value)
     if p[1] == 'purple':
         pilaOperandos.push(Color.PURPLE.value)
+    if p[1] == 'black':
+        pilaOperandos.push(Color.BLACK.value)
+    if p[1] == 'brown':
+        pilaOperandos.push(Color.BROWN.value)
+    if p[1] == 'white':
+        pilaOperandos.push(Color.WHITE.value)
 
 def p_st_cte(p):
     '''st_cte : STRING

@@ -40,6 +40,8 @@ class VirtualMachine:
 
         # Empezar la ejecución de la máquina virtual
         wn = turtle.Screen()
+        turtle.speed(10)
+        wn.bgcolor("black")
         while self.instruction_pointer < len(List):
             if List[self.instruction_pointer][0] == 15:  # GoTo
                 self.instruction_pointer = List[self.instruction_pointer][3]
@@ -270,6 +272,12 @@ class VirtualMachine:
             color = 'pink'
         elif aux == 105:
             color = 'purple'
+        elif aux == 106:
+            color = 'black'
+        elif aux == 107:
+            color = 'brown'
+        elif aux == 108:
+            color = 'white'
         turtle.pencolor(color)
         self.instruction_pointer += 1
 
@@ -331,7 +339,7 @@ class VirtualMachine:
     def PENSIZE(self, size):
         mem = self.liveMemory.top()
         s = mem[size]
-        turtle.dot(s)
+        turtle.pensize(s)
         self.instruction_pointer += 1
 
     def PENFORWARD(self, distance):

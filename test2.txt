@@ -13,5 +13,6 @@ var Int aux;
 }
 
 DaVinci {
-
+    var Int p;
+    p = factorial(factorial(3););;
 }
