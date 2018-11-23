@@ -300,10 +300,11 @@ class VirtualMachine:
         base = mem[b]
         alt = mem[a]
         turtle.forward(base)
-        turtle.left(base*1.1)
-        turtle.forward(alt)
-        turtle.left(base*1.1)
-        turtle.forward(alt)
+        turtle.left(120)
+        turtle.forward(base)
+        turtle.left(120)
+        turtle.forward(base)
+        turtle.left(120);
         self.instruction_pointer += 1
 
     def RECTANGLE(self, l, a):

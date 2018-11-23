@@ -1,12 +1,5 @@
 program dibujo;
 
-func void escribe()
-{
-    rotate(45*2);
-    color(green);
-    penForward(40);
-}
-
 func void regalos()
 var Int c;
 {
@@ -195,33 +188,24 @@ var Int v1, v2;
     penForward(40);
 
     regalos();
+
+    penOff();
 }
 
 DaVinci {
     pino();
-    penOff();
-    penSize(5);
-    penBack(525);
+    penBack(240);
+    rotate(45*2);
+    penForward(290);
     penOn();
-    color(brown);
-    penForward(635);
     rotate(45*6);
-    penForward(50);
-    rotate(45*6);
-    penForward(635);
+    triangle(30,20);
+    penOff();
+    penForward(30);
     rotate(45*2);
-    penForward(50);
+    penForward(10);
     rotate(45*2);
-    penForward(635);
-    rotate(45*6);
-    penForward(50);
-    rotate(45*6);
-    penForward(635);
-
-    rotate(45*6);
-    penForward(450);
-    rotate(45*6);
-    penForward(70);
-
-    escribe();
+    penForward(10);
+    penOn();
+    triangle(30,20);
     }
