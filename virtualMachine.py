@@ -127,108 +127,277 @@ class VirtualMachine:
     # Operaciones
     def PLUS(self, op1, op2, r):
         mem = self.liveMemory.top()
-        aux = mem[op1] + mem[op2]
-        mem[r] = aux
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
+        else:
+            left = mem[op1]
+
+        if op2 > 50000:
+            rigth = self.memory['DaVinci'][op2]
+        else:
+            rigth = mem[op2]
+
+        aux = left + rigth
+
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
         self.instruction_pointer += 1
 
     def MINUS(self, op1, op2, r):
         mem = self.liveMemory.top()
-        aux = mem[op1] - mem[op2]
-        mem[r] = aux
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
+        else:
+            left = mem[op1]
+
+        if op2 > 50000:
+            rigth = self.memory['DaVinci'][op2]
+        else:
+            rigth = mem[op2]
+
+        aux = left - rigth
+
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
         self.instruction_pointer += 1
 
     def TIMES(self, op1, op2, r):
         mem = self.liveMemory.top()
-        aux = mem[op1] * mem[op2]
-        mem[r] = aux
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
+        else:
+            left = mem[op1]
+
+        if op2 > 50000:
+            rigth = self.memory['DaVinci'][op2]
+        else:
+            rigth = mem[op2]
+
+        aux = left * rigth
+
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
+
         self.instruction_pointer += 1
 
     def DIVIDE(self, op1, op2, r):
         mem = self.liveMemory.top()
-        aux = mem[op1] / mem[op2]
-        mem[r] = aux
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
+        else:
+            left = mem[op1]
+
+        if op2 > 50000:
+            rigth = self.memory['DaVinci'][op2]
+        else:
+            rigth = mem[op2]
+
+        aux = left / rigth
+
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
+
         self.instruction_pointer += 1
 
     def ASSIGN(self, op1, r):
         mem = self.liveMemory.top()
-        mem[r] = mem[op1]
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
+        else:
+            left = mem[op1]
+
+        if r > 50000:
+            self.memory['DaVinci'][r] = left
+        else:
+            mem[r] = left
+
         self.instruction_pointer += 1
 
     def EQUAL(self, op1, op2, r):
         mem = self.liveMemory.top()
-        if mem[op1] == mem[op2]:
-            aux = True
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
         else:
-            aux = False
+            left = mem[op1]
 
-        mem[r] = aux
+        if op2 > 50000:
+            rigth = self.memory['DaVinci'][op2]
+        else:
+            rigth = mem[op2]
+
+        aux = left == rigth
+
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
+
         self.instruction_pointer += 1
 
     def NOTEQUAL(self, op1, op2, r):
         mem = self.liveMemory.top()
-        aux =  not (mem[op1] == mem[op2])
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
+        else:
+            left = mem[op1]
 
-        mem[r] = aux
+        if op2 > 50000:
+            rigth = self.memory['DaVinci'][op2]
+        else:
+            rigth = mem[op2]
+
+        aux = left != rigth
+
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
         self.instruction_pointer += 1
 
     def GREATER(self, op1, op2, r):
         mem = self.liveMemory.top()
-        aux =  mem[op1] > mem[op2]
-        mem[r] = aux
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
+        else:
+            left = mem[op1]
+
+        if op2 > 50000:
+            rigth = self.memory['DaVinci'][op2]
+        else:
+            rigth = mem[op2]
+
+        aux = left > rigth
+
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
         self.instruction_pointer += 1
 
     def LESSER(self, op1, op2, r):
         mem = self.liveMemory.top()
-        if mem[op1] < mem[op2]:
-            aux = True
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
         else:
-            aux = False
-        mem[r] = aux
+            left = mem[op1]
+
+        if op2 > 50000:
+            rigth = self.memory['DaVinci'][op2]
+        else:
+            rigth = mem[op2]
+
+        aux = left < rigth
+
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
         self.instruction_pointer += 1
 
     def GREATEROREQUAL(self, op1, op2, r):
         mem = self.liveMemory.top()
-        if mem[op1] >= mem[op2]:
-            aux = True
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
         else:
-            aux = False
-        mem[r] = aux
+            left = mem[op1]
+
+        if op2 > 50000:
+            rigth = self.memory['DaVinci'][op2]
+        else:
+            rigth = mem[op2]
+
+        aux = left >= rigth
+
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
         self.instruction_pointer += 1
 
     def LESSEROREQUAL(self, op1, op2, r):
         mem = self.liveMemory.top()
-        if mem[op1] <= mem[op2]:
-            aux = True
-        else:
-            aux = False
 
-        mem[r] = aux
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
+        else:
+            left = mem[op1]
+
+        if op2 > 50000:
+            rigth = self.memory['DaVinci'][op2]
+        else:
+            rigth = mem[op2]
+
+        aux = left <= rigth
+
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
+
         self.instruction_pointer += 1
 
     def AND(self, op1, op2, r):
         mem = self.liveMemory.top()
-        if mem[op1] and mem[op2]:
-            aux = True
-        else:
-            aux = False
 
-        mem[r] = aux
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
+        else:
+            left = mem[op1]
+
+        if op2 > 50000:
+            rigth = self.memory['DaVinci'][op2]
+        else:
+            rigth = mem[op2]
+
+        aux = left and rigth
+
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
+
         self.instruction_pointer += 1
 
     def OR(self, op1, op2, r):
         mem = self.liveMemory.top()
-        if mem[op1] or mem[op2]:
-            aux = True
-        else:
-            aux = False
 
-        mem[r] = aux
+        if op1 > 50000:
+            left = self.memory['DaVinci'][op1]
+        else:
+            left = mem[op1]
+
+        if op2 > 50000:
+            rigth = self.memory['DaVinci'][op2]
+        else:
+            rigth = mem[op2]
+
+        aux = left or rigth
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
         self.instruction_pointer += 1
 
     def NOT(self, op1, r):
         mem = self.liveMemory.top()
-        aux = mem[op1]
+        if op1 > 50000:
+            aux = self.memory['DaVinci'][op1]
+        else:
+            aux = mem[op1]
+
         aux = not aux
+        if r > 50000:
+            self.memory['DaVinci'][r] = aux
+        else:
+            mem[r] = aux
         mem[r] = aux
         self.instruction_pointer += 1
 
@@ -275,13 +444,21 @@ class VirtualMachine:
 
     def CIRCLE(self, r):
         mem = self.liveMemory.top()
-        radio = int(mem[r])
+        if r > 50000:
+            radio = self.memory['DaVinci'][r]
+        else:
+            radio = mem[r]
+
         turtle.circle(radio, None, None)
         self.instruction_pointer += 1
 
     def SQUARE(self, len):
         mem = self.liveMemory.top()
-        l = mem[len]
+        if len > 50000:
+            l = self.memory['DaVinci'][len]
+        else:
+            l = mem[len]
+
         for i in range(4):
             turtle.forward(l)
             turtle.left(90)
@@ -289,8 +466,16 @@ class VirtualMachine:
 
     def TRIANGLE(self, b, a):
         mem = self.liveMemory.top()
-        base = mem[b]
-        alt = mem[a]
+        if b > 50000:
+            base = self.memory['DaVinci'][b]
+        else:
+            base = mem[b]
+
+        if a > 50000:
+            alt = self.memory['DaVinci'][a]
+        else:
+            alt = mem[a]
+
         turtle.forward(base)
         turtle.left(base*1.1)
         turtle.forward(alt)
@@ -300,8 +485,16 @@ class VirtualMachine:
 
     def RECTANGLE(self, l, a):
         mem = self.liveMemory.top()
-        lon = mem[l]
-        alt = mem[a]
+        if l > 50000:
+            lon = self.memory['DaVinci'][l]
+        else:
+            lon = mem[l]
+
+        if a > 50000:
+            alt = self.memory['DaVinci'][a]
+        else:
+            alt = mem[a]
+
         turtle.forward(lon)
         turtle.left(90)
         turtle.forward(alt)
@@ -314,8 +507,15 @@ class VirtualMachine:
 
     def POLIGON(self, sides, size):
         mem = self.liveMemory.top()
-        side = mem[sides]
-        siz = mem[size]
+        if sides > 50000:
+            side = self.memory['DaVinci'][sides]
+        else:
+            side = mem[sides]
+
+        if size > 50000:
+            siz = self.memory['DaVinci'][size]
+        else:
+            siz = mem[size]
         for i in range(1, side):
             turtle.forward(siz)
             turtle.left(360 / side)
@@ -324,26 +524,38 @@ class VirtualMachine:
 
     def ROTATE(self, degree):
         mem = self.liveMemory.top()
-        d = mem[degree]
-        turtle.left(d)
+        if degree > 50000:
+            value = self.memory['DaVinci'][degree]
+        else:
+            value = mem[degree]
+        turtle.left(degree)
         self.instruction_pointer += 1
 
     def PENSIZE(self, size):
         mem = self.liveMemory.top()
-        s = mem[size]
-        turtle.dot(s)
+        if size > 50000:
+            value = self.memory['DaVinci'][size]
+        else:
+            value = mem[size]
+        turtle.dot(value)
         self.instruction_pointer += 1
 
     def PENFORWARD(self, distance):
         mem = self.liveMemory.top()
-        d = mem[distance]
-        turtle.forward(d)
+        if distance > 50000:
+            value = self.memory['DaVinci'][distance]
+        else:
+            value = mem[distance]
+        turtle.forward(value)
         self.instruction_pointer += 1
 
     def PENBACK(self, distance):
         mem = self.liveMemory.top()
-        d = mem[distance]
-        turtle.backward(d)
+        if distance > 50000:
+            value = self.memory['DaVinci'][distance]
+        else:
+            value = mem[distance]
+        turtle.backward(value)
         self.instruction_pointer += 1
 
     def PENON(self):
@@ -356,13 +568,20 @@ class VirtualMachine:
 
     def PRINT(self, r):
         mem = self.liveMemory.top()
-        p = mem[r]
-        print(p)
+        if r > 50000:
+            value = self.memory['DaVinci'][r]
+        else:
+            value = mem[r]
+        print(value)
         self.instruction_pointer += 1
 
     def PARAM(self, op1, r):
         actualMemory = self.liveMemory.top()
-        self.nextMem.setValue(self.nextFuncRunning.parameters[r], actualMemory[op1])
+        if op1 > 50000:
+            value = self.memory['DaVinci'][op1]
+        else:
+            value = actualMemory[op1]
+        self.nextMem.setValue(self.nextFuncRunning.parameters[r], value)
         self.instruction_pointer += 1
 
     def ENDPROC(self):

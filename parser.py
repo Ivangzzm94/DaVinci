@@ -47,6 +47,7 @@ def p_program(p):
     for func in funcTable:
         f = funcTable[func]
         vm.memory[f.function_id] = f.memory.memory
+        print(f.memory.memory)
 
     f = open('quads.txt','w') #archivo de texto en donde se guardan los cuádruplos
     for i in range(len(quadList.array)):
@@ -85,7 +86,7 @@ def p_global_vars(p):
     try:
         for var in varList:
             if not var.var_id in currentFunc.varTable:
-                dir = funcTable['DaVinci'].declareVariable(var.var_id,var.var_type)
+                dir = funcTable['DaVinci'].declareGlobalVariable(var.var_id, var.var_type, var.size)
         varList.clear()
     except ErrorHandler as e:
         e.redefined_variable('Variable duplicada')
@@ -103,7 +104,7 @@ def p_local_vars(p):
     try:
         for var in varList:
             if not var.var_id in currentFunc.varTable or not var.var_id in funcTable['DaVinci'].varTable:
-                currentFunc.declareVariable(var.var_id,var.var_type)
+                currentFunc.declareVariable(var.var_id, var.var_type, var.size)
         varList.clear()
     except ErrorHandler as e:
         e.redefined_variable('Variable duplicada')
@@ -130,8 +131,14 @@ def p_vars4(p):
 
 def p_savelist(p):
     '''savelist : '''
-    v = Variable(p[-2], vartype, p[-1])
-    varList.append(v)
+    top = pilaOperandos.pop()
+    type = memory.getType(top)
+    if type == Type.INT.value:
+        v = Variable(p[-2], vartype, currentFunc.memory.getValue(top))
+        varList.append(v)
+    else:
+        print('No coinciden valores al declarar lista')
+        ErrorHandler.exitWhenError()
 
 def p_saveid(p):
     '''saveid : '''
@@ -144,7 +151,7 @@ def p_save_type(p):
     vartype = p[-1]
 
 def p_list(p):
-    '''list : LBRACKET CTE_INT RBRACKET'''
+    '''list : LBRACKET exp RBRACKET'''
     p[0] = p[2]
 
 def p_statute(p):
@@ -182,7 +189,7 @@ def p_end_while(p):
 
 def p_assignment(p):
     '''assignment : ID verify_id ASSIGN push_sign expression set_value SEMICOLON
-	 | ID cte_id LBRACKET exp RBRACKET ASSIGN expression SEMICOLON'''
+	 | ID verify_id LBRACKET exp check_range RBRACKET ASSIGN expression SEMICOLON'''
 
 def p_verify_id(p):
     '''verify_id : '''
@@ -191,9 +198,19 @@ def p_verify_id(p):
         var = currentFunc.varTable[id]
         pilaOperandos.push(var)
         pTypes.push(currentFunc.memory.getType(var))
-    except ValueError:
-        print ("Variable not found")
-        ErrorHandler.exitWhenError()
+    except:
+        try:
+            var = funcTable['DaVinci'].varTable[id]
+            pilaOperandos.push(var)
+            pTypes.push(funcTable['DaVinci'].memory.getType(var))
+        except:
+            print("Variable not found")
+            ErrorHandler.exitWhenError()
+
+def p_check_range(p):
+    '''check_range : '''
+    dim = pilaOperandos.pop()
+    print(dim)
 
 def p_set_value(p):
     '''set_value : '''
@@ -208,7 +225,7 @@ def p_set_value(p):
             q = Quad(operator, result_operand, None, id_operand)
             quadList.add_quad(q)
         else:
-            print('Tipos no compatibles')
+            print('Tipos no compatibles', result_operand, result_type, id_operand, id_type)
             ErrorHandler.exitWhenError()
 
 def p_cte_id(p):
@@ -293,7 +310,7 @@ def p_save_par(p):
     '''save_par : '''
     global currentFunc
     v = Variable(p[-1], p[-2], 1)
-    dir = currentFunc.declareVariable(v.var_id, v.var_type)
+    dir = currentFunc.declareVariable(v.var_id, v.var_type, v.size)
     currentFunc.memory.setValue(dir, 'TAKEN')
     currentFunc.parameters.append(dir)
 
@@ -521,12 +538,16 @@ def p_getidvalue(p):
     global currentFunc
     try:
         var = currentFunc.varTable[id]
-        pTypes.push(memory.getType(var))
         pilaOperandos.push(var)
+        pTypes.push(currentFunc.memory.getType(var))
     except:
-        print('Variable no definida', id)
-        ErrorHandler.exitWhenError()
-    return p[0]
+        try:
+            var = funcTable['DaVinci'].varTable[id]
+            pilaOperandos.push(var)
+            pTypes.push(funcTable['DaVinci'].memory.getType(var))
+        except:
+            print ("Variable not found")
+            ErrorHandler.exitWhenError()
 
 def p_getvalue_i(p):
     '''getvalue_i : '''
@@ -617,8 +638,13 @@ def p_push_id(p):
         pilaOperandos.push(var)
         pTypes.push(currentFunc.memory.getType(var))
     except:
-        print("ID no encontrado", p[-1])
-        ErrorHandler.exitWhenError()
+        try:
+            var = funcTable['DaVinci'].varTable[id]
+            pilaOperandos.push(var)
+            pTypes.push(funcTable['DaVinci'].memory.getType(var))
+        except:
+            print("Variable not found")
+            ErrorHandler.exitWhenError()
 
 def p_call(p):
     '''call : ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn'''
@@ -725,7 +751,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         file = sys.argv[1]
         try:
-            f = open('dibujo.txt')
+            f = open('test2.txt')
             data = f.read()
             f.close()
             if parser_DaVinci.parse(data) == "COMPILED":

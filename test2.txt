@@ -1,17 +1,26 @@
 program fact;
 
-func Int factorial(Int a)
-var Int aux;
+var Int pop, arr[6];
+
+func Int porDos( Int a)
 {
-    aux = a;
-    a = a - 1;
-    while(a > 0) {
-        aux = aux * a;
-        a = a - 1;
-    }
-    return aux;
+    return a * 2;
+}
+
+func void patito(Int b){
+    print(porDos(b););
+    print(pop);
 }
 
 DaVinci {
-
+    pop = 0;
+    while(pop < 5) {
+        arr[pop] = pop + 1;
+        pop = pop + 1;
+    }
+    pop = 0;
+    while(pop < 5) {
+        print(arr[pop]);
+        pop = pop + 1;
+    }
 }
