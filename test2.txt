@@ -2,11 +2,11 @@ program fact;
 
 var Int g,l,o,b; Float a,les;
 
-func Int myFunc (Int p, Int op)
+func void myFunc (Int p, Int op)
 var Float f1, f2, f3;
 {
 }
 
 DaVinci {
-    g = 3+1;
+    myFunc(9,8);
 }

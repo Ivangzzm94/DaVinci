@@ -17,15 +17,20 @@ class VirtualMachine:
         self.nextFuncRunning = None
         self.returnStack = Stack()
         self.contextCount = 0
+        self.memSize = 0
 
     def pushToLive(self, funcID):
         func = self.funcTable[funcID]
-        for i in func.varTable.items():
-            dirV = i[1][0]
+
+        for i in func.memory.memory.items():
+            dirV = i[0]
             val = func.memory.memory[dirV]
-            dirR = (dirV - 8000) + 8000*self.contextCount
-            self.liveMemory.push({dirR, val})
+            dirR = (dirV - 8000) + (8000 * self.contextCount)
+            self.liveMemory.push({dirR: val})
+
         self.contextCount += 1
+        self.memSize = self.memSize + func.memory.getSize() + 1
+        print(self.liveMemory.items, self.memSize)
 
     def run(self):
         # Lee lista de cúadruplos y meterlos a la lista "List"
@@ -244,18 +249,8 @@ class VirtualMachine:
     def ERA(self, op1, r):
         self.nextFuncRunning = self.funcTable[str(r)]
         nfr = self.nextFuncRunning
-
-        if nfr.function_type == Type.INT.value or nfr.function_type == Type.FLOAT.value or nfr.function_type == Type.BOOL.value or nfr.function_type == Type.STRING.value:
-            self.memSize += op1 + 2
-        else:
-            self.memSize += op1 + 1
-
-        if self.memSize > 1000000:
-            print("Stack Overflow, límite de memoria excedido(1,000,000)")
-            exit(0)
-        else:
-            self.nextMem.memory = self.memory[r]
-
+        print(nfr.function_id)
+        self.pushToLive(nfr.function_id)
         self.instruction_pointer += 1
 
     def GOSUB(self, fun, r):
@@ -370,7 +365,7 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def PARAM(self, op1, r):
-        actualMemory = self.liveMemory.top()
+        actualMemory = self.liveMemory
         self.nextMem.setValue(self.nextFuncRunning.parameters[r], actualMemory[op1])
         self.instruction_pointer += 1
 
