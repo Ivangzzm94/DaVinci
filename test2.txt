@@ -12,7 +12,11 @@ var Int aux;
     return aux;
 }
 
+func void patito(Int b)
+{
+	print(factorial(b););
+}
+
 DaVinci {
-    var Int p;
-    p = factorial(factorial(3););;
+    patito(4);
 }

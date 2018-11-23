@@ -208,4 +208,88 @@ DaVinci {
     penForward(10);
     penOn();
     triangle(30,20);
+    penOff();
+    rotate(45*2);
+    penForward(425);
+    rotate(45*6);
+    penForward(270);
+    rotate(45*4);
+
+    penOn();
+    color(green);
+    rotate(45*2);
+    penForward(70);
+    rotate(45*6);
+    penForward(30);
+    penBack(30);
+    rotate(45*6);
+    penForward(20);
+    rotate(45*2);
+    penForward(20);
+    penBack(20);
+    rotate(45*6);
+    penForward(50);
+    penOff();
+    rotate(45*2);
+
+    penForward(40);
+
+    penOn();
+    color(red);
+    penForward(30);
+    penBack(30);
+    rotate(45*2);
+    penForward(35);
+    rotate(45*6);
+    penForward(25);
+    penBack(25);
+    rotate(45*2);
+    penForward(35);
+    rotate(45*6);
+    penForward(30);
+    penBack(30);
+    penOff();
+
+    penForward(40);
+
+    penOn();
+    color(white);
+    rotate(45*6);
+    penForward(70);
+    rotate(45*2);
+    penForward(30);
+    penOff();
+
+    penForward(10);
+
+    penOn();
+    color(green);
+    rotate(45*2);
+    penForward(70);
+    rotate(45*6);
+    penOff();
+
+    penForward(10);
+
+    penOn();
+    color(red);
+    penForward(30);
+    rotate(247);
+    penForward(75);
+    rotate(270-247+90);
+    penForward(30);
+    penOff();
+
+    penForward(30);
+
+    penOn();
+    color(white);
+    rotate(45*2);
+    penForward(70);
+    rotate(45*5-20);
+    penForward(75);
+    rotate(45*2+65);
+    penForward(70);
+    penOff();
+
     }
