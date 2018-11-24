@@ -215,6 +215,8 @@ DaVinci {
     penForward(270);
     rotate(45*4);
 
+    penForward(70);
+
     penOn();
     color(green);
     rotate(45*2);
@@ -290,6 +292,94 @@ DaVinci {
     penForward(75);
     rotate(45*2+65);
     penForward(70);
+    penBack(70);
+    rotate(45*6);
     penOff();
 
+    penForward(10);
+
+    penOn();
+    color(green);
+    rotate(45+30);
+    penForward(70);
+    rotate(30+45*4);
+    penForward(30);
+    rotate(75+45*4);
+    penForward(15);
+    penBack(15);
+    rotate(45*2+15);
+    penForward(40);
+    rotate(75+45*2);
+    penOff();
+    penForward(70);
+    rotate(45*6);
+
+    penOn();
+    color(red);
+    rotate(45*6+15);
+    penForward(70);
+    rotate(75+75);
+    penForward(70);
+    rotate(45*6+15);
+    penOff();
+
+    penForward(10);
+
+    penOn();
+    color(white);
+    rotate(45*6);
+    penForward(70);
+    rotate(45*2);
+    penOff();
+
+    penForward(10);
+
+    penOn();
+    color(green);
+    rotate(45*2);
+    penForward(70);
+    rotate(45*6);
+    rotate(45*6+35);
+    penForward(40);
+    rotate(45*6+22);
+    penForward(43);
+    penOff();
+
+    rotate(90+33);
+    penForward(25);
+
+    penOn();
+    color(red);
+    rotate(45+30);
+    penForward(70);
+    rotate(30+45*4);
+    penForward(30);
+    rotate(75+45*4);
+    penForward(15);
+    penBack(15);
+    rotate(45*2+15);
+    penForward(40);
+    rotate(75+45*2);
+    penOff();
+    penForward(70);
+    rotate(45*6);
+
+    penForward(10);
+    rotate(45*6);
+    penForward(70);
+    rotate(45*2);
+
+    penOn();
+    color(white);
+    rotate(45*2);
+    penForward(70);
+    rotate(45*6);
+    rotate(45*6+35);
+    penForward(40);
+    rotate(45*6+22);
+    penForward(43);
+    penOff();
+
+    color(black);
+    penForward(20);
     }
