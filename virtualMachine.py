@@ -17,6 +17,7 @@ class VirtualMachine:
         self.nextMem = Memory()
         self.nextFuncRunning = None
         self.returnStack = Stack()
+        self.isArray = False
 
     def run(self):
         # Lee lista de cúadruplos y meterlos a la lista "List"
@@ -126,110 +127,97 @@ class VirtualMachine:
 
     # Operaciones
     def PLUS(self, op1, op2, r):
-        mem = self.liveMemory.top()
-        aux = mem[op1] + mem[op2]
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        rigth = self.getValueForDir(op2)
+        res = left + rigth
+        self.setValueForDir(r, res)
         self.instruction_pointer += 1
 
     def MINUS(self, op1, op2, r):
-        mem = self.liveMemory.top()
-        aux = mem[op1] - mem[op2]
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        rigth = self.getValueForDir(op2)
+        res = left - rigth
+        self.setValueForDir(r, res)
         self.instruction_pointer += 1
 
     def TIMES(self, op1, op2, r):
-        mem = self.liveMemory.top()
-        aux = mem[op1] * mem[op2]
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        rigth = self.getValueForDir(op2)
+        res = left * rigth
+        self.setValueForDir(r, res)
         self.instruction_pointer += 1
 
     def DIVIDE(self, op1, op2, r):
-        mem = self.liveMemory.top()
-        aux = mem[op1] / mem[op2]
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        rigth = self.getValueForDir(op2)
+        res = left / rigth
+        self.setValueForDir(r, res)
         self.instruction_pointer += 1
 
     def ASSIGN(self, op1, r):
-        mem = self.liveMemory.top()
-        mem[r] = mem[op1]
+        left = self.getValueForDir(op1)
+        self.setValueForDir(r, left)
         self.instruction_pointer += 1
 
     def EQUAL(self, op1, op2, r):
-        mem = self.liveMemory.top()
-        if mem[op1] == mem[op2]:
-            aux = True
-        else:
-            aux = False
-
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        rigth = self.getValueForDir(op2)
+        res = left == rigth
+        self.setValueForDir(r, res)
         self.instruction_pointer += 1
 
     def NOTEQUAL(self, op1, op2, r):
-        mem = self.liveMemory.top()
-        aux =  not (mem[op1] == mem[op2])
-
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        rigth = self.getValueForDir(op2)
+        res = left != rigth
+        self.setValueForDir(r, res)
         self.instruction_pointer += 1
 
     def GREATER(self, op1, op2, r):
-        mem = self.liveMemory.top()
-        aux =  mem[op1] > mem[op2]
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        rigth = self.getValueForDir(op2)
+        res = left > rigth
+        self.setValueForDir(r, res)
         self.instruction_pointer += 1
 
     def LESSER(self, op1, op2, r):
-        mem = self.liveMemory.top()
-        if mem[op1] < mem[op2]:
-            aux = True
-        else:
-            aux = False
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        rigth = self.getValueForDir(op2)
+        res = left < rigth
+        self.setValueForDir(r, res)
         self.instruction_pointer += 1
 
     def GREATEROREQUAL(self, op1, op2, r):
-        mem = self.liveMemory.top()
-        if mem[op1] >= mem[op2]:
-            aux = True
-        else:
-            aux = False
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        rigth = self.getValueForDir(op2)
+        res = left >= rigth
+        self.setValueForDir(r, res)
         self.instruction_pointer += 1
 
     def LESSEROREQUAL(self, op1, op2, r):
-        mem = self.liveMemory.top()
-        if mem[op1] <= mem[op2]:
-            aux = True
-        else:
-            aux = False
-
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        rigth = self.getValueForDir(op2)
+        res = left <= rigth
+        self.setValueForDir(r, res)
         self.instruction_pointer += 1
 
     def AND(self, op1, op2, r):
-        mem = self.liveMemory.top()
-        if mem[op1] and mem[op2]:
-            aux = True
-        else:
-            aux = False
-
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        rigth = self.getValueForDir(op2)
+        res = left and rigth
+        self.setValueForDir(r, res)
         self.instruction_pointer += 1
 
     def OR(self, op1, op2, r):
-        mem = self.liveMemory.top()
-        if mem[op1] or mem[op2]:
-            aux = True
-        else:
-            aux = False
-
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        rigth = self.getValueForDir(op2)
+        res = left or rigth
+        self.setValueForDir(r, res)
         self.instruction_pointer += 1
 
     def NOT(self, op1, r):
-        mem = self.liveMemory.top()
-        aux = mem[op1]
-        aux = not aux
-        mem[r] = aux
+        left = self.getValueForDir(op1)
+        self.setValueForDir(r, not left)
         self.instruction_pointer += 1
 
     def ERA(self, op1, r):
@@ -274,23 +262,23 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def CIRCLE(self, r):
-        mem = self.liveMemory.top()
-        radio = int(mem[r])
-        turtle.circle(radio, None, None)
+        left = self.getValueForDir(r)
+
+        turtle.circle(left, None, None)
         self.instruction_pointer += 1
 
     def SQUARE(self, len):
-        mem = self.liveMemory.top()
-        l = mem[len]
+        left = self.getValueForDir(len)
+
         for i in range(4):
-            turtle.forward(l)
+            turtle.forward(left)
             turtle.left(90)
         self.instruction_pointer += 1
 
     def TRIANGLE(self, b, a):
-        mem = self.liveMemory.top()
-        base = mem[b]
-        alt = mem[a]
+        base = self.getValueForDir(b)
+        alt = self.getValueForDir(a)
+
         turtle.forward(base)
         turtle.left(base*1.1)
         turtle.forward(alt)
@@ -299,9 +287,9 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def RECTANGLE(self, l, a):
-        mem = self.liveMemory.top()
-        lon = mem[l]
-        alt = mem[a]
+        lon = self.getValueForDir(l)
+        alt = self.getValueForDir(a)
+
         turtle.forward(lon)
         turtle.left(90)
         turtle.forward(alt)
@@ -313,9 +301,8 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def POLIGON(self, sides, size):
-        mem = self.liveMemory.top()
-        side = mem[sides]
-        siz = mem[size]
+        side = self.getValueForDir(sides)
+        siz = self.getValueForDir(size)
         for i in range(1, side):
             turtle.forward(siz)
             turtle.left(360 / side)
@@ -323,27 +310,22 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def ROTATE(self, degree):
-        mem = self.liveMemory.top()
-        d = mem[degree]
-        turtle.left(d)
+        turtle.left(degree)
         self.instruction_pointer += 1
 
     def PENSIZE(self, size):
-        mem = self.liveMemory.top()
-        s = mem[size]
-        turtle.dot(s)
+        value = self.getValueForDir(size)
+        turtle.dot(value)
         self.instruction_pointer += 1
 
     def PENFORWARD(self, distance):
-        mem = self.liveMemory.top()
-        d = mem[distance]
-        turtle.forward(d)
+        value = self.getValueForDir(distance)
+        turtle.forward(value)
         self.instruction_pointer += 1
 
     def PENBACK(self, distance):
-        mem = self.liveMemory.top()
-        d = mem[distance]
-        turtle.backward(d)
+        value = self.getValueForDir(distance)
+        turtle.backward(value)
         self.instruction_pointer += 1
 
     def PENON(self):
@@ -355,14 +337,13 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def PRINT(self, r):
-        mem = self.liveMemory.top()
-        p = mem[r]
-        print(p)
+        value = self.getValueForDir(r)
+        print(value)
         self.instruction_pointer += 1
 
     def PARAM(self, op1, r):
-        actualMemory = self.liveMemory.top()
-        self.nextMem.setValue(self.nextFuncRunning.parameters[r], actualMemory[op1])
+        value = self.getValueForDir(op1)
+        self.nextMem.setValue(self.nextFuncRunning.parameters[r], value)
         self.instruction_pointer += 1
 
     def ENDPROC(self):
@@ -378,8 +359,8 @@ class VirtualMachine:
         self.contextStack.pop()
 
     def RETURN(self, r):
-        mem = self.liveMemory.top()
-        self.returnStack.push(mem[r])
+        value = self.getValueForDir(r)
+        self.returnStack.push(value)
         self.instruction_pointer += 1
 
     def SAVERETURN(self, r):
@@ -394,3 +375,54 @@ class VirtualMachine:
             self.instruction_pointer += 1
         else:
             self.instruction_pointer = r
+
+    def VER(self, op1, op2, r):
+        value = self.getValueForDir(op1)
+        if value < r and value >= 0:
+            self.instruction_pointer += 1
+        else:
+            print('Valor fuera de rango')
+            ErrorHandler.exitWhenError()
+
+    def getValueForDir(self, dir):
+        mem = self.liveMemory.top()
+        if dir > 500000:
+            value = self.memory['DaVinci'][dir]
+            if value > 100000:
+                value = self.memory[value]
+        elif dir > 300000:
+            value = mem[dir]
+            if value > 100000:
+                value = mem[value]
+        elif dir > 50000:
+            value = self.memory['DaVinci'][dir]
+            if value > 100000:
+                value = self.memory[value]
+        else:
+            value = mem[dir]
+            if value > 100000:
+                value = mem[value]
+        return value
+
+    def setValueForDir(self, dir, value):
+        mem = self.liveMemory.top()
+        if dir > 500000:
+            self.memory['DaVinci'][dir] = value
+        elif dir > 300000:
+            mem[dir] = value
+        elif dir > 50000:
+            aux = self.memory['DaVinci'][dir]
+            try:
+                temp = aux > 100000
+                if temp:
+                    self.memory['DaVinci'][aux] = value
+            except:
+                self.memory['DaVinci'][dir] = value
+        else:
+            aux = mem[dir]
+            try:
+                temp = aux > 100000
+                if temp:
+                    mem[aux] = value
+            except:
+                mem[dir] = value

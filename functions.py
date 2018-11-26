@@ -11,7 +11,22 @@ class Function:
         self.varTable = {} # llave = id, valor = dir_virt
         self.retDir = None
 
-    def declareVariable(self, id, type):
-        memDir = self.memory.pushVarInMemory(type, 1)
-        self.varTable[id] = memDir
+    def declareVariable(self, id, type, size):
+        memDir = self.memory.pushVarInMemory(type, size)
+        self.varTable[id] = [memDir, size]
+        return memDir
+
+    def declareGlobalVariable(self, id, type, size):
+        memDir = self.memory.pushGlobalInMemory(type, size)
+        self.varTable[id] = [memDir, size]
+        return memDir
+
+    def declareArray(self, id, type, size):
+        memDir = self.memory.pushArrayInMemory(type, size)
+        self.varTable[id] = [memDir, size]
+        return memDir
+
+    def declareLocalArray(self, id, type, size):
+        memDir = self.memory.pushLocalArrayInMemory(type, size)
+        self.varTable[id] = [memDir, size]
         return memDir
