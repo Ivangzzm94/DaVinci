@@ -20,3 +20,13 @@ class Function:
         memDir = self.memory.pushGlobalInMemory(type, size)
         self.varTable[id] = [memDir, size]
         return memDir
+
+    def declareArray(self, id, type, size):
+        memDir = self.memory.pushArrayInMemory(type, size)
+        self.varTable[id] = [memDir, size]
+        return memDir
+
+    def declareLocalArray(self, id, type, size):
+        memDir = self.memory.pushLocalArrayInMemory(type, size)
+        self.varTable[id] = [memDir, size]
+        return memDir

@@ -47,7 +47,7 @@ def p_program(p):
     for func in funcTable:
         f = funcTable[func]
         vm.memory[f.function_id] = f.memory.memory
-        print(f.memory.memory)
+        print(f.varTable)
 
     f = open('quads.txt', 'w')  # archivo de texto en donde se guardan los cuádruplos
     for i in range(len(quadList.array)):
@@ -92,7 +92,10 @@ def p_global_vars(p):
     try:
         for var in varList:
             if not var.var_id in currentFunc.varTable:
-                dir = funcTable['DaVinci'].declareGlobalVariable(var.var_id, var.var_type, var.size)
+                if var.size > 1:
+                    dir = funcTable['DaVinci'].declareArray(var.var_id, var.var_type, var.size)
+                else:
+                    dir = funcTable['DaVinci'].declareGlobalVariable(var.var_id, var.var_type, var.size)
         varList.clear()
     except ErrorHandler as e:
         e.redefined_variable('Variable duplicada')
@@ -113,7 +116,10 @@ def p_local_vars(p):
     try:
         for var in varList:
             if not var.var_id in currentFunc.varTable or not var.var_id in funcTable['DaVinci'].varTable:
-                currentFunc.declareVariable(var.var_id, var.var_type, var.size)
+                if var.size > 1:
+                    currentFunc.declareLocalArray(var.var_id, var.var_type, var.size)
+                else:
+                    currentFunc.declareVariable(var.var_id, var.var_type, var.size)
         varList.clear()
     except ErrorHandler as e:
         e.redefined_variable('Variable duplicada')
@@ -218,6 +224,7 @@ def p_assignment(p):
 def p_verify_id(p):
     '''verify_id : '''
     id = p[-1]
+
     try:
         var = currentFunc.varTable[id]
         pilaOperandos.push(var[0])
@@ -238,40 +245,24 @@ def p_check_range(p):
     dimtocheck = pilaOperandos.pop()
     try:
         arr = currentFunc.varTable[id]
-        actualdim_Dir = memory.pushVarInMemory(Type.INT.value, 1)
         actualdim = arr[1]
-        memory.setValue(actualdim_Dir, actualdim)
         dir_base = arr[0]
-        base_value = memory.pushVarInMemory(memory.getType(dir_base), 1)
-        memory.setValue(base_value, dir_base)
+        dimtocheck = memory.getValue(dimtocheck)
 
-        q = Quad(Operations.VER.value, dimtocheck, None, actualdim_Dir)
-        quadList.add_quad(q)
-
-        nextTemp = memory.pushVarInMemory(memory.getType(actualdim_Dir), 1)
-        q = Quad(Operations.PLUS.value, dimtocheck, base_value, nextTemp)
-        quadList.add_quad(q)
-
-        pilaOperandos.push(nextTemp)
+        if dimtocheck < actualdim:
+            pilaOperandos.push(dir_base + dimtocheck)
+            pTypes.push(memory.getType(dir_base))
 
     except:
         try:
             arr = funcTable['DaVinci'].varTable[id]
             actualdim = arr[1]
-            actualdim_Dir = memory.pushVarInMemory(Type.INT.value, 1)
-            memory.setValue(actualdim_Dir, actualdim)
             dir_base = arr[0]
-            base_value = memory.pushVarInMemory(memory.getType(dir_base), 1)
-            memory.setValue(base_value, dir_base)
+            dimtocheck = memory.getValue(dimtocheck)
 
-            q = Quad(Operations.VER.value, dimtocheck, None, actualdim_Dir)
-            quadList.add_quad(q)
-
-            nextTemp = memory.pushVarInMemory(memory.getType(actualdim_Dir), 1)
-            q = Quad(Operations.PLUS.value, dimtocheck, base_value, nextTemp)
-            quadList.add_quad(q)
-
-            pilaOperandos.push(nextTemp)
+            if dimtocheck < actualdim:
+                pilaOperandos.push(dir_base + dimtocheck)
+                pTypes.push(memory.getType(dir_base))
 
         except:
             print("Variable not found", id)
@@ -649,39 +640,23 @@ def p_getarrayvalue(p):
     global currentFunc
     try:
         arr = currentFunc.varTable[id]
-        actualdim_Dir = memory.pushVarInMemory(Type.INT.value, 1)
         actualdim = arr[1]
-        memory.setValue(actualdim_Dir, actualdim)
         dir_base = arr[0]
-        base_value = memory.pushVarInMemory(memory.getType(dir_base), 1)
-        memory.setValue(base_value, dir_base)
+        dimtocheck = memory.getValue(dimtocheck)
 
-        q = Quad(Operations.VER.value, dimtocheck, None, actualdim_Dir)
-        quadList.add_quad(q)
-
-        nextTemp = memory.pushVarInMemory(memory.getType(actualdim_Dir), 1)
-        q = Quad(Operations.PLUS.value, dimtocheck, base_value, nextTemp)
-        quadList.add_quad(q)
-
-        pilaOperandos.push(nextTemp)
+        if dimtocheck < actualdim:
+            pilaOperandos.push(dir_base + dimtocheck)
+            pTypes.push(memory.getType(dir_base))
     except:
         try:
             arr = funcTable['DaVinci'].varTable[id]
-            actualdim_Dir = memory.pushVarInMemory(Type.INT.value, 1)
             actualdim = arr[1]
-            memory.setValue(actualdim_Dir, actualdim)
             dir_base = arr[0]
-            base_value = memory.pushVarInMemory(memory.getType(dir_base), 1)
-            memory.setValue(base_value, dir_base)
+            dimtocheck = memory.getValue(dimtocheck)
 
-            q = Quad(Operations.VER.value, dimtocheck, None, actualdim_Dir)
-            quadList.add_quad(q)
-
-            nextTemp = memory.pushVarInMemory(memory.getType(actualdim_Dir), 1)
-            q = Quad(Operations.PLUS.value, dimtocheck, base_value, nextTemp)
-            quadList.add_quad(q)
-
-            pilaOperandos.push(nextTemp)
+            if dimtocheck < actualdim:
+                pilaOperandos.push(dir_base + dimtocheck)
+                pTypes.push(memory.getType(dir_base))
         except:
             print("Variable not found")
             ErrorHandler.exitWhenError()
