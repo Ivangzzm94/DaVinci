@@ -1,9 +1,10 @@
 program test;
 
-var Int arr[2], p;
+var Int arr[5], p;
 
 DaVinci {
-    arr[0] = 51;
-    arr[1] = arr[0] + 3;
-    print(arr[0], arr[1]);
+    p = 0;
+    p = p + 1;
+    print(p);
+
 }

@@ -1,25 +1,385 @@
 program dibujo;
 
-func void dibujo(Int n)
-var Int cont, col;
+func void regalos()
+var Int c;
 {
-    col = 10;
-    cont = 1;
-    color(red);
-    while(cont < n + 1) {
-        square(cont * 10);
-        cont = cont + 1;
-        if (col > 5) {
-            color(blue);
-            col = 1;
-        } else {
+    penOn();
+    c = 0;
+    while(c < 4)
+    {
+        color(white);
+        if(c == 0)
+        {
+            square(10);
+            penForward(30);
+            square(10);
+            penForward(10);
+            rotate(45*2);
+            penForward(30);
+            square(10);
+            penForward(10);
+            rotate(45*2);
+            penForward(30);
+            square(10);
+            penForward(10);
+            rotate(45*2);
+            penForward(40);
+            rotate(45*2);
             color(red);
-            col = 10;
+            square(40);
+            penOff();
         }
-        rotate(18);
+        if(c == 1)
+        {
+            square(10);
+            penForward(30);
+            square(10);
+            penForward(10);
+            rotate(45*2);
+            penForward(30);
+            square(10);
+            penForward(10);
+            rotate(45*2);
+            penForward(30);
+            square(10);
+            penForward(10);
+            rotate(45*2);
+            penForward(40);
+            rotate(45*2);
+            color(blue);
+            square(40);
+            penOff();
+        }
+        if(c == 2)
+        {
+            square(10);
+            penForward(30);
+            square(10);
+            penForward(10);
+            rotate(45*2);
+            penForward(30);
+            square(10);
+            penForward(10);
+            rotate(45*2);
+            penForward(30);
+            square(10);
+            penForward(10);
+            rotate(45*2);
+            penForward(40);
+            rotate(45*2);
+            color(purple);
+            square(40);
+            penOff();
+        }
+        if(c == 3)
+        {
+            square(10);
+            penForward(30);
+            square(10);
+            penForward(10);
+            rotate(45*2);
+            penForward(30);
+            square(10);
+            penForward(10);
+            rotate(45*2);
+            penForward(30);
+            square(10);
+            penForward(10);
+            rotate(45*2);
+            penForward(40);
+            rotate(45*2);
+            color(yellow);
+            square(40);
+            penOff();
+        }
+        c = c + 1;
+        penForward(45);
+        penOn();
     }
 }
 
-DaVinci {
-    dibujo(10);
+func void pino()
+var Int v1, v2;
+{
+    penOff();
+    penBack(50);
+    penOn();
+    color(brown);
+    penSize(3);
+    rotate(45*6);
+    penForward(100);
+    rotate(45*2);
+    penForward(50);
+    rotate(45*2);
+    penForward(100);
+    color(green);
+    penSize(2);
+    rotate(45*6);
+    penForward(70);
+    rotate(45*3);
+    penForward(80);
+    rotate(45*5);
+    penForward(50);
+    rotate(45*3);
+    penForward(80);
+    rotate(45*5);
+    penForward(40);
+    rotate(45*3);
+    penForward(100);
+    rotate(45*2);
+    penForward(100);
+    rotate(45*3);
+    penForward(40);
+    rotate(45*5);
+    penForward(80);
+    rotate(45*3);
+    penForward(50);
+    rotate(45*5);
+    penForward(80);
+    rotate(45*3);
+    penForward(160);
+    penOff();
+    rotate(90);
+    penForward(18);
+    penOn();
+    color(white);
+    circle(10);
+    penOff();
+    penOff();
+    penForward(50);
+    rotate(45*2);
+    penForward(50);
+    penOn();
+    color(pink);
+    circle(10);
+    penOff();
+    penForward(60);
+    rotate(45*2);
+    penForward(40);
+    penOn();
+    color(blue);
+    circle(10);
+    rotate(45*4);
+    penOff();
+    penForward(60);
+    rotate(45*6);
+    penForward(20);
+    penOn();
+    color(yellow);
+    circle(10);
+    rotate(45*2);
+    penOff();
+    penForward(55);
+    rotate(45*6);
+    penForward(30);
+    color(red);
+    penOn();
+    circle(10);
+    penOff();
+    penForward(3);
+    rotate(45*6);
+    penForward(30);
+    penOn();
+    color(purple);
+    circle(10);
+    penOff();
+    penForward(220);
+    rotate(45*2);
+    penForward(40);
+
+    regalos();
+
+    penOff();
 }
+
+DaVinci {
+    pino();
+    penBack(240);
+    rotate(45*2);
+    penForward(290);
+    penOn();
+    rotate(45*6);
+    triangle(30,20);
+    penOff();
+    penForward(30);
+    rotate(45*2);
+    penForward(10);
+    rotate(45*2);
+    penForward(10);
+    penOn();
+    triangle(30,20);
+    penOff();
+    rotate(45*2);
+    penForward(425);
+    rotate(45*6);
+    penForward(270);
+    rotate(45*4);
+
+    penForward(70);
+
+    penOn();
+    color(green);
+    rotate(45*2);
+    penForward(70);
+    rotate(45*6);
+    penForward(30);
+    penBack(30);
+    rotate(45*6);
+    penForward(20);
+    rotate(45*2);
+    penForward(20);
+    penBack(20);
+    rotate(45*6);
+    penForward(50);
+    penOff();
+    rotate(45*2);
+
+    penForward(40);
+
+    penOn();
+    color(red);
+    penForward(30);
+    penBack(30);
+    rotate(45*2);
+    penForward(35);
+    rotate(45*6);
+    penForward(25);
+    penBack(25);
+    rotate(45*2);
+    penForward(35);
+    rotate(45*6);
+    penForward(30);
+    penBack(30);
+    penOff();
+
+    penForward(40);
+
+    penOn();
+    color(white);
+    rotate(45*6);
+    penForward(70);
+    rotate(45*2);
+    penForward(30);
+    penOff();
+
+    penForward(10);
+
+    penOn();
+    color(green);
+    rotate(45*2);
+    penForward(70);
+    rotate(45*6);
+    penOff();
+
+    penForward(10);
+
+    penOn();
+    color(red);
+    penForward(30);
+    rotate(247);
+    penForward(75);
+    rotate(270-247+90);
+    penForward(30);
+    penOff();
+
+    penForward(30);
+
+    penOn();
+    color(white);
+    rotate(45*2);
+    penForward(70);
+    rotate(45*5-20);
+    penForward(75);
+    rotate(45*2+65);
+    penForward(70);
+    penBack(70);
+    rotate(45*6);
+    penOff();
+
+    penForward(10);
+
+    penOn();
+    color(green);
+    rotate(45+30);
+    penForward(70);
+    rotate(30+45*4);
+    penForward(30);
+    rotate(75+45*4);
+    penForward(15);
+    penBack(15);
+    rotate(45*2+15);
+    penForward(40);
+    rotate(75+45*2);
+    penOff();
+    penForward(70);
+    rotate(45*6);
+
+    penOn();
+    color(red);
+    rotate(45*6+15);
+    penForward(70);
+    rotate(75+75);
+    penForward(70);
+    rotate(45*6+15);
+    penOff();
+
+    penForward(10);
+
+    penOn();
+    color(white);
+    rotate(45*6);
+    penForward(70);
+    rotate(45*2);
+    penOff();
+
+    penForward(10);
+
+    penOn();
+    color(green);
+    rotate(45*2);
+    penForward(70);
+    rotate(45*6);
+    rotate(45*6+35);
+    penForward(40);
+    rotate(45*6+22);
+    penForward(43);
+    penOff();
+
+    rotate(90+33);
+    penForward(25);
+
+    penOn();
+    color(red);
+    rotate(45+30);
+    penForward(70);
+    rotate(30+45*4);
+    penForward(30);
+    rotate(75+45*4);
+    penForward(15);
+    penBack(15);
+    rotate(45*2+15);
+    penForward(40);
+    rotate(75+45*2);
+    penOff();
+    penForward(70);
+    rotate(45*6);
+
+    penForward(10);
+    rotate(45*6);
+    penForward(70);
+    rotate(45*2);
+
+    penOn();
+    color(white);
+    rotate(45*2);
+    penForward(70);
+    rotate(45*6);
+    rotate(45*6+35);
+    penForward(40);
+    rotate(45*6+22);
+    penForward(43);
+    penOff();
+
+    color(black);
+    penForward(20);
+    }

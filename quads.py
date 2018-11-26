@@ -55,6 +55,9 @@ class Color(IntEnum):
     GREEN = 103
     PINK = 104
     PURPLE = 105
+    BLACK = 106
+    BROWN = 107
+    WHITE = 108
 
 class Values(IntEnum):
     TRUE = 200

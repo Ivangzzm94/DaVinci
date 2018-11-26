@@ -41,6 +41,8 @@ class VirtualMachine:
 
         # Empezar la ejecución de la máquina virtual
         wn = turtle.Screen()
+        turtle.speed(10)
+        wn.bgcolor('black')
         while self.instruction_pointer < len(List):
             if List[self.instruction_pointer][0] == 15:  # GoTo
                 self.instruction_pointer = List[self.instruction_pointer][3]
@@ -258,13 +260,19 @@ class VirtualMachine:
             color = 'pink'
         elif aux == 105:
             color = 'purple'
+        elif aux == 106:
+            color = 'black'
+        elif aux == 107:
+            color = 'brown'
+        elif aux == 108:
+            color = 'white'
         turtle.pencolor(color)
         self.instruction_pointer += 1
 
     def CIRCLE(self, r):
         left = self.getValueForDir(r)
-
-        turtle.circle(left, None, None)
+        radio = int(left)
+        turtle.circle(radio, None, None)
         self.instruction_pointer += 1
 
     def SQUARE(self, len):
@@ -273,17 +281,18 @@ class VirtualMachine:
         for i in range(4):
             turtle.forward(left)
             turtle.left(90)
+
         self.instruction_pointer += 1
 
     def TRIANGLE(self, b, a):
         base = self.getValueForDir(b)
-        alt = self.getValueForDir(a)
 
         turtle.forward(base)
-        turtle.left(base*1.1)
-        turtle.forward(alt)
-        turtle.left(base*1.1)
-        turtle.forward(alt)
+        turtle.left(120)
+        turtle.forward(base)
+        turtle.left(120)
+        turtle.forward(base)
+        turtle.left(120)
         self.instruction_pointer += 1
 
     def RECTANGLE(self, l, a):
@@ -310,7 +319,8 @@ class VirtualMachine:
         self.instruction_pointer += 1
 
     def ROTATE(self, degree):
-        turtle.left(degree)
+        rot = self.getValueForDir(degree)
+        turtle.left(rot)
         self.instruction_pointer += 1
 
     def PENSIZE(self, size):
@@ -411,18 +421,6 @@ class VirtualMachine:
         elif dir > 300000:
             mem[dir] = value
         elif dir > 50000:
-            aux = self.memory['DaVinci'][dir]
-            try:
-                temp = aux > 100000
-                if temp:
-                    self.memory['DaVinci'][aux] = value
-            except:
-                self.memory['DaVinci'][dir] = value
+            self.memory['DaVinci'][dir] = value
         else:
-            aux = mem[dir]
-            try:
-                temp = aux > 100000
-                if temp:
-                    mem[aux] = value
-            except:
-                mem[dir] = value
+            mem[dir] = value
