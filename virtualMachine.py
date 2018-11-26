@@ -17,6 +17,7 @@ class VirtualMachine:
         self.nextMem = Memory()
         self.nextFuncRunning = None
         self.returnStack = Stack()
+        self.isArray = False
 
     def run(self):
         # Lee lista de cúadruplos y meterlos a la lista "List"
@@ -209,15 +210,39 @@ class VirtualMachine:
 
     def ASSIGN(self, op1, r):
         mem = self.liveMemory.top()
-        if op1 > 50000:
-            left = self.memory['DaVinci'][op1]
-        else:
-            left = mem[op1]
+        aux = None
 
-        if r > 50000:
-            self.memory['DaVinci'][r] = left
+        if self.isArray:
+            print('Mem dir: ', op1, r)
+            if op1 > 50000:
+                left = self.memory['DaVinci'][op1]
+            else:
+                left = mem[op1]
+
+            if r > 50000:
+                aux = self.memory['DaVinci'][r]
+            else:
+                aux = mem[r]
+
+            if aux > 50000:
+                self.memory['DaVinci'][r] = left
+            else:
+                mem[aux] = left
         else:
-            mem[r] = left
+            print('Mem dir: ', op1, r)
+            if op1 > 50000:
+                left = self.memory['DaVinci'][op1]
+            else:
+                left = mem[op1]
+
+            if r > 50000:
+                self.memory['DaVinci'][r] = left
+            else:
+                mem[r] = left
+
+        self.isArray = False
+
+        print('Values: ', left, aux)
 
         self.instruction_pointer += 1
 
@@ -598,7 +623,11 @@ class VirtualMachine:
 
     def RETURN(self, r):
         mem = self.liveMemory.top()
-        self.returnStack.push(mem[r])
+        if r > 50000:
+            value = self.memory['DaVinci'][r]
+        else:
+            value = mem[r]
+        self.returnStack.push(value)
         self.instruction_pointer += 1
 
     def SAVERETURN(self, r):
@@ -613,3 +642,18 @@ class VirtualMachine:
             self.instruction_pointer += 1
         else:
             self.instruction_pointer = r
+
+    def VER(self, op1, op2, r):
+        mem = self.liveMemory.top()
+        self.isArray = True
+
+        if op1 > 50000:
+            value = self.memory['DaVinci'][op1]
+        else:
+            value = mem[op1]
+
+        if value < r and value >= 0:
+            self.instruction_pointer += 1
+        else:
+            print('Valor fuera de rango')
+            ErrorHandler.exitWhenError()

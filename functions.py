@@ -13,10 +13,10 @@ class Function:
 
     def declareVariable(self, id, type, size):
         memDir = self.memory.pushVarInMemory(type, size)
-        self.varTable[id] = memDir
+        self.varTable[id] = [memDir, size]
         return memDir
 
     def declareGlobalVariable(self, id, type, size):
         memDir = self.memory.pushGlobalInMemory(type, size)
-        self.varTable[id] = memDir
+        self.varTable[id] = [memDir, size]
         return memDir

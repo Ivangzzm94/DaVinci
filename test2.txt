@@ -1,26 +1,8 @@
-program fact;
+program test;
 
-var Int pop, arr[6];
-
-func Int porDos( Int a)
-{
-    return a * 2;
-}
-
-func void patito(Int b){
-    print(porDos(b););
-    print(pop);
-}
+var Int arr[5];
 
 DaVinci {
-    pop = 0;
-    while(pop < 5) {
-        arr[pop] = pop + 1;
-        pop = pop + 1;
-    }
-    pop = 0;
-    while(pop < 5) {
-        print(arr[pop]);
-        pop = pop + 1;
-    }
+    arr[1] = 2;
+    print(arr[1]);
 }
