@@ -1,26 +1,23 @@
 program test1;
-var Int variableEntera = 3;
-	Float flotante = 3.4 / 2.1;
-DaVinci
+var Int q;
+
+func Int factorial(Int n)
+var Int a;
 {
-	penSize(3);
-	color(red);
-	penForward(5); 
-	triangle(2,5);
-	penOff();
-	rotate(180);
-	penForward(10*2);
-	color(blue);
-	penOn();
-	penSize(4);
-	square(3); 
-	penOff();
-	penBack(5); 
-	
-	penOn();
-	penForward(2+5);
-	rotate(20);
-	penForward(2);
-	rotate(30);
-	penBack(5+2);
+	print(n);
+	if (n == 1)
+	{
+		a = 1;
+	}
+	else
+	{
+		a = factorial(n-1); * n;
+	}
+
+	return a;
+}
+
+DaVinci {
+    q = factorial(5);;
+    print(q);
 }

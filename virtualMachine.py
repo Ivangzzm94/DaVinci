@@ -388,12 +388,14 @@ class VirtualMachine:
 
     def RETURN(self, r):
         mem = self.liveMemory.top()
+        print(mem[r])
         self.returnStack.push(mem[r])
         self.instruction_pointer += 1
 
     def SAVERETURN(self, r):
         mem = self.liveMemory.top()
         if self.returnStack.size() > 0:
+            print(self.returnStack.top())
             mem[r] = self.returnStack.pop()
         self.instruction_pointer += 1
 
