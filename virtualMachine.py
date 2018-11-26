@@ -128,6 +128,7 @@ class VirtualMachine:
     # Operaciones
     def PLUS(self, op1, op2, r):
         mem = self.liveMemory.top()
+
         if op1 > 50000:
             left = self.memory['DaVinci'][op1]
         else:
@@ -225,7 +226,7 @@ class VirtualMachine:
                 aux = mem[r]
 
             if aux > 50000:
-                self.memory['DaVinci'][r] = left
+                self.memory['DaVinci'][aux] = left
             else:
                 mem[aux] = left
         else:
@@ -241,8 +242,6 @@ class VirtualMachine:
                 mem[r] = left
 
         self.isArray = False
-
-        print('Values: ', left, aux)
 
         self.instruction_pointer += 1
 
@@ -593,10 +592,23 @@ class VirtualMachine:
 
     def PRINT(self, r):
         mem = self.liveMemory.top()
-        if r > 50000:
-            value = self.memory['DaVinci'][r]
+        if self.isArray:
+            if r > 50000:
+                aux = self.memory['DaVinci'][r]
+            else:
+                aux = mem[r]
+
+            if aux > 50000:
+                value = self.memory['DaVinci'][aux]
+            else:
+                value = mem[aux]
+
         else:
-            value = mem[r]
+            if r > 50000:
+                value = self.memory['DaVinci'][r]
+            else:
+                value = mem[r]
+        self.isArray = False
         print(value)
         self.instruction_pointer += 1
 

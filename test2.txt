@@ -3,6 +3,7 @@ program test;
 var Int arr[5];
 
 DaVinci {
-    arr[1] = 2;
-    print(arr[1]);
+    arr[1] = 4;
+    arr[4] = 2;
+    print(arr[4], arr[1]);
 }

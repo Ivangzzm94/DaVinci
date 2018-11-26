@@ -645,16 +645,43 @@ def p_getarrayvalue(p):
     # TODO:
     # get value of an array
     id = p[-2]
+    dimtocheck = pilaOperandos.pop()
     global currentFunc
     try:
-        var = currentFunc.varTable[id]
-        pilaOperandos.push(var[0])
-        pTypes.push(currentFunc.memory.getType(var[0]))
+        arr = currentFunc.varTable[id]
+        actualdim_Dir = memory.pushVarInMemory(Type.INT.value, 1)
+        actualdim = arr[1]
+        memory.setValue(actualdim_Dir, actualdim)
+        dir_base = arr[0]
+        base_value = memory.pushVarInMemory(memory.getType(dir_base), 1)
+        memory.setValue(base_value, dir_base)
+
+        q = Quad(Operations.VER.value, dimtocheck, None, actualdim_Dir)
+        quadList.add_quad(q)
+
+        nextTemp = memory.pushVarInMemory(memory.getType(actualdim_Dir), 1)
+        q = Quad(Operations.PLUS.value, dimtocheck, base_value, nextTemp)
+        quadList.add_quad(q)
+
+        pilaOperandos.push(nextTemp)
     except:
         try:
-            var = funcTable['DaVinci'].varTable[id]
-            pilaOperandos.push(var[0])
-            pTypes.push(funcTable['DaVinci'].memory.getType(var[0]))
+            arr = funcTable['DaVinci'].varTable[id]
+            actualdim_Dir = memory.pushVarInMemory(Type.INT.value, 1)
+            actualdim = arr[1]
+            memory.setValue(actualdim_Dir, actualdim)
+            dir_base = arr[0]
+            base_value = memory.pushVarInMemory(memory.getType(dir_base), 1)
+            memory.setValue(base_value, dir_base)
+
+            q = Quad(Operations.VER.value, dimtocheck, None, actualdim_Dir)
+            quadList.add_quad(q)
+
+            nextTemp = memory.pushVarInMemory(memory.getType(actualdim_Dir), 1)
+            q = Quad(Operations.PLUS.value, dimtocheck, base_value, nextTemp)
+            quadList.add_quad(q)
+
+            pilaOperandos.push(nextTemp)
         except:
             print("Variable not found")
             ErrorHandler.exitWhenError()
