@@ -736,7 +736,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         file = sys.argv[1]
         try:
-            f = open('dibujo.txt')
+            f = open('test1.txt')
             data = f.read()
             f.close()
             if parser_DaVinci.parse(data) == "COMPILED":

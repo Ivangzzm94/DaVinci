@@ -174,9 +174,10 @@ Rule 157   print -> PRINT LPAREN expression to_screen print_multi RPAREN SEMICOL
 Rule 158   print_multi -> COMMA expression to_screen print_multi
 Rule 159   print_multi -> empty
 Rule 160   to_screen -> <empty>
-Rule 161   return -> RETURN expression savereturn SEMICOLON
+Rule 161   return -> RETURN expression savereturn endfunction SEMICOLON
 Rule 162   savereturn -> <empty>
-Rule 163   empty -> <empty>
+Rule 163   endfunction -> end_func
+Rule 164   empty -> <empty>
 
 Terminals, with rules where they appear
 
@@ -272,10 +273,11 @@ create_era           : 146
 cte_bool             : 62 133
 cte_id               : 48
 empty                : 6 15 18 22 67 69 71 73 76 78 105 116 120 125 154 159
-end_func             : 63 64
+end_func             : 63 64 163
 end_if               : 103
 end_par              : 126
 end_while            : 44
+endfunction          : 161
 exp                  : 48 83 84 85 85 86 86 87 87 88 90 91 92 109 110 111 112 113 114 115 118 119
 exp1                 : 117
 expression           : 44 47 48 103 126 151 153 157 158 161
@@ -398,11 +400,11 @@ state 5
     (4) program1 -> . program1 funcs save_funcs
     (5) program1 -> . program1 vars global_vars
     (6) program1 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
-    FUNC            reduce using rule 163 (empty -> .)
-    VAR             reduce using rule 163 (empty -> .)
-    DAVINCI         reduce using rule 163 (empty -> .)
+    FUNC            reduce using rule 164 (empty -> .)
+    VAR             reduce using rule 164 (empty -> .)
+    DAVINCI         reduce using rule 164 (empty -> .)
 
     program1                       shift and go to state 6
     empty                          shift and go to state 7
@@ -489,33 +491,33 @@ state 12
     (96) type -> . FLOAT
     (97) type -> . STRING
     (98) type -> . BOOL
-    (163) empty -> .
+    (164) empty -> .
 
     INT             shift and go to state 18
     FLOAT           shift and go to state 19
     STRING          shift and go to state 20
     BOOL            shift and go to state 21
-    FUNC            reduce using rule 163 (empty -> .)
-    VAR             reduce using rule 163 (empty -> .)
-    DAVINCI         reduce using rule 163 (empty -> .)
-    ID              reduce using rule 163 (empty -> .)
-    IF              reduce using rule 163 (empty -> .)
-    TRIANGLE        reduce using rule 163 (empty -> .)
-    RECTANGLE       reduce using rule 163 (empty -> .)
-    SQUARE          reduce using rule 163 (empty -> .)
-    CIRCLE          reduce using rule 163 (empty -> .)
-    POLIGON         reduce using rule 163 (empty -> .)
-    COLOR           reduce using rule 163 (empty -> .)
-    PENSIZE         reduce using rule 163 (empty -> .)
-    PENFORWARD      reduce using rule 163 (empty -> .)
-    PENBACK         reduce using rule 163 (empty -> .)
-    ROTATE          reduce using rule 163 (empty -> .)
-    WHILE           reduce using rule 163 (empty -> .)
-    PENON           reduce using rule 163 (empty -> .)
-    PENOFF          reduce using rule 163 (empty -> .)
-    PRINT           reduce using rule 163 (empty -> .)
-    RBRACE          reduce using rule 163 (empty -> .)
-    LBRACE          reduce using rule 163 (empty -> .)
+    FUNC            reduce using rule 164 (empty -> .)
+    VAR             reduce using rule 164 (empty -> .)
+    DAVINCI         reduce using rule 164 (empty -> .)
+    ID              reduce using rule 164 (empty -> .)
+    IF              reduce using rule 164 (empty -> .)
+    TRIANGLE        reduce using rule 164 (empty -> .)
+    RECTANGLE       reduce using rule 164 (empty -> .)
+    SQUARE          reduce using rule 164 (empty -> .)
+    CIRCLE          reduce using rule 164 (empty -> .)
+    POLIGON         reduce using rule 164 (empty -> .)
+    COLOR           reduce using rule 164 (empty -> .)
+    PENSIZE         reduce using rule 164 (empty -> .)
+    PENFORWARD      reduce using rule 164 (empty -> .)
+    PENBACK         reduce using rule 164 (empty -> .)
+    ROTATE          reduce using rule 164 (empty -> .)
+    WHILE           reduce using rule 164 (empty -> .)
+    PENON           reduce using rule 164 (empty -> .)
+    PENOFF          reduce using rule 164 (empty -> .)
+    PRINT           reduce using rule 164 (empty -> .)
+    RBRACE          reduce using rule 164 (empty -> .)
+    LBRACE          reduce using rule 164 (empty -> .)
 
     vars2                          shift and go to state 22
     type                           shift and go to state 23
@@ -705,26 +707,26 @@ state 30
     (16) vars -> . VAR vars2
     (14) b2 -> . b2 statute
     (15) b2 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
     VAR             shift and go to state 12
-    ID              reduce using rule 163 (empty -> .)
-    IF              reduce using rule 163 (empty -> .)
-    TRIANGLE        reduce using rule 163 (empty -> .)
-    RECTANGLE       reduce using rule 163 (empty -> .)
-    SQUARE          reduce using rule 163 (empty -> .)
-    CIRCLE          reduce using rule 163 (empty -> .)
-    POLIGON         reduce using rule 163 (empty -> .)
-    COLOR           reduce using rule 163 (empty -> .)
-    PENSIZE         reduce using rule 163 (empty -> .)
-    PENFORWARD      reduce using rule 163 (empty -> .)
-    PENBACK         reduce using rule 163 (empty -> .)
-    ROTATE          reduce using rule 163 (empty -> .)
-    WHILE           reduce using rule 163 (empty -> .)
-    PENON           reduce using rule 163 (empty -> .)
-    PENOFF          reduce using rule 163 (empty -> .)
-    PRINT           reduce using rule 163 (empty -> .)
-    RBRACE          reduce using rule 163 (empty -> .)
+    ID              reduce using rule 164 (empty -> .)
+    IF              reduce using rule 164 (empty -> .)
+    TRIANGLE        reduce using rule 164 (empty -> .)
+    RECTANGLE       reduce using rule 164 (empty -> .)
+    SQUARE          reduce using rule 164 (empty -> .)
+    CIRCLE          reduce using rule 164 (empty -> .)
+    POLIGON         reduce using rule 164 (empty -> .)
+    COLOR           reduce using rule 164 (empty -> .)
+    PENSIZE         reduce using rule 164 (empty -> .)
+    PENFORWARD      reduce using rule 164 (empty -> .)
+    PENBACK         reduce using rule 164 (empty -> .)
+    ROTATE          reduce using rule 164 (empty -> .)
+    WHILE           reduce using rule 164 (empty -> .)
+    PENON           reduce using rule 164 (empty -> .)
+    PENOFF          reduce using rule 164 (empty -> .)
+    PRINT           reduce using rule 164 (empty -> .)
+    RBRACE          reduce using rule 164 (empty -> .)
 
     b1                             shift and go to state 35
     vars                           shift and go to state 36
@@ -926,33 +928,33 @@ state 41
     (96) type -> . FLOAT
     (97) type -> . STRING
     (98) type -> . BOOL
-    (163) empty -> .
+    (164) empty -> .
 
     INT             shift and go to state 18
     FLOAT           shift and go to state 19
     STRING          shift and go to state 20
     BOOL            shift and go to state 21
-    FUNC            reduce using rule 163 (empty -> .)
-    VAR             reduce using rule 163 (empty -> .)
-    DAVINCI         reduce using rule 163 (empty -> .)
-    ID              reduce using rule 163 (empty -> .)
-    IF              reduce using rule 163 (empty -> .)
-    TRIANGLE        reduce using rule 163 (empty -> .)
-    RECTANGLE       reduce using rule 163 (empty -> .)
-    SQUARE          reduce using rule 163 (empty -> .)
-    CIRCLE          reduce using rule 163 (empty -> .)
-    POLIGON         reduce using rule 163 (empty -> .)
-    COLOR           reduce using rule 163 (empty -> .)
-    PENSIZE         reduce using rule 163 (empty -> .)
-    PENFORWARD      reduce using rule 163 (empty -> .)
-    PENBACK         reduce using rule 163 (empty -> .)
-    ROTATE          reduce using rule 163 (empty -> .)
-    WHILE           reduce using rule 163 (empty -> .)
-    PENON           reduce using rule 163 (empty -> .)
-    PENOFF          reduce using rule 163 (empty -> .)
-    PRINT           reduce using rule 163 (empty -> .)
-    RBRACE          reduce using rule 163 (empty -> .)
-    LBRACE          reduce using rule 163 (empty -> .)
+    FUNC            reduce using rule 164 (empty -> .)
+    VAR             reduce using rule 164 (empty -> .)
+    DAVINCI         reduce using rule 164 (empty -> .)
+    ID              reduce using rule 164 (empty -> .)
+    IF              reduce using rule 164 (empty -> .)
+    TRIANGLE        reduce using rule 164 (empty -> .)
+    RECTANGLE       reduce using rule 164 (empty -> .)
+    SQUARE          reduce using rule 164 (empty -> .)
+    CIRCLE          reduce using rule 164 (empty -> .)
+    POLIGON         reduce using rule 164 (empty -> .)
+    COLOR           reduce using rule 164 (empty -> .)
+    PENSIZE         reduce using rule 164 (empty -> .)
+    PENFORWARD      reduce using rule 164 (empty -> .)
+    PENBACK         reduce using rule 164 (empty -> .)
+    ROTATE          reduce using rule 164 (empty -> .)
+    WHILE           reduce using rule 164 (empty -> .)
+    PENON           reduce using rule 164 (empty -> .)
+    PENOFF          reduce using rule 164 (empty -> .)
+    PRINT           reduce using rule 164 (empty -> .)
+    RBRACE          reduce using rule 164 (empty -> .)
+    LBRACE          reduce using rule 164 (empty -> .)
 
     type                           shift and go to state 23
     vars2                          shift and go to state 83
@@ -973,10 +975,10 @@ state 43
     (20) vars3 -> ID saveid . vars4
     (21) vars4 -> . COMMA vars3
     (22) vars4 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
     COMMA           shift and go to state 86
-    SEMICOLON       reduce using rule 163 (empty -> .)
+    SEMICOLON       reduce using rule 164 (empty -> .)
 
     vars4                          shift and go to state 85
     empty                          shift and go to state 87
@@ -1018,25 +1020,25 @@ state 46
     (11) b1 -> vars local_vars . b2
     (14) b2 -> . b2 statute
     (15) b2 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
-    ID              reduce using rule 163 (empty -> .)
-    IF              reduce using rule 163 (empty -> .)
-    TRIANGLE        reduce using rule 163 (empty -> .)
-    RECTANGLE       reduce using rule 163 (empty -> .)
-    SQUARE          reduce using rule 163 (empty -> .)
-    CIRCLE          reduce using rule 163 (empty -> .)
-    POLIGON         reduce using rule 163 (empty -> .)
-    COLOR           reduce using rule 163 (empty -> .)
-    PENSIZE         reduce using rule 163 (empty -> .)
-    PENFORWARD      reduce using rule 163 (empty -> .)
-    PENBACK         reduce using rule 163 (empty -> .)
-    ROTATE          reduce using rule 163 (empty -> .)
-    WHILE           reduce using rule 163 (empty -> .)
-    PENON           reduce using rule 163 (empty -> .)
-    PENOFF          reduce using rule 163 (empty -> .)
-    PRINT           reduce using rule 163 (empty -> .)
-    RBRACE          reduce using rule 163 (empty -> .)
+    ID              reduce using rule 164 (empty -> .)
+    IF              reduce using rule 164 (empty -> .)
+    TRIANGLE        reduce using rule 164 (empty -> .)
+    RECTANGLE       reduce using rule 164 (empty -> .)
+    SQUARE          reduce using rule 164 (empty -> .)
+    CIRCLE          reduce using rule 164 (empty -> .)
+    POLIGON         reduce using rule 164 (empty -> .)
+    COLOR           reduce using rule 164 (empty -> .)
+    PENSIZE         reduce using rule 164 (empty -> .)
+    PENFORWARD      reduce using rule 164 (empty -> .)
+    PENBACK         reduce using rule 164 (empty -> .)
+    ROTATE          reduce using rule 164 (empty -> .)
+    WHILE           reduce using rule 164 (empty -> .)
+    PENON           reduce using rule 164 (empty -> .)
+    PENOFF          reduce using rule 164 (empty -> .)
+    PRINT           reduce using rule 164 (empty -> .)
+    RBRACE          reduce using rule 164 (empty -> .)
 
     b2                             shift and go to state 89
     empty                          shift and go to state 38
@@ -1606,13 +1608,13 @@ state 81
     (96) type -> . FLOAT
     (97) type -> . STRING
     (98) type -> . BOOL
-    (163) empty -> .
+    (164) empty -> .
 
     INT             shift and go to state 18
     FLOAT           shift and go to state 19
     STRING          shift and go to state 20
     BOOL            shift and go to state 21
-    RPAREN          reduce using rule 163 (empty -> .)
+    RPAREN          reduce using rule 164 (empty -> .)
 
     type                           shift and go to state 108
     params                         shift and go to state 109
@@ -1627,13 +1629,13 @@ state 82
     (96) type -> . FLOAT
     (97) type -> . STRING
     (98) type -> . BOOL
-    (163) empty -> .
+    (164) empty -> .
 
     INT             shift and go to state 18
     FLOAT           shift and go to state 19
     STRING          shift and go to state 20
     BOOL            shift and go to state 21
-    RPAREN          reduce using rule 163 (empty -> .)
+    RPAREN          reduce using rule 164 (empty -> .)
 
     params                         shift and go to state 111
     type                           shift and go to state 108
@@ -1671,10 +1673,10 @@ state 84
     (19) vars3 -> ID list savelist . vars4
     (21) vars4 -> . COMMA vars3
     (22) vars4 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
     COMMA           shift and go to state 86
-    SEMICOLON       reduce using rule 163 (empty -> .)
+    SEMICOLON       reduce using rule 164 (empty -> .)
 
     vars4                          shift and go to state 112
     empty                          shift and go to state 87
@@ -2368,7 +2370,7 @@ state 120
     (114) expression1 -> . GREATEROREQUAL relop exp top_relop
     (115) expression1 -> . LESSEROREQUAL relop exp top_relop
     (116) expression1 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
     LESSER          shift and go to state 164
     GREATER         shift and go to state 165
@@ -2376,9 +2378,9 @@ state 120
     NOTEQUAL        shift and go to state 167
     GREATEROREQUAL  shift and go to state 168
     LESSEROREQUAL   shift and go to state 169
-    RPAREN          reduce using rule 163 (empty -> .)
-    COMMA           reduce using rule 163 (empty -> .)
-    SEMICOLON       reduce using rule 163 (empty -> .)
+    RPAREN          reduce using rule 164 (empty -> .)
+    COMMA           reduce using rule 164 (empty -> .)
+    SEMICOLON       reduce using rule 164 (empty -> .)
 
     expression1                    shift and go to state 163
     empty                          shift and go to state 170
@@ -2849,10 +2851,10 @@ state 156
     (77) funcvars -> . vars local_vars
     (78) funcvars -> . empty
     (16) vars -> . VAR vars2
-    (163) empty -> .
+    (164) empty -> .
 
     VAR             shift and go to state 12
-    LBRACE          reduce using rule 163 (empty -> .)
+    LBRACE          reduce using rule 164 (empty -> .)
 
     funcvars                       shift and go to state 196
     vars                           shift and go to state 197
@@ -2864,10 +2866,10 @@ state 157
     (77) funcvars -> . vars local_vars
     (78) funcvars -> . empty
     (16) vars -> . VAR vars2
-    (163) empty -> .
+    (164) empty -> .
 
     VAR             shift and go to state 12
-    LBRACE          reduce using rule 163 (empty -> .)
+    LBRACE          reduce using rule 164 (empty -> .)
 
     funcvars                       shift and go to state 199
     vars                           shift and go to state 197
@@ -2923,7 +2925,7 @@ state 160
     (153) call2 -> . COMMA expression argument call2
     (154) call2 -> . empty
     (117) exp -> . term top_exp exp1
-    (163) empty -> .
+    (164) empty -> .
     (122) term -> . factor top_factor term1
     (126) factor -> . LPAREN false_bottom expression RPAREN end_par
     (127) factor -> . var_cte
@@ -2939,7 +2941,7 @@ state 160
     (146) call -> . ID check_name LPAREN create_era call1 RPAREN check_params SEMICOLON gosub checkreturn
 
     COMMA           shift and go to state 205
-    RPAREN          reduce using rule 163 (empty -> .)
+    RPAREN          reduce using rule 164 (empty -> .)
     LPAREN          shift and go to state 118
     ID              shift and go to state 124
     CTE_INT         shift and go to state 125
@@ -3109,20 +3111,20 @@ state 171
     (118) exp1 -> . MINUS push_sign exp
     (119) exp1 -> . PLUS push_sign exp
     (120) exp1 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
     MINUS           shift and go to state 216
     PLUS            shift and go to state 217
-    LESSER          reduce using rule 163 (empty -> .)
-    GREATER         reduce using rule 163 (empty -> .)
-    EQUAL           reduce using rule 163 (empty -> .)
-    NOTEQUAL        reduce using rule 163 (empty -> .)
-    GREATEROREQUAL  reduce using rule 163 (empty -> .)
-    LESSEROREQUAL   reduce using rule 163 (empty -> .)
-    RPAREN          reduce using rule 163 (empty -> .)
-    COMMA           reduce using rule 163 (empty -> .)
-    RBRACKET        reduce using rule 163 (empty -> .)
-    SEMICOLON       reduce using rule 163 (empty -> .)
+    LESSER          reduce using rule 164 (empty -> .)
+    GREATER         reduce using rule 164 (empty -> .)
+    EQUAL           reduce using rule 164 (empty -> .)
+    NOTEQUAL        reduce using rule 164 (empty -> .)
+    GREATEROREQUAL  reduce using rule 164 (empty -> .)
+    LESSEROREQUAL   reduce using rule 164 (empty -> .)
+    RPAREN          reduce using rule 164 (empty -> .)
+    COMMA           reduce using rule 164 (empty -> .)
+    RBRACKET        reduce using rule 164 (empty -> .)
+    SEMICOLON       reduce using rule 164 (empty -> .)
 
     exp1                           shift and go to state 215
     empty                          shift and go to state 218
@@ -3133,22 +3135,22 @@ state 172
     (123) term1 -> . DIVIDE push_sign term
     (124) term1 -> . TIMES push_sign term
     (125) term1 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
     DIVIDE          shift and go to state 220
     TIMES           shift and go to state 221
-    MINUS           reduce using rule 163 (empty -> .)
-    PLUS            reduce using rule 163 (empty -> .)
-    LESSER          reduce using rule 163 (empty -> .)
-    GREATER         reduce using rule 163 (empty -> .)
-    EQUAL           reduce using rule 163 (empty -> .)
-    NOTEQUAL        reduce using rule 163 (empty -> .)
-    GREATEROREQUAL  reduce using rule 163 (empty -> .)
-    LESSEROREQUAL   reduce using rule 163 (empty -> .)
-    RPAREN          reduce using rule 163 (empty -> .)
-    COMMA           reduce using rule 163 (empty -> .)
-    RBRACKET        reduce using rule 163 (empty -> .)
-    SEMICOLON       reduce using rule 163 (empty -> .)
+    MINUS           reduce using rule 164 (empty -> .)
+    PLUS            reduce using rule 164 (empty -> .)
+    LESSER          reduce using rule 164 (empty -> .)
+    GREATER         reduce using rule 164 (empty -> .)
+    EQUAL           reduce using rule 164 (empty -> .)
+    NOTEQUAL        reduce using rule 164 (empty -> .)
+    GREATEROREQUAL  reduce using rule 164 (empty -> .)
+    LESSEROREQUAL   reduce using rule 164 (empty -> .)
+    RPAREN          reduce using rule 164 (empty -> .)
+    COMMA           reduce using rule 164 (empty -> .)
+    RBRACKET        reduce using rule 164 (empty -> .)
+    SEMICOLON       reduce using rule 164 (empty -> .)
 
     term1                          shift and go to state 219
     empty                          shift and go to state 222
@@ -3507,10 +3509,10 @@ state 194
     (157) print -> PRINT LPAREN expression to_screen . print_multi RPAREN SEMICOLON
     (158) print_multi -> . COMMA expression to_screen print_multi
     (159) print_multi -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
     COMMA           shift and go to state 237
-    RPAREN          reduce using rule 163 (empty -> .)
+    RPAREN          reduce using rule 164 (empty -> .)
 
     print_multi                    shift and go to state 236
     empty                          shift and go to state 238
@@ -3520,10 +3522,10 @@ state 195
     (66) params -> type ID save_par . params1
     (68) params1 -> . COMMA type ID save_par params1
     (69) params1 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
     COMMA           shift and go to state 240
-    RPAREN          reduce using rule 163 (empty -> .)
+    RPAREN          reduce using rule 164 (empty -> .)
 
     params1                        shift and go to state 239
     empty                          shift and go to state 241
@@ -4293,25 +4295,25 @@ state 242
     (63) funcs -> FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE . statements return RBRACE end_func funcs3
     (72) statements -> . statements statute
     (73) statements -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
-    RETURN          reduce using rule 163 (empty -> .)
-    ID              reduce using rule 163 (empty -> .)
-    IF              reduce using rule 163 (empty -> .)
-    TRIANGLE        reduce using rule 163 (empty -> .)
-    RECTANGLE       reduce using rule 163 (empty -> .)
-    SQUARE          reduce using rule 163 (empty -> .)
-    CIRCLE          reduce using rule 163 (empty -> .)
-    POLIGON         reduce using rule 163 (empty -> .)
-    COLOR           reduce using rule 163 (empty -> .)
-    PENSIZE         reduce using rule 163 (empty -> .)
-    PENFORWARD      reduce using rule 163 (empty -> .)
-    PENBACK         reduce using rule 163 (empty -> .)
-    ROTATE          reduce using rule 163 (empty -> .)
-    WHILE           reduce using rule 163 (empty -> .)
-    PENON           reduce using rule 163 (empty -> .)
-    PENOFF          reduce using rule 163 (empty -> .)
-    PRINT           reduce using rule 163 (empty -> .)
+    RETURN          reduce using rule 164 (empty -> .)
+    ID              reduce using rule 164 (empty -> .)
+    IF              reduce using rule 164 (empty -> .)
+    TRIANGLE        reduce using rule 164 (empty -> .)
+    RECTANGLE       reduce using rule 164 (empty -> .)
+    SQUARE          reduce using rule 164 (empty -> .)
+    CIRCLE          reduce using rule 164 (empty -> .)
+    POLIGON         reduce using rule 164 (empty -> .)
+    COLOR           reduce using rule 164 (empty -> .)
+    PENSIZE         reduce using rule 164 (empty -> .)
+    PENFORWARD      reduce using rule 164 (empty -> .)
+    PENBACK         reduce using rule 164 (empty -> .)
+    ROTATE          reduce using rule 164 (empty -> .)
+    WHILE           reduce using rule 164 (empty -> .)
+    PENON           reduce using rule 164 (empty -> .)
+    PENOFF          reduce using rule 164 (empty -> .)
+    PRINT           reduce using rule 164 (empty -> .)
 
     statements                     shift and go to state 269
     empty                          shift and go to state 270
@@ -4328,25 +4330,25 @@ state 244
     (64) funcs -> FUNC VOID functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE . statements RBRACE end_func funcs3
     (72) statements -> . statements statute
     (73) statements -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
-    RBRACE          reduce using rule 163 (empty -> .)
-    ID              reduce using rule 163 (empty -> .)
-    IF              reduce using rule 163 (empty -> .)
-    TRIANGLE        reduce using rule 163 (empty -> .)
-    RECTANGLE       reduce using rule 163 (empty -> .)
-    SQUARE          reduce using rule 163 (empty -> .)
-    CIRCLE          reduce using rule 163 (empty -> .)
-    POLIGON         reduce using rule 163 (empty -> .)
-    COLOR           reduce using rule 163 (empty -> .)
-    PENSIZE         reduce using rule 163 (empty -> .)
-    PENFORWARD      reduce using rule 163 (empty -> .)
-    PENBACK         reduce using rule 163 (empty -> .)
-    ROTATE          reduce using rule 163 (empty -> .)
-    WHILE           reduce using rule 163 (empty -> .)
-    PENON           reduce using rule 163 (empty -> .)
-    PENOFF          reduce using rule 163 (empty -> .)
-    PRINT           reduce using rule 163 (empty -> .)
+    RBRACE          reduce using rule 164 (empty -> .)
+    ID              reduce using rule 164 (empty -> .)
+    IF              reduce using rule 164 (empty -> .)
+    TRIANGLE        reduce using rule 164 (empty -> .)
+    RECTANGLE       reduce using rule 164 (empty -> .)
+    SQUARE          reduce using rule 164 (empty -> .)
+    CIRCLE          reduce using rule 164 (empty -> .)
+    POLIGON         reduce using rule 164 (empty -> .)
+    COLOR           reduce using rule 164 (empty -> .)
+    PENSIZE         reduce using rule 164 (empty -> .)
+    PENFORWARD      reduce using rule 164 (empty -> .)
+    PENBACK         reduce using rule 164 (empty -> .)
+    ROTATE          reduce using rule 164 (empty -> .)
+    WHILE           reduce using rule 164 (empty -> .)
+    PENON           reduce using rule 164 (empty -> .)
+    PENOFF          reduce using rule 164 (empty -> .)
+    PRINT           reduce using rule 164 (empty -> .)
 
     statements                     shift and go to state 271
     empty                          shift and go to state 270
@@ -4406,10 +4408,10 @@ state 248
     (151) call1 -> expression argument . call2
     (153) call2 -> . COMMA expression argument call2
     (154) call2 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
     COMMA           shift and go to state 205
-    RPAREN          reduce using rule 163 (empty -> .)
+    RPAREN          reduce using rule 164 (empty -> .)
 
     call2                          shift and go to state 275
     empty                          shift and go to state 206
@@ -4451,25 +4453,25 @@ state 251
     (103) condition -> IF LPAREN expression RPAREN type_check LBRACE . b2 RBRACE condition1 end_if
     (14) b2 -> . b2 statute
     (15) b2 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
-    RBRACE          reduce using rule 163 (empty -> .)
-    ID              reduce using rule 163 (empty -> .)
-    IF              reduce using rule 163 (empty -> .)
-    TRIANGLE        reduce using rule 163 (empty -> .)
-    RECTANGLE       reduce using rule 163 (empty -> .)
-    SQUARE          reduce using rule 163 (empty -> .)
-    CIRCLE          reduce using rule 163 (empty -> .)
-    POLIGON         reduce using rule 163 (empty -> .)
-    COLOR           reduce using rule 163 (empty -> .)
-    PENSIZE         reduce using rule 163 (empty -> .)
-    PENFORWARD      reduce using rule 163 (empty -> .)
-    PENBACK         reduce using rule 163 (empty -> .)
-    ROTATE          reduce using rule 163 (empty -> .)
-    WHILE           reduce using rule 163 (empty -> .)
-    PENON           reduce using rule 163 (empty -> .)
-    PENOFF          reduce using rule 163 (empty -> .)
-    PRINT           reduce using rule 163 (empty -> .)
+    RBRACE          reduce using rule 164 (empty -> .)
+    ID              reduce using rule 164 (empty -> .)
+    IF              reduce using rule 164 (empty -> .)
+    TRIANGLE        reduce using rule 164 (empty -> .)
+    RECTANGLE       reduce using rule 164 (empty -> .)
+    SQUARE          reduce using rule 164 (empty -> .)
+    CIRCLE          reduce using rule 164 (empty -> .)
+    POLIGON         reduce using rule 164 (empty -> .)
+    COLOR           reduce using rule 164 (empty -> .)
+    PENSIZE         reduce using rule 164 (empty -> .)
+    PENFORWARD      reduce using rule 164 (empty -> .)
+    PENBACK         reduce using rule 164 (empty -> .)
+    ROTATE          reduce using rule 164 (empty -> .)
+    WHILE           reduce using rule 164 (empty -> .)
+    PENON           reduce using rule 164 (empty -> .)
+    PENOFF          reduce using rule 164 (empty -> .)
+    PRINT           reduce using rule 164 (empty -> .)
 
     b2                             shift and go to state 278
     empty                          shift and go to state 38
@@ -4722,7 +4724,7 @@ state 269
 
     (63) funcs -> FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements . return RBRACE end_func funcs3
     (72) statements -> statements . statute
-    (161) return -> . RETURN expression savereturn SEMICOLON
+    (161) return -> . RETURN expression savereturn endfunction SEMICOLON
     (27) statute -> . assignment
     (28) statute -> . call
     (29) statute -> . condition
@@ -4950,10 +4952,10 @@ state 276
     (153) call2 -> COMMA expression argument . call2
     (153) call2 -> . COMMA expression argument call2
     (154) call2 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
     COMMA           shift and go to state 205
-    RPAREN          reduce using rule 163 (empty -> .)
+    RPAREN          reduce using rule 164 (empty -> .)
 
     call2                          shift and go to state 302
     empty                          shift and go to state 206
@@ -5305,10 +5307,10 @@ state 294
     (158) print_multi -> COMMA expression to_screen . print_multi
     (158) print_multi -> . COMMA expression to_screen print_multi
     (159) print_multi -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
     COMMA           shift and go to state 237
-    RPAREN          reduce using rule 163 (empty -> .)
+    RPAREN          reduce using rule 164 (empty -> .)
 
     print_multi                    shift and go to state 305
     empty                          shift and go to state 238
@@ -5356,7 +5358,7 @@ state 297
 
 state 298
 
-    (161) return -> RETURN . expression savereturn SEMICOLON
+    (161) return -> RETURN . expression savereturn endfunction SEMICOLON
     (109) expression -> . exp expression1
     (117) exp -> . term top_exp exp1
     (122) term -> . factor top_factor term1
@@ -5476,27 +5478,27 @@ state 303
     (104) condition1 -> . gotoElse ELSE LBRACE b2 RBRACE
     (105) condition1 -> . empty
     (107) gotoElse -> .
-    (163) empty -> .
+    (164) empty -> .
 
     ELSE            reduce using rule 107 (gotoElse -> .)
-    ID              reduce using rule 163 (empty -> .)
-    IF              reduce using rule 163 (empty -> .)
-    TRIANGLE        reduce using rule 163 (empty -> .)
-    RECTANGLE       reduce using rule 163 (empty -> .)
-    SQUARE          reduce using rule 163 (empty -> .)
-    CIRCLE          reduce using rule 163 (empty -> .)
-    POLIGON         reduce using rule 163 (empty -> .)
-    COLOR           reduce using rule 163 (empty -> .)
-    PENSIZE         reduce using rule 163 (empty -> .)
-    PENFORWARD      reduce using rule 163 (empty -> .)
-    PENBACK         reduce using rule 163 (empty -> .)
-    ROTATE          reduce using rule 163 (empty -> .)
-    WHILE           reduce using rule 163 (empty -> .)
-    PENON           reduce using rule 163 (empty -> .)
-    PENOFF          reduce using rule 163 (empty -> .)
-    PRINT           reduce using rule 163 (empty -> .)
-    RBRACE          reduce using rule 163 (empty -> .)
-    RETURN          reduce using rule 163 (empty -> .)
+    ID              reduce using rule 164 (empty -> .)
+    IF              reduce using rule 164 (empty -> .)
+    TRIANGLE        reduce using rule 164 (empty -> .)
+    RECTANGLE       reduce using rule 164 (empty -> .)
+    SQUARE          reduce using rule 164 (empty -> .)
+    CIRCLE          reduce using rule 164 (empty -> .)
+    POLIGON         reduce using rule 164 (empty -> .)
+    COLOR           reduce using rule 164 (empty -> .)
+    PENSIZE         reduce using rule 164 (empty -> .)
+    PENFORWARD      reduce using rule 164 (empty -> .)
+    PENBACK         reduce using rule 164 (empty -> .)
+    ROTATE          reduce using rule 164 (empty -> .)
+    WHILE           reduce using rule 164 (empty -> .)
+    PENON           reduce using rule 164 (empty -> .)
+    PENOFF          reduce using rule 164 (empty -> .)
+    PRINT           reduce using rule 164 (empty -> .)
+    RBRACE          reduce using rule 164 (empty -> .)
+    RETURN          reduce using rule 164 (empty -> .)
 
     condition1                     shift and go to state 311
     gotoElse                       shift and go to state 312
@@ -5538,10 +5540,10 @@ state 306
     (68) params1 -> COMMA type ID save_par . params1
     (68) params1 -> . COMMA type ID save_par params1
     (69) params1 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
     COMMA           shift and go to state 240
-    RPAREN          reduce using rule 163 (empty -> .)
+    RPAREN          reduce using rule 164 (empty -> .)
 
     params1                        shift and go to state 314
     empty                          shift and go to state 241
@@ -5559,7 +5561,7 @@ state 307
 
 state 308
 
-    (161) return -> RETURN expression . savereturn SEMICOLON
+    (161) return -> RETURN expression . savereturn endfunction SEMICOLON
     (162) savereturn -> .
 
     SEMICOLON       reduce using rule 162 (savereturn -> .)
@@ -5573,14 +5575,14 @@ state 309
     (76) funcs3 -> . empty
     (63) funcs -> . FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements return RBRACE end_func funcs3
     (64) funcs -> . FUNC VOID functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements RBRACE end_func funcs3
-    (163) empty -> .
+    (164) empty -> .
 
   ! shift/reduce conflict for FUNC resolved as shift
     FUNC            shift and go to state 11
-    VAR             reduce using rule 163 (empty -> .)
-    DAVINCI         reduce using rule 163 (empty -> .)
+    VAR             reduce using rule 164 (empty -> .)
+    DAVINCI         reduce using rule 164 (empty -> .)
 
-  ! FUNC            [ reduce using rule 163 (empty -> .) ]
+  ! FUNC            [ reduce using rule 164 (empty -> .) ]
 
     funcs3                         shift and go to state 317
     funcs                          shift and go to state 318
@@ -5697,14 +5699,14 @@ state 315
     (76) funcs3 -> . empty
     (63) funcs -> . FUNC type functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements return RBRACE end_func funcs3
     (64) funcs -> . FUNC VOID functype ID saveidfunc LPAREN params RPAREN funcvars LBRACE statements RBRACE end_func funcs3
-    (163) empty -> .
+    (164) empty -> .
 
   ! shift/reduce conflict for FUNC resolved as shift
     FUNC            shift and go to state 11
-    VAR             reduce using rule 163 (empty -> .)
-    DAVINCI         reduce using rule 163 (empty -> .)
+    VAR             reduce using rule 164 (empty -> .)
+    DAVINCI         reduce using rule 164 (empty -> .)
 
-  ! FUNC            [ reduce using rule 163 (empty -> .) ]
+  ! FUNC            [ reduce using rule 164 (empty -> .) ]
 
     funcs3                         shift and go to state 323
     funcs                          shift and go to state 318
@@ -5712,10 +5714,14 @@ state 315
 
 state 316
 
-    (161) return -> RETURN expression savereturn . SEMICOLON
+    (161) return -> RETURN expression savereturn . endfunction SEMICOLON
+    (163) endfunction -> . end_func
+    (80) end_func -> .
 
-    SEMICOLON       shift and go to state 324
+    SEMICOLON       reduce using rule 80 (end_func -> .)
 
+    endfunction                    shift and go to state 324
+    end_func                       shift and go to state 325
 
 state 317
 
@@ -5810,7 +5816,7 @@ state 322
 
     (104) condition1 -> gotoElse ELSE . LBRACE b2 RBRACE
 
-    LBRACE          shift and go to state 325
+    LBRACE          shift and go to state 326
 
 
 state 323
@@ -5824,40 +5830,54 @@ state 323
 
 state 324
 
-    (161) return -> RETURN expression savereturn SEMICOLON .
+    (161) return -> RETURN expression savereturn endfunction . SEMICOLON
 
-    RBRACE          reduce using rule 161 (return -> RETURN expression savereturn SEMICOLON .)
+    SEMICOLON       shift and go to state 327
 
 
 state 325
 
+    (163) endfunction -> end_func .
+
+    SEMICOLON       reduce using rule 163 (endfunction -> end_func .)
+
+
+state 326
+
     (104) condition1 -> gotoElse ELSE LBRACE . b2 RBRACE
     (14) b2 -> . b2 statute
     (15) b2 -> . empty
-    (163) empty -> .
+    (164) empty -> .
 
-    RBRACE          reduce using rule 163 (empty -> .)
-    ID              reduce using rule 163 (empty -> .)
-    IF              reduce using rule 163 (empty -> .)
-    TRIANGLE        reduce using rule 163 (empty -> .)
-    RECTANGLE       reduce using rule 163 (empty -> .)
-    SQUARE          reduce using rule 163 (empty -> .)
-    CIRCLE          reduce using rule 163 (empty -> .)
-    POLIGON         reduce using rule 163 (empty -> .)
-    COLOR           reduce using rule 163 (empty -> .)
-    PENSIZE         reduce using rule 163 (empty -> .)
-    PENFORWARD      reduce using rule 163 (empty -> .)
-    PENBACK         reduce using rule 163 (empty -> .)
-    ROTATE          reduce using rule 163 (empty -> .)
-    WHILE           reduce using rule 163 (empty -> .)
-    PENON           reduce using rule 163 (empty -> .)
-    PENOFF          reduce using rule 163 (empty -> .)
-    PRINT           reduce using rule 163 (empty -> .)
+    RBRACE          reduce using rule 164 (empty -> .)
+    ID              reduce using rule 164 (empty -> .)
+    IF              reduce using rule 164 (empty -> .)
+    TRIANGLE        reduce using rule 164 (empty -> .)
+    RECTANGLE       reduce using rule 164 (empty -> .)
+    SQUARE          reduce using rule 164 (empty -> .)
+    CIRCLE          reduce using rule 164 (empty -> .)
+    POLIGON         reduce using rule 164 (empty -> .)
+    COLOR           reduce using rule 164 (empty -> .)
+    PENSIZE         reduce using rule 164 (empty -> .)
+    PENFORWARD      reduce using rule 164 (empty -> .)
+    PENBACK         reduce using rule 164 (empty -> .)
+    ROTATE          reduce using rule 164 (empty -> .)
+    WHILE           reduce using rule 164 (empty -> .)
+    PENON           reduce using rule 164 (empty -> .)
+    PENOFF          reduce using rule 164 (empty -> .)
+    PRINT           reduce using rule 164 (empty -> .)
 
-    b2                             shift and go to state 326
+    b2                             shift and go to state 328
     empty                          shift and go to state 38
 
-state 326
+state 327
+
+    (161) return -> RETURN expression savereturn endfunction SEMICOLON .
+
+    RBRACE          reduce using rule 161 (return -> RETURN expression savereturn endfunction SEMICOLON .)
+
+
+state 328
 
     (104) condition1 -> gotoElse ELSE LBRACE b2 . RBRACE
     (14) b2 -> b2 . statute
@@ -5898,7 +5918,7 @@ state 326
     (94) penoff -> . PENOFF LPAREN RPAREN SEMICOLON
     (157) print -> . PRINT LPAREN expression to_screen print_multi RPAREN SEMICOLON
 
-    RBRACE          shift and go to state 327
+    RBRACE          shift and go to state 329
     ID              shift and go to state 65
     IF              shift and go to state 66
     TRIANGLE        shift and go to state 67
@@ -5935,7 +5955,7 @@ state 326
     penoff                         shift and go to state 63
     print                          shift and go to state 64
 
-state 327
+state 329
 
     (104) condition1 -> gotoElse ELSE LBRACE b2 RBRACE .
 
